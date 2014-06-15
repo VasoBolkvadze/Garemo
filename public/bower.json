@@ -1,0 +1,25 @@
+{
+  "name": "Garemo",
+  "version": "0.0.1",
+  "description": "Garemos Dacvis Saagentos Licenzirebis Sistema",
+  "main": "www",
+  "moduleType": [
+    "node"
+  ],
+  "authors": [
+    "Vaso Bolkvadze"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "resources",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.1.1"
+  }
+}
