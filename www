@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 var debug = require('debug')('Garemo');
-var app = require('./application/app.js');
+var app = require('./application');
 
 app.set('port', process.env.PORT || 3000);
 
