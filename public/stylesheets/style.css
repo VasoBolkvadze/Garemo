@@ -1,8 +1,33 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+@font-face {
+    font-family: alkSanet;
+    src: url('../fonts/alk-sanet.ttf');
 }
-
-a {
-  color: #00B7FF;
+.txt-capital{
+    font-family: alkSanet,serif;
+    font-weight: bold;
+}
+body {
+    padding-top:55px;
+}
+tr.grid-item{
+    cursor:pointer;
+}
+a.suggestion{
+    cursor:pointer;
+}
+/*-----*/
+.jumbotron {
+    background: #3BAD58;
+    color: #FFF;
+    border-radius: 0px;
+}
+.jumbotron-sm {
+    padding-top: 24px;
+    padding-bottom: 24px;
+}
+.jumbotron small {
+    color: #FFF;
+}
+.h1 small {
+    font-size: 18px;
 }

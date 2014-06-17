@@ -1,9 +1,9 @@
 var middleware = require('./middleware'),
-	routers = require('./routers'),
+	routes = require('./routes'),
 	errorHandlers = require('./errorHandlers');
 
 module.exports = function(app){
 	middleware.init(app);
-	routers.init(app);
+	routes.init(app);
 	errorHandlers.init(app);
 };

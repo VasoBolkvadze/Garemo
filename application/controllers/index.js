@@ -1,9 +1,2 @@
-var express = require('express');
-var router = express.Router();
-
-/* GET home page. */
-router.get('/', function(req, res) {
-  res.render('index', { title: 'Garemo' });
-});
-
-module.exports = router;
+module.exports.home = require('./home');
+module.exports.licenziebi = require('./licenziebi');

@@ -1,0 +1,231 @@
+extends ../index.jade
+block content
+		.jumbotron.jumbotron-sm
+			.container
+				.row
+					.col-sm-12.col-lg-12
+						h2.txt-capital ახალი ლიცენზია
+		.container
+			.row
+				.well
+					.row
+						form.form-horizontal
+							div.col-md-7
+								div.form-group
+									label.control-label.col-md-4.txt-capital საიდენთიფიკაციო კოდი
+									div.col-md-6
+										input.form-control(type='text',placeholder='ან ფიზიკური პირის პირადი ნომერი',name='pid', required='required')
+								div.form-group
+									label.control-label.col-md-4.txt-capital(for='dasaxeleba') დასახელება
+									div.col-md-6
+										input.form-control(type='text',placeholder='ან ფიზიკური პირის სახელი, გვარი', name='dasaxeleba',required='required')
+								div.form-group
+									label.control-label.col-md-4.txt-capital ტელეფონი
+									div.input-group.col-md-6
+										span.input-group-addon
+											span.glyphicon.glyphicon-phone
+										input.form-control(type='phone', name='phone', required='required')
+								div.form-group
+									label.control-label.col-md-4.txt-capital(for='mail') e-ფოსტა
+									div.input-group.col-md-6
+										span.input-group-addon
+											span.glyphicon.glyphicon-envelope
+										input.form-control(type='email', name='email', required='required')
+								div.form-group
+									label.control-label.col-md-4.txt-capital იურიდიული მისამართი
+									div.col-md-6
+										input.form-control(type='text', name='iurMisamarti',required='required')
+								div.form-group
+									label.control-label.col-md-4.txt-capital ფაქტიური მისამართი
+									div.col-md-6
+										input.form-control(type='text', name='fakMisamarti',required='required')
+								div.panel.panel-success
+									div.panel-heading
+										span წარმომადგენელი პირი
+									div.panel-body
+										div.form-group
+											label.control-label.col-md-4.txt-capital პირადი ნომერი
+											div.col-md-6
+												input.form-control(type='text', name='carmomdgeniPirisPid',required='required')
+										div.form-group
+											label.control-label.col-md-4.txt-capital სახელი
+											div.col-md-6
+												input.form-control(type='text', name='carmomdgeniPirisSaxeli',required='required')
+										div.form-group
+											label.control-label.col-md-4.txt-capital გვარი
+											div.col-md-6
+												input.form-control(type='text', name='carmomdgeniPirisGvari',required='required')
+								div.form-group
+									label.control-label.col-md-4.txt-capital დასახლებული პუნქტი
+									div.col-md-6
+										input.form-control(type='text', name='raioni',required='required')
+								div.form-group
+									label.control-label.col-md-4.txt-capital რაიონი
+									div.col-md-6
+										input.form-control(type='text', name='raioni',required='required')
+								div.form-group
+									label.control-label.col-md-4.txt-capital რეგიონი
+									div.col-md-6
+										select.form-control(name='regioni',required='required')
+											option
+											option აფხაზეთი
+											option აჭარა
+											option გურია
+											option იმერეთი
+											option კახეთი
+											option მცხეთა-მთიანეთი
+											option ქვემო ქართლი
+											option სამცხე-ჯავახეთი
+											option სამეგრელო-ზემო სვანეთი
+											option რაჭა-ლეჩხუმი, ქვემო სვანეთი
+											option შიდა ქართლი
+											option თბილისი
+								div.form-group
+									label.control-label.col-md-4.txt-capital მუნიციპალიტეტი
+									div.col-md-6
+										select.form-control(name='municipaliteti',required='required')
+											option
+											option gagra
+											option gali
+											option gudauTa
+											option gulrifSi
+											option oCamCire
+											option soxumi
+											option baTumi
+											option qeda
+											option qobuleTi
+											option Suaxevi
+											option xelvaCauri
+											option xulo
+											option Coxatauri
+											option lanCxuTi
+											option ozurgeTi
+											option baRdaTi
+											option quTaisi
+											option saCxere
+											option samtredia
+											option Terjola
+											option tyibuli
+											option vani
+											option WiaTura
+											option wyaltubo
+											option xaragauli
+											option xoni
+											option zestafoni
+											option axmeta
+											option dedofliswyaro
+											option gurjaani
+											option lagodexi
+											option sagarejo
+											option siRnaRi
+											option Telavi
+											option yvareli
+											option axalgori
+											option duSeTi
+											option mcxeTa
+											option TianeTi
+											option yazbegi
+											option bolnisi
+											option dmanisi
+											option gardabani
+											option marneuli
+											option rusTavi
+											option TeTriwyaro
+											option walka
+											option ambrolauri
+											option cageri
+											option lentexi
+											option oni
+											option adigeni
+											option aspinZa
+											option axalcixe
+											option axalqalaqi
+											option borjomi
+											option ninowminda
+											option abaSa
+											option Cxorowyu
+											option foTi
+											option martvili
+											option mestia
+											option senaki
+											option walenjixa
+											option xobi
+											option zugdidi
+											option gori
+											option java
+											option kaspi
+											option qareli
+											option xaSuri
+											option Tbilisi
+								div.form-group
+									label.control-label.col-md-4.txt-capital რესურსის დასახელება
+									div.col-md-6
+										select.form-control(name='resursi',required='required')
+											option
+											option alumini
+											option anTimoniumi (surma)
+											option beriliumi
+											option bismuti
+											option dariSxani
+											option galiumi
+											option germaniumi
+											option indiumi
+											option iSviaTi da gabneuli elementebi (ceriumi, ceziumi da sxva.)
+											option kadmiumi
+											option kala
+											option kobalti
+											option manganumi
+											option molibdeni
+											option nikeli
+											option oqro
+											option platinoidebi
+											option rkina
+											option seleni
+											option spilenZi
+											option stronciumi
+											option Taliumi
+											option teluri
+											option titani
+											option TuTia
+											option tyvia
+											option vanadiumi
+											option vercxli
+											option vercxliswyali
+											option volframi
+								div.form-group
+									label.control-label.col-md-4.txt-capital საზომი ერთეული
+									div.col-md-6
+										select.form-control(name='uom',required='required')
+											option
+											option m3
+											option tona
+											option kilogrami
+											option karati
+											option m3/dRe/RameSi
+											option m3/weliwadSi
+											option tona (samkurnalo talaxi)
+											option Seswavla-mopoveba
+							div.col-md-5
+								div.form-group
+									label.control-label.col-md-4.txt-capital მოქმედების ვადა
+									div.col-md-6
+										input.form-control(type='date', name='moqmedebisVada',required='required')
+								div.form-group
+									label.control-label.col-md-4.txt-capital რაოდენობა
+									div.col-md-6
+										input.form-control(type='number', name='raodenoba',required='required')
+								div.form-group
+									label.txt-capital დამატებითი ინფორმაცია
+									textarea.form-control(name='damatebitiInfo', rows='5', cols='10', required='required')
+								div.form-group
+									label.control-label.col-md-4.txt-capital ლიცენზიის N
+									div.col-md-6
+										input.form-control(type='text', name='licenziisNomeri',required='required')
+								div.form-group
+									label.control-label.col-md-4.txt-capital ბრძანების N
+									div.col-md-6
+										input.form-control(type='text', name='brdzanebisNomeri',required='required')
+								div.form-group
+									label.control-label.col-md-4.txt-capital ბრძანების თარიღი
+									div.col-md-6
+										input.form-control(type='date', name='moqmedebisVada',required='required')

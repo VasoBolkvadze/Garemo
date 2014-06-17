@@ -1,5 +1,25 @@
 extends layout
 
-block content
-	h1= title
-	h2 Welcome to #{title}
+block body
+	div.navbar.navbar-default.navbar-fixed-top
+		div.navbar-header
+			a.navbar-brand(rel='home',href='/')
+				img(src='/img/moelogo.png',style='width:30px;height:30px;margin-top: -7px;')
+		ul.nav.navbar-nav.txt-capital
+			li
+				a(href='/')
+					i.glyphicon.glyphicon-home
+					|  Home
+			li.dropdown
+				a.dropdown-toggle(data-toggle='dropdown',href='')
+					| ლიცენზიები
+					b.caret
+				ul.dropdown-menu
+					li
+						a(href='/licenziebi') სია
+					li
+						a(href='/licenziebi/axali') ახალი
+		form.navbar-form.pull-right
+			button.btn.btn-default(type='submit') გასვლა
+	div
+		block content
