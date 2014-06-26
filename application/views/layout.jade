@@ -1,10 +1,15 @@
 doctype html
-html
+html(ng-app='garemoApp')
 	head
 		title MOE
 		meta(charset="utf-8")
-		script(src='/resources/jquery/dist/jquery.min.js')
-		script(src='/resources/bootstrap/dist/js/bootstrap.min.js')
+		//script(src='/resources/jquery/dist/jquery.min.js')
+		//script(src='/resources/bootstrap/dist/js/bootstrap.min.js')
+		script(src='/resources/angular/angular.min.js')
+		script(src='/resources/angular-bootstrap/ui-bootstrap.min.js')
+		script(src='/resources/angular-bootstrap/ui-bootstrap-tpls.min.js')
+		script.
+			angular.module('garemoApp',['ui.bootstrap']);
 		link(rel='stylesheet', href='/resources/bootstrap/dist/css/bootstrap.min.css')
 		link(rel='stylesheet', href='/stylesheets/style.css')
 	body

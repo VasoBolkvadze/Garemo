@@ -1,56 +1,33 @@
-mixin typeahead(fieldName,list,label,placeholder,selectedItem)
-	div.form-group
-		label.col-md-4.control-label.txt-capital= label
-		div.col-md-6
-			input.form-control(id=fieldName,type='text',name=fieldName,
-												placeholder=placeholder,list=fieldName+'-list',value=selectedItem)
-			datalist(id=fieldName+'-list')
-				if list
-					each item in list
-						option=item
-mixin datepicker(fieldName,label,defaultValue,required)
-	div.form-group
-		label.col-md-4.control-label.txt-capital= label
-		div.col-md-6
-			input.form-control(type='date',name=fieldName,value=defaultValue,required=required ? 'required':'')
-mixin textbox(fieldName,label,placeholder,required)
-	div.form-group
-		label.control-label.col-md-4.txt-capital= label
-		div.col-md-6
-			input.form-control(type='text',placeholder=placeholder,name=fieldName, required=required ? 'required':'')
-mixin fileUpload(fieldName,accept,multi,label,required)
-		div.form-group
-			label.control-label.col-md-4.txt-capital= label
-			div.col-md-6
-				input.form-control(name=fieldName+'_file',type='file',accept=accept,multiple=multi ? 'multiple':'',required=required ? 'required':'')
-mixin combobox(fieldName,options,label,required)
-	div.form-group
-		label.control-label.col-md-4.txt-capital= label
-		div.col-md-6
-			select.form-control(type='text',name=fieldName, required=required ? 'required':'')
-				option
-				each o in options
-					option= o
-mixin numberbox(fieldName,label,placeholder,required)
-	div.form-group
-		label.control-label.col-md-4.txt-capital= label
-		div.col-md-6
-			input.form-control(type='number',placeholder=placeholder,name=fieldName, required=required ? 'required':'')
-mixin specInput(fieldName,inputType,icon,label,placeholder,required)
-	div.form-group
-		label.control-label.col-md-4.txt-capital= label
-		div.input-group.col-md-6
-			span.input-group-addon
-				span(class="#{'glyphicon '+'glyphicon-'+icon}")
-			input.form-control(type=inputType,placeholder=placeholder, name=fieldName, required=required ? 'required':'')
-mixin bigtext(fieldName,rows,cols,label,placeholder,required)
-	div.form-group
-		label.control-label.col-md-4.txt-capital= label
-		div.col-md-6
-			textarea.form-control(type='text',placeholder=placeholder,rows=rows, cols=cols,name=fieldName, required=required ? 'required':'')
 extends ../index.jade
+include ../mixins/form-controls.jade
 
 block content
+	div(ng-controller='axaliCtrl')
+		script.
+				var axaliCtrl = function($scope, $modal, $log){
+					$scope.open = function () {
+							var modalInstance = $modal.open({
+									templateUrl: '/templates/licenziebi/carmomadgeneli.jade',
+									controller: modalInstanceCtrl
+							});
+							modalInstance
+								.result
+								.then(function (selectedItem) {
+									$scope.selected = selectedItem;
+								}
+								, function () {
+									$log.info('Modal dismissed at: ' + new Date());
+							});
+					};
+				};
+				var modalInstanceCtrl = function ($scope, $modalInstance) {
+						$scope.ok = function () {
+							$modalInstance.close();
+						};
+						$scope.cancel = function () {
+							$modalInstance.dismiss('cancel');
+						};
+				};
 		.jumbotron.jumbotron-sm
 			.container
 				.row
@@ -61,48 +38,50 @@ block content
 				.well
 					.row
 						form.form-horizontal(method='POST',enctype='multipart/form-data')
-							div.col-md-7
-								+textbox('pid','საიდენთიფიკაციო კოდი','ან ფიზიკური პირის პირადი ნომერი',true)
-								+textbox('dasaxeleba','დასახელება','ან ფიზიკური პირის სახელი, გვარი',true)
-								+specInput('email','email','envelope','e-ფოსტა','მაგ: someone@mail.com',true)
-								+specInput('phone','phone','phone','ტელეფონი','მაგ: 599123456',true)
-								+textbox('iurMisamarti','იურიდიული მისამართი','მაგ: წერეთლის #144',true)
-								+textbox('fakMisamarti','ფაქტიური მისამართი','მაგ: წერეთლის #144',true)
-								div.panel.panel-success
+							div.col-md-12
+								div.panel.panel-default
 									div.panel-heading
-										span წარმომადგენელი პირი
+										span ლიცენზიანტის მონაცემები
 									div.panel-body
-										+textbox('carmomdgenisPid','პირადი ნომერი','11 სიმბოლო',true)
-										+textbox('carmomdgenisSaxeli','სახელი','',true)
-										+textbox('carmomdgenisGvari','გვარი','',true)
-								+textbox('dasaxlebuliPunkti','დასახლებული პუნქტი','',true)
-								+textbox('raioni','რაიონი','',true)
-								+typeahead('regioni',regionebi,'რეგიონი')
-								+typeahead('municipaliteti',municipalitetebi,'მუნიციპალიტეტი')
-								+typeahead('resursi',resursebi,'რესურსის დასახელება')
-								+typeahead('uom',uoms,'საზომი ერთეული')
-								+numberbox('fartobi','ფართობი','',true)
-								+combobox('fartobiUom',fartobiUoms,'ფართობის საზომი ერთეული',true)
-								+datepicker('licenziisGacemisTarigi','ლიცენზიის გაცემის თარიღი',true)
-								+bigtext('licenziisCarmoqmnisSafudzveli',5,10,'ლიცენზიის წარმოქმნის საფუძველი')
-								+bigtext('salicenzioPirobebi',5,10,'სალიცენზიო პირობები')
-							div.col-md-5
-								+numberbox('moqmedebisVada','მოქმედების ვადა','წლებში (მაგ: 5)',true)
-								+numberbox('raodenoba','რაოდენობა','',true)
-								+bigtext('damatebitiInfo',5,10,'დამატებითი ინფორმაცია')
-								+textbox('licenziisNomeri','ლიცენზიის N','',true)
-								+textbox('brdzanebisNomeri','ბრძანების N','',true)
-								+datepicker('brdzanebisTarigi','ბრძანების თარიღი',true)
-								+combobox('licenziisStatusi',statusebi,'ლიცენზიის სტატუსი',true)
-								+textbox('brdzanebisNomeri','ბრძანების N','',true)
-								+fileUpload('ruqa','image/*',true,'რუქა',true)
-								+fileUpload('geoPaketi','image/*',true,'გეოსაინფორმაციო პაკეტი',true)
-								+fileUpload('atvisebisGegma','image/*',true,'ათვისების გეგმა',true)
-								+textbox('gamokenebisSfero','გამოყენების სფერო','',true)
-								+textbox('resursisDasaxeleba','რესურსის დასახელება','',true)
-								+numberbox('jamuriMopoveba','ჯამური მოპოვება','',true)
-								+numberbox('abc1','a_b_c1','',true)
-								+numberbox('c2','c2','',true)
-								+numberbox('p','p','',true)
+										+textbox('pid','საიდენთიფიკაციო კოდი','ან ფიზიკური პირის პირადი ნომერი',true)
+										+textbox('dasaxeleba','დასახელება','ან ფიზიკური პირის სახელი, გვარი',true)
+										+textbox('fakMisamarti','ფაქტიური მისამართი','მაგ: წერეთლის #144',true)
+										+textbox('iurMisamarti','იურიდიული მისამართი','მაგ: წერეთლის #144',true)
+										+specInput('phone','phone','phone','ტელეფონი','მაგ: 599123456',true)
+										+specInput('email','email','envelope','e-ფოსტა','მაგ: someone@mail.com',true)
+								a.btn.btn-default(ng-click='open()') წარმომადგენელი პირი
+								hr
+								div.panel.panel-default
+									div.panel-heading
+										span ინფორმაცია ობიექტის შესახებ
+									div.panel-body
+										+textbox('dasaxlebuliPunkti','დასახლებული პუნქტი','',true)
+										+textbox('raioni','რაიონი','',true)
+										+typeahead('regioni',regionebi,'რეგიონი')
+										+typeahead('municipaliteti',municipalitetebi,'მუნიციპალიტეტი')
+										+typeahead('resursi',resursebi,'რესურსის დასახელება')
+										+typeahead('uom',uoms,'საზომი ერთეული')
+										+numberbox('fartobi','ფართობი','',true)
+										+combobox('fartobiUom',fartobiUoms,'ფართობის საზომი ერთეული',true)
+										+datepicker('licenziisGacemisTarigi','ლიცენზიის გაცემის თარიღი',true)
+										+bigtext('licenziisCarmoqmnisSafudzveli',5,10,'ლიცენზიის წარმოქმნის საფუძველი')
+										+bigtext('salicenzioPirobebi',5,10,'სალიცენზიო პირობები')
+										+numberbox('moqmedebisVada','მოქმედების ვადა','წლებში (მაგ: 5)',true)
+										+numberbox('raodenoba','რაოდენობა','',true)
+										+bigtext('damatebitiInfo',5,10,'დამატებითი ინფორმაცია')
+										+textbox('licenziisNomeri','ლიცენზიის N','',true)
+										+textbox('brdzanebisNomeri','ბრძანების N','',true)
+										+datepicker('brdzanebisTarigi','ბრძანების თარიღი',true)
+										+combobox('licenziisStatusi',statusebi,'ლიცენზიის სტატუსი',true)
+										+textbox('brdzanebisNomeri','ბრძანების N','',true)
+										+fileUpload('ruqa','image/*',true,'რუქა',true)
+										+fileUpload('geoPaketi','image/*',true,'გეოსაინფორმაციო პაკეტი',true)
+										+fileUpload('atvisebisGegma','image/*',true,'ათვისების გეგმა',true)
+										+textbox('gamokenebisSfero','გამოყენების სფერო','',true)
+										+textbox('resursisDasaxeleba','რესურსის დასახელება','',true)
+										+numberbox('jamuriMopoveba','ჯამური მოპოვება','',true)
+										+numberbox('abc1','a_b_c1','',true)
+										+numberbox('c2','c2','',true)
+										+numberbox('p','p','',true)
 							div.col-md-12
 								button.btn.btn-success.pull-right(type='submit') რეგისტრაცია
