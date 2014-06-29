@@ -1,0 +1,9 @@
+mixin combocell(fieldName,options,required)
+	select.form-control(type='text',name=fieldName, required=required ? 'required':'')
+		option
+		each o in options
+			option= o
+mixin textcell(fieldName,required)
+	input.form-control(type='text',required=required ? 'required':'')
+mixin numbercell(fieldName,required)
+	input.form-control(type='number',required=required ? 'required':'')

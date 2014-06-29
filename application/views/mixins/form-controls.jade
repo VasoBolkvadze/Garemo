@@ -18,6 +18,13 @@ mixin textbox(fieldName,label,placeholder,required)
 		label.control-label.col-md-4.txt-capital= label
 		div.col-md-6
 			input.form-control(type='text',placeholder=placeholder,name=fieldName, required=required ? 'required':'')
+mixin radio(fieldName,options,label)
+	div.form-group
+		label.control-label.col-md-4.txt-capital= label
+		each o in options
+			div.radio.col-md-offset-4
+				label= o
+					input(type='radio', name=fieldName,value=o)
 mixin fileUpload(fieldName,accept,multi,label,required)
 	div.form-group
 		label.control-label.col-md-4.txt-capital= label

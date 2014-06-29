@@ -1,8 +1,9 @@
 #!/usr/bin/env node
-var debug = require('debug')('Garemo');
-var app = require('./application');
+var debug = require('debug')('Garemo'),
+	cfg = require('./config'),
+	app = require('./application');
 
-app.set('port', process.env.PORT || 3000);
+app.set('port', cfg.port);
 
 var server = app.listen(app.get('port'), function() {
   debug('Express server listening on port ' + server.address().port);
