@@ -1,14 +1,14 @@
 include ../mixins/form-controls
 
-div(class='modal-header')
-	h3(class='modal-title') წარმომადგენელი პირი
-div(class='modal-body')
+div.modal-header
+	h3.modal-title.txt-capital წარმომადგენელი პირი
+div.modal-body
 	form.form-horizontal
 		+textbox('carmomdgenisPid','პირადი ნომერი','11 სიმბოლო',true)
 		+textbox('carmomdgenisSaxeli','სახელი','',true)
 		+textbox('carmomdgenisGvari','გვარი','',true)
 		+specInput('carmomdgenisPhone','phone','phone','ტელეფონი','მაგ: 599123456',true)
 		+specInput('carmomdgenisMail','email','envelope','e-ფოსტა','მაგ: someone@mail.com',true)
-div(class='modal-footer')
-	button(class='btn btn-primary', ng-click='ok()') OK
-	button(class='btn btn-warning', ng-click='cancel()') Cancel
+div.modal-footer
+	button.btn.btn-primary(ng-click='ok()') OK
+	button.btn.btn-warning(ng-click='cancel()') Cancel
