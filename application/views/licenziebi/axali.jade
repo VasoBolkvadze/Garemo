@@ -6,6 +6,7 @@ block content
 	div(ng-controller='axaliCtrl')
 		script.
 				var axaliCtrl = function($scope, $modal, $log){
+					$scope.atvisebisGegmaColumns = [];
 					$scope.resursebi = [
 						{dasaxeleba:'',raodenoba:0,zomisErteuli:null,gamokenebisSfero:''}
 					];
@@ -14,6 +15,9 @@ block content
 					];
 					$scope.addResursi = function(){
 						$scope.resursebi.push({dasaxeleba:'',raodenoba:0,zomisErteuli:null,gamokenebisSfero:''});
+					};
+					$scope.addAtvisebisGegmaColumn = function(){
+						$scope.atvisebisGegmaColumns.push({});
 					};
 					$scope.addGegmaItem = function(){
 						$scope.gegmaItems.push({celi:'',odenoba:0});
@@ -140,13 +144,18 @@ block content
 												tr.txt-capital
 													th წელი
 													th ასათვისებელი რესურსის ოდენობა
+													th(ng-repeat='agc in atvisebisGegmaColumns')
+														+textcell('',true)
 													th(width='3%')
+														a.btn.btn-sm.btn-info(ng-click='addAtvisebisGegmaColumn()') +
 											tbody
 												tr(ng-repeat='gi in gegmaItems')
 													td
 														+textcell('celi',true)
 													td
 														+numbercell('odenoba',true)
+													td(ng-repeat='agc in atvisebisGegmaColumns')
+															+numbercell('',true)
 													td
 														a.btn.btn-sm.btn-danger.pull-right(ng-click='removeGegmaItem(gi)') X
 										a.btn.btn-sm.btn-success.pull-right(ng-click='addGegmaItem()') +
