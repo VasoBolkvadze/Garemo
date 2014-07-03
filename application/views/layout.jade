@@ -5,12 +5,26 @@ html(ng-app='garemoApp')
 		meta(charset="utf-8")
 		script(src='/resources/tinymce/tinymce.min.js')
 		script(src='/resources/angular/angular.min.js')
+		script(src='/resources/angular-ui-tinymce/src/tinymce.js')
 		script(src='/resources/angular-bootstrap/ui-bootstrap.min.js')
 		script(src='/resources/angular-bootstrap/ui-bootstrap-tpls.min.js')
 		script.
-			angular.module('garemoApp',['ui.bootstrap']);
-		script.
-			tinymce.init({selector:'textarea.rich'});
+				var app = angular.module('garemoApp',['ui.bootstrap','ui.tinymce']);
+				app.directive('fileUpload', function () {
+						return {
+								scope: true,
+								link: function (scope, el, attrs) {
+										el.bind('change', function (event) {
+												var files = event.target.files;
+												for (var i = 0;i<files.length;i++) {
+														scope.$emit("fileSelected", { file: files[i], inputName:attrs.name });
+												}
+										});
+								}
+						};
+				});
+				//script.
+				//	tinymce.init({selector:'textarea.rich'});
 		link(rel='stylesheet', href='/resources/bootstrap/dist/css/bootstrap.min.css')
 		link(rel='stylesheet', href='/stylesheets/style.css')
 	body

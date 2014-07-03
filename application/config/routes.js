@@ -16,5 +16,9 @@ module.exports.init = function(app){
 				res.send(html);
 			});
 	});
+	//--- test ---
+	router.get('/test',function(req,res){
+		res.render('tests/axali');
+	});
 	app.use(router);
 };

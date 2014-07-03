@@ -7,6 +7,21 @@ block content
 	div(ng-controller='axaliCtrl')
 		script.
 				var axaliCtrl = function($scope, $modal, $log){
+					$scope.licenzia = {
+						licenziantisMonacemebi:{
+							pid:null,
+							dasaxeleba:null,
+							faktMisamarti:null,
+							iurMisamarti:null,
+							tel:null,
+							mail:null
+						},
+						carmomadgeneli:null,
+						informaciaObiektisShesaxeb:{}
+					};
+					$scope.submit = function(){
+						console.log($scope.licenzia);
+					};
 					$scope.atvisebisGegmaColumns = [];
 					$scope.resursebi = [
 						{dasaxeleba:'',raodenoba:0,zomisErteuli:null,gamokenebisSfero:''}
@@ -20,10 +35,6 @@ block content
 					$scope.addAtvisebisGegmaColumn = function(){
 						$scope.atvisebisGegmaColumns.push({});
 					};
-					//					$scope.removeAtvisebisGegmaColumn = function(agc){
-					//						var i = $scope.atvisebisGegmaColumns.indexOf(agc);
-					//						$scope.atvisebisGegmaColumns.splice(i,1);
-					//					};
 					$scope.addGegmaItem = function(){
 						$scope.gegmaItems.push({celi:'',odenoba:0});
 					};
@@ -38,21 +49,30 @@ block content
 					$scope.open = function () {
 							var modalInstance = $modal.open({
 									templateUrl: '/templates/licenziebi/carmomadgeneli.jade',
-									controller: modalInstanceCtrl
+									controller: modalInstanceCtrl,
+									resolve:{
+										carmomadgeneli: function(){
+											return {
+												pid:null,
+												saxeli:null,
+												gvari:null,
+												tel:null,
+												mail:null
+											};
+										}
+									}
 							});
 							modalInstance
 								.result
-								.then(function (selectedItem) {
-									$scope.selected = selectedItem;
-								}
-								, function () {
-									$log.info('Modal dismissed at: ' + new Date());
-							});
+								.then(function (carmomadgeneli) {
+									$scope.licenzia.carmomadgeneli = carmomadgeneli;
+								});
 					};
 				};
-				var modalInstanceCtrl = function ($scope, $modalInstance) {
+				var modalInstanceCtrl = function ($scope, $modalInstance,carmomadgeneli) {
+						$scope.carmomadgeneli = carmomadgeneli;
 						$scope.ok = function () {
-							$modalInstance.close();
+							$modalInstance.close($scope.carmomadgeneli);
 						};
 						$scope.cancel = function () {
 							$modalInstance.dismiss('cancel');
@@ -68,13 +88,13 @@ block content
 				form.form-horizontal(method='POST',enctype='multipart/form-data')
 					div.col-md-12
 						+panel('ლიცენზიანტის მონაცემები',4)
-							+textbox('pid','საიდენთიფიკაციო კოდი','ან ფიზიკური პირის პირადი ნომერი',true)
-							+textbox('dasaxeleba','დასახელება','ან ფიზიკური პირის სახელი, გვარი',true)
-							+textbox('fakMisamarti','ფაქტიური მისამართი','მაგ: წერეთლის #144',true)
-							+textbox('iurMisamarti','იურიდიული მისამართი','მაგ: წერეთლის #144',true)
-							+specInput('phone','phone','phone','ტელეფონი','მაგ: 599123456',true)
-							+specInput('email','email','envelope','e-ფოსტა','მაგ: someone@mail.com',true)
-							+fileUpload('mibmuliFailebi','*',true,'მიბმული ფაილები',true)
+							+textbox('licenzia.licenziantisMonacemebi.pid','საიდენთიფიკაციო კოდი','ან ფიზიკური პირის პირადი ნომერი',true)
+							+textbox('licenzia.licenziantisMonacemebi.dasaxeleba','დასახელება','ან ფიზიკური პირის სახელი, გვარი',true)
+							+textbox('licenzia.licenziantisMonacemebi.faktMisamarti','ფაქტიური მისამართი','მაგ: წერეთლის #144',true)
+							+textbox('licenzia.licenziantisMonacemebi.iurMisamarti','იურიდიული მისამართი','მაგ: წერეთლის #144',true)
+							+specInput('licenzia.licenziantisMonacemebi.tel','phone','phone','ტელეფონი','მაგ: 599123456',true)
+							+specInput('licenzia.licenziantisMonacemebi.mail','email','envelope','e-ფოსტა','მაგ: someone@mail.com',true)
+							+fileUpload('licenzia.licenziantisMonacemebi.mibmuliFailebi','*',true,'მიბმული ფაილები')
 						hr
 						a.btn.btn-default.txt-capital(ng-click='open()') წარმომადგენელი პირი
 						hr
@@ -82,10 +102,10 @@ block content
 							div.col-md-6
 								+typeahead('regioni',regionebi,'რეგიონი')
 								+typeahead('municipaliteti',municipalitetebi,'მუნიციპალიტეტი')
-								+textbox('dasaxlebuliPunkti','დასახლებული პუნქტი','',true)
+								+textbox('dasaxlebuliPunkti','დასახლებული პუნქტი','')
 							div.col-md-6
-								+combobox('fartobiUom',fartobiUoms,'ფართობის საზომი ერთეული',true)
-								+numberbox('fartobi','ფართობი','',true)
+								+combobox('fartobiUom',fartobiUoms,'ფართობის საზომი ერთეული')
+								+numberbox('fartobi','ფართობი','')
 							div.col-md-12
 								+panel('რესურსები')
 									table.table.table-hover.table-bordered.table-condensed
@@ -99,13 +119,13 @@ block content
 										tbody
 											tr(ng-repeat='res in resursebi')
 												td
-													+textcell('resursisDasaxeleba',true)
+													+typeaheadCell('resursisDasaxeleba',resursebi)
 												td
-													+numbercell('resursisRaodenoba',true)
+													+numbercell('resursisRaodenoba')
 												td
-													+combocell('resursisUom',uoms,'',true)
+													+combocell('resursisUom',uoms)
 												td
-													+textcell('gamokenebisSfero',true)
+													+textcell('gamokenebisSfero')
 												td
 													a.btn.btn-sm.btn-danger.pull-right(ng-click='removeResursi(res)') X
 											tr
@@ -113,22 +133,22 @@ block content
 												td
 													a.btn.btn-sm.btn-success.pull-right(ng-click='addResursi()') +
 						+panel('ინფორმაცია ლიცენზიის შესახებ',4)
-							+textbox('licenziisNomeri','ლიცენზიის N','',true)
-							+datepicker('licenziisGacemisTarigi','გაცემის თარიღი',true)
-							+textbox('brdzanebisNomeri','ბრძანების N','',true)
-							+datepicker('brdzanebisTarigi','ბრძანების თარიღი',true)
-							+numberbox('moqmedebisVada','მოქმედების ვადა','წლებში (მაგ: 5)',true)
+							+textbox('licenziisNomeri','ლიცენზიის N','')
+							+datepicker('licenziisGacemisTarigi','გაცემის თარიღი')
+							+textbox('brdzanebisNomeri','ბრძანების N','')
+							+datepicker('brdzanebisTarigi','ბრძანების თარიღი')
+							+numberbox('moqmedebisVada','მოქმედების ვადა','წლებში (მაგ: 5)')
 							+bigtext('salicenzioPirobebi',5,10,'სალიცენზიო პირობები')
-							+combobox('licenziisStatusi',statusebi,'ლიცენზიის სტატუსი',true)
-							+fileUpload('licenziaFailebi','*',true,'ფაილები',true)
+							+combobox('licenziisStatusi',statusebi,'ლიცენზიის სტატუსი')
+							+fileUpload('licenziaFailebi','*',true,'ფაილები')
 						+panel('დამატებითი ინფორმაცია',4)
-							+fileUpload('ruqa','image/*',true,'რუქა',true)
-							+numberbox('a','a','',true)
-							+numberbox('b','b','',true)
-							+numberbox('c1','c1','',true)
-							+numberbox('c2','c2','',true)
-							+numberbox('p','p','',true)
-							+fileUpload('geoSainformacioPaketi','*',true,'გეოსაინფორმაციო პაკეტი',true)
+							+fileUpload('ruqa','image/*',true,'რუქა')
+							+numberbox('a','a','')
+							+numberbox('b','b','')
+							+numberbox('c1','c1','')
+							+numberbox('c2','c2','')
+							+numberbox('p','p','')
+							+fileUpload('geoSainformacioPaketi','*',true,'გეოსაინფორმაციო პაკეტი')
 							+radio('regulirebisGadamxdeli',['კი','არა'],'რეგულირების გადამხდელი')
 							+panel('ათვისების გეგმა')
 								table.table.table-hover.table-bordered.table-condensed
@@ -137,17 +157,17 @@ block content
 											th წელი
 											th ასათვისებელი რესურსის ოდენობა
 											th(ng-repeat='agc in atvisebisGegmaColumns')
-												+textcell('',true)
+												+textcell('{{agc.name}}')
 											th(width='3%')
 												a.btn.btn-sm.btn-info(ng-click='addAtvisebisGegmaColumn()') ► +
 									tbody
 										tr(ng-repeat='gi in gegmaItems')
 											td
-												+textcell('celi',true)
+												+textcell('celi')
 											td
-												+numbercell('odenoba',true)
+												+numbercell('odenoba')
 											td(ng-repeat='agc in atvisebisGegmaColumns')
-													+numbercell('',true)
+													+numbercell('{{agc.value}}')
 											td
 												a.btn.btn-sm.btn-danger.pull-right(ng-click='removeGegmaItem(gi)') X
 										tr
@@ -157,38 +177,38 @@ block content
 							+panel('ლიცენზიის წარმოქმნის საფუძველი')
 								tabset
 									+tab('აუქციონი')
-										+textbox('aukcionisNomeri','აუქციონის N','',true)
-										+textbox('lotisNomeri','ლოტის N','',true)
-										+textbox('ganacxadisNomeri','განაცხადის N','',true)
-										+numberbox('sackisiFasi','საწყისი ფასი','',true)
-										+numberbox('sabolooFasi','საბოლოო ფასი','',true)
+										+textbox('aukcionisNomeri','აუქციონის N','')
+										+textbox('lotisNomeri','ლოტის N','')
+										+textbox('ganacxadisNomeri','განაცხადის N','')
+										+numberbox('sackisiFasi','საწყისი ფასი','')
+										+numberbox('sabolooFasi','საბოლოო ფასი','')
 									+tab('საბჭოს წესით გადაცემული')
-										+datepicker('tarigi','თარიღი','',true)
-										+textbox('okmisNomeri','ოქმის N','',true)
+										+datepicker('tarigi','თარიღი','')
+										+textbox('okmisNomeri','ოქმის N','')
 									+tab('გაყოფა')
-										+textbox('dzveliLicenziisNomeri','ძველი ლიცენზიის N','',true)
+										+textbox('dzveliLicenziisNomeri','ძველი ლიცენზიის N')
 									+tab('გადაცემა')
-										+textbox('dzveliLicenziisNomeri','ძველი ლიცენზიის N','',true)
+										+textbox('dzveliLicenziisNomeri','ძველი ლიცენზიის N')
 									+tab('დუბლიკატი')
-										+textbox('dzveliLicenziisNomeri','ძველი ლიცენზიის N','',true)
+										+textbox('dzveliLicenziisNomeri','ძველი ლიცენზიის N')
 									+tab('იჯარით გადაცემა')
-										+textbox('moijarisPid','საიდენთიფიკაციო კოდი','ან მოიჯარის პირადი ნომერი',true)
-										+textbox('dasaxeleba','დასახელება','ან მოიჯარის პირის სახელი, გვარი',true)
-										+fileUpload('moijarisFailebi','*',true,'მიბმული ფაილები',true)
+										+textbox('moijarisPid','საიდენთიფიკაციო კოდი','ან მოიჯარის პირადი ნომერი')
+										+textbox('dasaxeleba','დასახელება','ან მოიჯარის პირის სახელი, გვარი')
+										+fileUpload('moijarisFailebi','*',true,'მიბმული ფაილები')
 							+panel('ლიცენზიის გაუქმების საფუძველი')
 								tabset
 									+tab('პირადი განცხადება')
-										+fileUpload('mibmuliFailebi','*',true,'მიბმული ფაილები',true)
+										+fileUpload('mibmuliFailebi','*',true,'მიბმული ფაილები')
 									+tab('სააგენტოს გადაწყვეტილება')
-										+fileUpload('mibmuliFailebi','*',true,'მიბმული ფაილები',true)
+										+fileUpload('mibmuliFailebi','*',true,'მიბმული ფაილები')
 									+tab('გაყოფა')
-										+textbox('axaliLicenziisNomeri','ახალი ლიცენზიის N','',true)
+										+textbox('axaliLicenziisNomeri','ახალი ლიცენზიის N','')
 									+tab('გადაცემა')
-										+textbox('axaliLicenziisNomeri','ახალი ლიცენზიის N','',true)
+										+textbox('axaliLicenziisNomeri','ახალი ლიცენზიის N','')
 									+tab('დუბლიკატი')
-										+textbox('axaliLicenziisNomeri','ახალი ლიცენზიის N','',true)
+										+textbox('axaliLicenziisNomeri','ახალი ლიცენზიის N','')
 						div.col-md-12
-							button.btn.btn-success.pull-right.txt-capital(type='submit') რეგისტრაცია
+							a.btn.btn-success.pull-right.txt-capital(ng-click='submit()') რეგისტრაცია
 		hr
 		.jumbotron.jumbotron-sm
 			.container

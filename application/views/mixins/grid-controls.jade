@@ -1,9 +1,15 @@
 mixin combocell(fieldName,options,required)
-	select.form-control(type='text',name=fieldName, required=required ? 'required':'')
+	select.form-control(type='text',name=fieldName, required=required)
 		option
 		each o in options
 			option= o
+mixin typeaheadCell(fieldName,items,selectedItem)
+	input.form-control(type='text',name=fieldName,list=fieldName+'-list',value=selectedItem)
+	datalist(id=fieldName+'-list')
+		if items
+			each item in items
+				option=item
 mixin textcell(fieldName,required)
-	input.form-control(type='text',required=required ? 'required':'')
+	input.form-control(type='text',required=required)
 mixin numbercell(fieldName,required)
-	input.form-control(type='number',required=required ? 'required':'')
+	input.form-control(type='number',required=required)

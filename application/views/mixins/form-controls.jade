@@ -1,9 +1,9 @@
-mixin typeahead(fieldName,list,label,placeholder,selectedItem)
+mixin typeahead(fieldName,list,label,placeholder,selectedItem,required)
 	div.form-group
 		label.col-md-4.control-label.txt-capital= label
 		div.col-md-6
-			input.form-control(id=fieldName,type='text',name=fieldName,
-			placeholder=placeholder,list=fieldName+'-list',value=selectedItem)
+			input.form-control(type='text',name=fieldName,placeholder=placeholder,
+												list=fieldName+'-list',value=selectedItem,required=required,ng-model=fieldName)
 			datalist(id=fieldName+'-list')
 				if list
 					each item in list
@@ -12,29 +12,31 @@ mixin datepicker(fieldName,label,defaultValue,required)
 	div.form-group
 		label.col-md-4.control-label.txt-capital= label
 		div.col-md-6
-			input.form-control(type='date',name=fieldName,value=defaultValue,required=required ? 'required':'')
+			input.form-control(type='date',name=fieldName,value=defaultValue,required=required,ng-model=fieldName)
 mixin textbox(fieldName,label,placeholder,required)
 	div.form-group
 		label.control-label.col-md-4.txt-capital= label
 		div.col-md-6
-			input.form-control(type='text',placeholder=placeholder,name=fieldName, required=required ? 'required':'')
+			input.form-control(type='text',name=fieldName,placeholder=placeholder, required=required,ng-model=fieldName)
 mixin radio(fieldName,options,label)
 	div.form-group
 		label.control-label.col-md-4.txt-capital= label
 		each o in options
 			div.radio.col-md-offset-4
 				label= o
-					input(type='radio', name=fieldName,value=o)
-mixin fileUpload(fieldName,accept,multi,label,required)
+					- var checked = options.indexOf(o) == 0;
+					input(type='radio', name=fieldName, value=o, checked=checked)
+mixin fileUpload(fieldName,accept,multiple,label,required)
 	div.form-group
 		label.control-label.col-md-4.txt-capital= label
 		div.col-md-6
-			input.form-control(name=fieldName+'_file',type='file',accept=accept,multiple=multi ? 'multiple':'',required=required ? 'required':'')
+			input.form-control(name=fieldName+'_file',type='file',
+												accept=accept,multiple=multiple,required=required,ng-model=fieldName)
 mixin combobox(fieldName,options,label,required)
 	div.form-group
 		label.control-label.col-md-4.txt-capital= label
 		div.col-md-6
-			select.form-control(type='text',name=fieldName, required=required ? 'required':'')
+			select.form-control(type='text',name=fieldName, required=required)
 				option
 				each o in options
 					option= o
@@ -42,16 +44,17 @@ mixin numberbox(fieldName,label,placeholder,required)
 	div.form-group
 		label.control-label.col-md-4.txt-capital= label
 		div.col-md-6
-			input.form-control(type='number',placeholder=placeholder,name=fieldName, required=required ? 'required':'')
+			input.form-control(type='number',placeholder=placeholder,name=fieldName, required=required,ng-model=fieldName)
 mixin specInput(fieldName,inputType,icon,label,placeholder,required)
 	div.form-group
 		label.control-label.col-md-4.txt-capital= label
 		div.input-group.col-md-6
 			span.input-group-addon
 				span(class="#{'glyphicon '+'glyphicon-'+icon}")
-			input.form-control(type=inputType,placeholder=placeholder, name=fieldName, required=required ? 'required':'')
+			input.form-control(type=inputType, name=fieldName,placeholder=placeholder, required=required,ng-model=fieldName)
 mixin bigtext(fieldName,rows,cols,label,placeholder,required)
 	div.form-group
 		label.control-label.col-md-4.txt-capital= label
 		div.col-md-6
-			textarea.form-control.rich(type='text',placeholder=placeholder,rows=rows, cols=cols,name=fieldName, required=required ? 'required':'')
+			textarea.form-control.rich(type='text',name=fieldName,placeholder=placeholder,
+																rows=rows, cols=cols, required=required,ng-model=fieldName)

@@ -1,0 +1,149 @@
+extends ../index
+block content
+	div.container(ng-controller="tCtrl")
+		script.
+					function tCtrl($scope,$http){
+						$scope.persona = {
+							saxeli:null,
+							dabadebisTarigi:null,
+							asaki:null,
+							gijia:'True',
+							biografia:null,
+							dosie:[
+								{
+									title:'scavlobs',
+									active:false,
+									data:[
+										{label:'instituti',type:'text',value:null},
+										{label:'fakulteti',type:'text',value:null}
+									]
+								},
+								{
+									title:'mushaobs',
+									active:true,
+									data:[
+										{label:'samsaxuri',type:'text',value:null},
+										{label:'tanamdeboba',type:'text',value:null},
+										{label:'staji',type:'number',value:null}
+									]
+								}
+							],
+							shvilebi:[
+								{saxeli:null}
+							]
+						};
+						$scope.fotoebi = [];
+						$scope.piradobebi = [];
+						$scope.$on("fileSelected", function (event, args) {
+								$scope.$apply(function () {
+									$scope[args.inputName].push(args.file);
+								});
+						});
+						$scope.addShvili = function(){
+							$scope.persona.shvilebi.push({saxeli:null});
+						}
+						$scope.removeShvili = function(s){
+							var i = $scope.persona.shvilebi.indexOf(s);
+							$scope.persona.shvilebi.splice(i,1);
+						}
+						$scope.submit = function() {
+							var persona = angular.copy($scope.persona);
+							persona.dosie = persona
+																.dosie
+																.reduce(function(m,v){
+																	if(v.active){
+																		m.title = v.title;
+																		v.data.forEach(function(d){
+																			m[d.label] = d.value;
+																		});
+																	}
+																	return m;
+																}
+																,{});
+							$http({
+									method: 'POST',
+									url: "/licenziebi/axali",
+									headers: { 'Content-Type': undefined },
+									transformRequest: function (data) {
+											var formData = new FormData();
+											formData.append("model", angular.toJson(data.model));
+											data.attachments.forEach(function(att){
+													for(var i = 0; i < att.files.length; i++) {
+														formData.append(att.name+'_'+i, att.files[i]);
+													}
+											});
+											return formData;
+									},
+									data:{
+											model: persona,
+											attachments:[
+												{name:'fotoebi',files:$scope.fotoebi},
+												{name:'piradobebi',files:$scope.piradobebi}
+											]
+										}
+							}).
+							success(function (data, status, headers, config) {
+									alert('success!');
+							}).
+							error(function (data, status, headers, config) {
+									alert("failed!");
+							});
+						}
+					}
+		h1 persona
+		form(ng-submit="submit()")
+			div
+				label saxeli:
+				input(type='text',ng-model="persona.saxeli",required)
+			div
+				label dabadebis tarigi:
+				input(type='date',ng-model="persona.dabadebisTarigi",required)
+			div
+				label asaki:
+				input(type='number',ng-model="persona.asaki",required)
+			div
+				table.table
+					thead
+						tr
+							th(colspan='2') shvilebi
+						tr
+							th
+								span saxeli
+							th
+								a(href='#',ng-click="addShvili()") +
+					tbody
+						tr(ng-repeat="shvili in persona.shvilebi")
+							td
+								input(type='text',ng-model="shvili.saxeli",required)
+							td
+								a(href='#',ng-click="removeShvili(shvili)") x
+			div
+				label gijia
+				br
+				input(type='radio',ng-model='persona.gijia',name='gijia',value='True',required)
+				| ki
+				br
+				input(type='radio',ng-model='persona.gijia',name='gijia',value='False')
+				| ara
+			div
+				label biografia
+				textarea(ng-model='persona.biografia',ui-tinymce,required)
+			div
+				label foto
+				input(type='file',name='fotoebi',multiple,file-upload,required)
+				ul
+					li(ng-repeat="foto in fotoebi") {{foto.name}}
+			div
+				label piradoba
+				input(type='file',name='piradobebi',multiple,file-upload,required)
+				ul
+					li(ng-repeat="piradoba in piradobebi") {{piradoba.name}}
+			div
+				label dosie
+				tabset
+					tab(ng-repeat="dItem in persona.dosie",heading="{{dItem.title}}",active="dItem.active")
+						div(ng-repeat="d in dItem.data")
+							label {{d.label}}
+							input(type="{{d.type}}",ng-model="d.value",ng-required="dItem.active")
+			hr
+			button(type='submit') Submit

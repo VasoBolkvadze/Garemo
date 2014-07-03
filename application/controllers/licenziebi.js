@@ -37,28 +37,38 @@ module.exports.save = function(req,res){
 			return memo;
 		},[]);
 		async.each(filesNew,function(f,cb){
-			console.log(f);
 			fs.rename(f.oldPath
 				, f.newPath
 				,function(renameError){
 					if(!renameError){
-						body[f.fieldName] = f.fileName;
+						var fname = f.fieldName.split('_')[0];
+						if(body[fname]==null)
+							body[fname] = [];
+						body[fname].push(f.fileName);
 						cb();
 					}else{
 						cb(renameError);
 					}
 				});
 		},function(finalErr){
-			if(!finalErr)
-				store.store('Licenzireba'
-					,'Licenzia'
-					,body
-					,function(storeErr,result){
-						if(!storeErr)
-							res.redirect('/licenziebi');
-						else
-							throw storeErr;
-					});
+			if(!finalErr) {
+				var doc = JSON.parse(body.model);
+				for(var key in body){
+					if(key!='model' && body.hasOwnProperty(key))
+						doc[key] = body[key];
+				}
+				console.log(doc);
+				res.end();
+			}
+			//store.store('Licenzireba'
+			//	,'Licenzia'
+			//	,body
+			//	,function(storeErr,result){
+			//		if(!storeErr)
+			//			res.redirect('/licenziebi');
+			//		else
+			//			throw storeErr;
+			//	});
 			else{
 				throw finalErr;
 			}
