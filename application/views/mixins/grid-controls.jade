@@ -1,15 +1,16 @@
 mixin combocell(fieldName,options,required)
-	select.form-control(type='text',name=fieldName, required=required)
+	select.form-control(type='text',name=fieldName, ng-model=fieldName, required=required)
 		option
 		each o in options
 			option= o
-mixin typeaheadCell(fieldName,items,selectedItem)
-	input.form-control(type='text',name=fieldName,list=fieldName+'-list',value=selectedItem)
+mixin typeaheadCell(fieldName,items,required,selectedItem)
+	input.form-control(type='text',name=fieldName,ng-model=fieldName,
+										list=fieldName+'-list',value=selectedItem,required=required)
 	datalist(id=fieldName+'-list')
 		if items
 			each item in items
 				option=item
 mixin textcell(fieldName,required)
-	input.form-control(type='text',required=required)
+	input.form-control(type='text',name=fieldName,ng-model=fieldName,required=required)
 mixin numbercell(fieldName,required)
-	input.form-control(type='number',required=required)
+	input.form-control(type='number',step='any',name=fieldName,ng-model=fieldName,required=required)

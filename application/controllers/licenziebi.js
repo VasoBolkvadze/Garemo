@@ -1,9 +1,10 @@
 var formidable = require('formidable'),
+	cfg = require('../../config.json'),
 	fs = require('fs'),
 	path = require('path'),
 	_ = require('underscore'),
 	async = require('async'),
-	store = require('nodeRaven')('http://localhost:8080/'),
+	store = require('nodeRaven')(cfg.dbUrl),
 	uuid = require('node-uuid');
 
 module.exports.sia = function (req, res) {
@@ -52,23 +53,39 @@ module.exports.save = function(req,res){
 				});
 		},function(finalErr){
 			if(!finalErr) {
-				var doc = JSON.parse(body.model);
+				var entity = JSON.parse(body.model);
 				for(var key in body){
 					if(key!='model' && body.hasOwnProperty(key))
-						doc[key] = body[key];
+						entity[key] = body[key];
 				}
+				console.log('entity:');
+				console.log(entity);
+				var doc = {};
+				for(var k in entity){
+					if(entity.hasOwnProperty(k)) {
+						if (k.indexOf('/') == -1) {
+							doc[k] = entity[k];
+						} else {
+							var setter = 'doc';
+							k.split('/').forEach(function (part) {
+								setter += "['" + part + "']";
+							});
+							eval(setter + '=entity["' + k + '"]');
+						}
+					}
+				}
+				console.log('doc');
 				console.log(doc);
-				res.end();
+				store.store('Licenzireba'
+					,'Licenzia'
+					,doc
+					,function(storeErr,result){
+						if(!storeErr)
+							res.json({success:true});
+						else
+							res.json({success:false,error:storeErr})
+					});
 			}
-			//store.store('Licenzireba'
-			//	,'Licenzia'
-			//	,body
-			//	,function(storeErr,result){
-			//		if(!storeErr)
-			//			res.redirect('/licenziebi');
-			//		else
-			//			throw storeErr;
-			//	});
 			else{
 				throw finalErr;
 			}
