@@ -7,6 +7,7 @@ module.exports.init = function(app){
 	var router = express.Router();
 	router.get('/',controllers.home.index);
 	router.get('/licenziebi',controllers.licenziebi.sia);
+	router.get('/licenziebi/suggestions', controllers.licenziebi.suggestions);
 	router.get('/licenziebi/axali',controllers.licenziebi.axali);
 	router.post('/licenziebi/axali',controllers.licenziebi.save);
 	router.get('/templates/:subdir/:tpl',function(req,res){
@@ -15,10 +16,6 @@ module.exports.init = function(app){
 			, function(err,html) {
 				res.send(html);
 			});
-	});
-	//--- test ---
-	router.get('/test',function(req,res){
-		res.render('tests/axali');
 	});
 	app.use(router);
 };

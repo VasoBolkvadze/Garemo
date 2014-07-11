@@ -14,7 +14,7 @@ block content
 						h2.txt-capital ახალი ლიცენზია
 		.container
 			.row
-				form.form-horizontal(ng-submit="submit()")
+				form.form-horizontal(ng-submit="submit()",id="axaliLicenzia")
 					div.col-md-12
 						+panel('ლიცენზიანტის მონაცემები',4)
 							+textbox('licenzia.licenziantisMonacemebi.pid','საიდენთიფიკაციო კოდი','ან ფიზიკური პირის პირადი ნომერი',true)
@@ -22,7 +22,7 @@ block content
 							+textbox('licenzia.licenziantisMonacemebi.faktMisamarti','ფაქტიური მისამართი','მაგ: წერეთლის #144',true)
 							+textbox('licenzia.licenziantisMonacemebi.iurMisamarti','იურიდიული მისამართი','მაგ: წერეთლის #144',true)
 							+specInput('licenzia.licenziantisMonacemebi.tel','phone','phone','ტელეფონი','მაგ: 599123456',true)
-							+specInput('licenzia.licenziantisMonacemebi.mail','email','envelope','e-ფოსტა','მაგ: someone@mail.com',true)
+							+specInput('licenzia.licenziantisMonacemebi.mail','email','envelope','e-ფოსტა','მაგ: someone@mail.com',false)
 							+fileUpload('licenziantisMonacemebi/mibmuliFailebi','*',true,'მიბმული ფაილები',true)
 						hr
 						a.btn.btn-default.txt-capital(ng-click='open()') წარმომადგენელი პირი
@@ -67,19 +67,31 @@ block content
 							+textbox('licenzia.informaciaLicenziisShesaxeb.brdzanebisNomeri','ბრძანების N','',true)
 							+datepicker('licenzia.informaciaLicenziisShesaxeb.brdzanebisTarigi','ბრძანების თარიღი',true)
 							+numberbox('licenzia.informaciaLicenziisShesaxeb.moqmedebisVada','მოქმედების ვადა','წლებში (მაგ: 5)',true)
-							+bigtext('licenzia.informaciaLicenziisShesaxeb.salicenzioPirobebi','სალიცენზიო პირობები',5,10,true)
-							+combobox('licenzia.informaciaLicenziisShesaxeb.statusi',statusebi,'ლიცენზიის სტატუსი',true)
+							+bigtext('licenzia.informaciaLicenziisShesaxeb.salicenzioPirobebi','სალიცენზიო პირობები',5,10,false)
+							+combobox('licenzia.informaciaLicenziisShesaxeb.statusi.mnishvneloba',statusebi,'ლიცენზიის სტატუსი',true)
+							div.form-group(ng-if="licenzia.informaciaLicenziisShesaxeb.statusi.mnishvneloba == 'შეზღუდული'")
+								label.control-label.col-md-4.txt-capital შეზღუდული სტატუსის საფუძველი
+								div.col-md-6
+									input.form-control(type='file',name='informaciaLicenziisShesaxeb/statusi/safudzveli',
+																file-upload,accept=accept,multiple=multiple,required)
 							+fileUpload('informaciaLicenziisShesaxeb/mibmuliFailebi','*',true,'ფაილები',true)
 						+panel('დამატებითი ინფორმაცია',4)
 							+fileUpload('damatebitiInformacia/ruqa','*',true,'რუქა',true)
-							+textbox('licenzia.damatebitiInformacia.a','a','',true)
-							+textbox('licenzia.damatebitiInformacia.b','b','',true)
-							+textbox('licenzia.damatebitiInformacia.c1','c1','',true)
-							+textbox('licenzia.damatebitiInformacia.c2','c2','',true)
-							+textbox('licenzia.damatebitiInformacia.p','p','',true)
-							+fileUpload('damatebitiInformacia/atvisebisGegma','*',true,'ათვისების გეგმა',true)
+							each k in kategoriebi
+								div.form-group
+									label.control-label.col-md-4.txt-capital= k
+									div.col-md-3
+										input.form-control(type='number',step='any',name='licenzia.damatebitiInformacia.'+k+'.mnishvneloba',
+																			ng-model='licenzia.damatebitiInformacia.'+k+'.mnishvneloba')
+									div.col-md-3
+										select.form-control(type='text',name='licenzia.damatebitiInformacia.'+k+'.uom',
+																			ng-model='licenzia.damatebitiInformacia.'+k+'.uom')
+											option= ""
+											each u in uoms
+												option= u
+							+fileUpload('damatebitiInformacia/atvisebisGegma','*',true,'ათვისების გეგმა',false)
 							+fileUpload('damatebitiInformacia/geoSainformacioPaketi','*',true,'გეოსაინფორმაციო პაკეტი',true)
-							+radio('licenzia.damatebitiInformacia.regulirebisGadamxdeli','rg',['კი','არა'],'რეგულირების გადამხდელი',true)
+							+radio('licenzia.damatebitiInformacia.regulirebisGadamxdeli','rg',regulirebisGadamxdeliOptions,'რეგულირების გადამხდელი',true)
 							+panel('ლიცენზიის წარმოქმნის საფუძველი')
 								tabset
 									tab(ng-repeat="carmSaf in carmoqmnisSafudzvlebi",heading="{{carmSaf.title}}",active="carmSaf.active",style='cursor:pointer')
@@ -134,7 +146,7 @@ block content
 																					ng-required="gauqSaf.active",
 																					ng-if="field.type == 'file'")
 					div.col-md-12
-						button.btn.btn-success.pull-right.txt-capital(type='submit') რეგისტრაცია
+						button.btn.btn-success.pull-right.txt-capital(type='submit',name='submit') რეგისტრაცია
 		hr
 		.jumbotron.jumbotron-sm
 			.container

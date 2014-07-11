@@ -7,26 +7,12 @@ function axaliLicenziaCtrl($scope, $modal, $http){
 		'damatebitiInformacia/geoSainformacioPaketi',
 		'carmoqmnisSafudzveli/mibmuliFailebi',
 		'gauqmebisSafudzveli/mibmuliFailebi',
-		'gauqmebisSafudzveli/mibmuliFailebi'
+		'informaciaLicenziisShesaxeb/statusi/safudzveli'
 	];
 	attachmentNames.forEach(function(attName){
 		$scope[attName] = [];
 	});
-	$scope.licenzia = {
-		licenziantisMonacemebi:{},
-		carmomadgeneli:null,
-		informaciaObiektisShesaxeb:{
-			resursebi:[
-				{dasaxeleba:null,raodenoba:null,uom:null,gamokenebisSfero:null}
-			]
-		},
-		informaciaLicenziisShesaxeb:{},
-		damatebitiInformacia:{
-			regulirebisGadamxdeli:'კი'
-		},
-		carmoqmnisSafudzveli:null,
-		gauqmebisSafudzveli:null
-	};
+	$scope.licenzia = emptyLicenzia;
 	$scope.carmoqmnisSafudzvlebi = carmoqmnisSafudzvlebi;
 	$scope.gauqmebisSafudzvlebi = gauqmebisSafudzvlebi;
 	$scope.addResursi = function(){
@@ -56,13 +42,7 @@ function axaliLicenziaCtrl($scope, $modal, $http){
 			controller: 'carmomadgeneliCtrl',
 			resolve:{
 				carmomadgeneli: function(){
-					return {
-						pid:null,
-						saxeli:null,
-						gvari:null,
-						tel:null,
-						mail:null
-					};
+					return $scope.licenzia.carmomadgeneli;
 				}
 			}
 		});
@@ -92,10 +72,11 @@ function axaliLicenziaCtrl($scope, $modal, $http){
 												if(v.active){
 													m.title = v.title;
 													m.name = v.name;
-													v.data.forEach(function(field){
-														if(field.type!='file')
-															m[field.name] = field.value;
-													});
+													v.data
+														.forEach(function(field){
+															if(field.type!='file')
+																m[field.name] = field.value;
+														});
 												}
 												return m;
 											}
@@ -267,9 +248,15 @@ var carmoqmnisSafudzvlebi = [
 ];
 var gauqmebisSafudzvlebi = [
 	{
+		title:'None',
+		name:'none',
+		active:true,
+		data:[]
+	},
+	{
 		title:'პირადი განცხადება',
 		name:'piradiGancxadeba',
-		active:true,
+		active:false,
 		data:[
 			{
 				type:'file',
@@ -330,3 +317,58 @@ var gauqmebisSafudzvlebi = [
 		]
 	},
 ];
+
+var emptyLicenzia = {
+	licenziantisMonacemebi: {
+		dasaxeleba: null,
+		pid: null,
+		faktMisamarti: null,
+		iurMisamarti: null,
+		tel: null,
+		mail: null
+	},
+	carmomadgeneli: {
+		pid:null,
+		saxeli:null,
+		gvari:null,
+		tel:null,
+		mail:null
+	},
+	informaciaObiektisShesaxeb: {
+		resursebi: [
+			{
+				dasaxeleba: null,
+				raodenoba: null,
+				uom: null,
+				gamokenebisSfero: null
+			}
+		],
+		regioni: null,
+		municipaliteti: null,
+		dasaxlebuliPunkti: null,
+		fartobiUom: null,
+		fartobi: null
+	},
+	informaciaLicenziisShesaxeb: {
+		nomeri: null,
+		gacemisTarigi: null,
+		brdzanebisNomeri: null,
+		brdzanebisTarigi: null,
+		moqmedebisVada: null,
+		salicenzioPirobebi: null,
+		statusi: {
+			mnishvneloba:null,
+			safudzveli:null
+		}
+	},
+	damatebitiInformacia: {
+		regulirebisGadamxdeli: 'კი',
+		a: {mnishvneloba:null,uom:''},
+		b: {mnishvneloba:null,uom:''},
+		c1: {mnishvneloba:null,uom:''},
+		c2: {mnishvneloba:null,uom:''},
+		p: {mnishvneloba:null,uom:''}
+	},
+	carmoqmnisSafudzveli: null,
+	gauqmebisSafudzveli: null
+};

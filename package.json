@@ -17,6 +17,6 @@
     "node-uuid": "~1.4.1",
     "async": "~0.9.0",
     "underscore": "~1.6.0",
-    "nodeRaven": "git://github.com/VasoBolkvadze/nodeRaven.git"
+    "nodeRaven": "git://github.com/VasoBolkvadze/nodeRaven"
   }
 }
