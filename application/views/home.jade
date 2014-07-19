@@ -1,0 +1,27 @@
+extends index
+block content
+	div.container(ng-controller="homeCtrl")
+		if e.u != null
+			h1 hi
+		script(src='/socket.io/socket.io.js')
+		script.
+				function homeCtrl($scope){
+					$scope.items = [];
+					$scope.authorizedUser = "#{user.username}";
+
+					var socket = io();
+					socket.on('newItem', function(data) {
+							$scope.items.push(data);
+							$scope.$apply();
+					});
+
+					var counter = 0;
+					$scope.requestItem = function(){
+							socket.emit('getItem',{number:counter,user:$scope.authorizedUser});
+							counter++;
+					};
+				}
+		ul
+			li(ng-repeat="i in items")
+				p {{i.content}}
+		a.btn.btn-primary(ng-click="requestItem()") Get Item

@@ -9,17 +9,21 @@ block body
 			li
 				a(href='/')
 					i.glyphicon.glyphicon-home
-					|  Home
-			li.dropdown
-				a.dropdown-toggle(href)
-					| ლიცენზიები
-					b.caret
-				ul.dropdown-menu
+					span= ' Home'
+			each menuItem in user.menu
+				if menuItem.children.length > 0
+					li.dropdown
+						a.dropdown-toggle(href)
+							span= menuItem.heading
+							b.caret
+						ul.dropdown-menu
+							each menuItemChild in menuItem.children
+								li
+									a(href=menuItemChild.url)= menuItemChild.heading
+				else
 					li
-						a(href='/licenziebi') სია
-					li
-						a(href='/licenziebi/axali') ახალი
-		form.navbar-form.pull-right
-			button.btn.btn-default(type='submit') გასვლა
+						a(href=menuItem.url)= menuItem.heading
+		form.navbar-form.pull-right(action='/logout')
+			button.btn.btn-default.txt-capital(type='submit') გასვლა
 	div
 		block content

@@ -38,7 +38,7 @@ module.exports.sia = function (req, res, next) {
 		, function (err, result) {
 			if (!err) {
 				if (!result.docs.length && searchText.length) {
-					res.redirect('/licenziebi/suggestions?searchText=' + searchText);
+					res.redirect('/admin/licenziebi/suggestions?searchText=' + searchText);
 				} else{
 					var model = new LicenziebisSia(start
 						, limit
@@ -148,7 +148,7 @@ function buildWhereClause(searchText) {
 }
 
 function LicenziebisSia(start,limit,searchText,total,docs){
-	var baseUrl = '/licenziebi';
+	var baseUrl = '/admin/licenziebi';
 	this.searchText = searchText;
 	this.pages = generatePages(baseUrl,start,limit,total,searchText);
 	this.items = docs.map(function(item){
@@ -187,7 +187,7 @@ function generatePages(baseUrl, start, limit, total, searchText) {
 }
 
 function Suggestions(values){
-	this.baseUrl = '/licenziebi';
+	this.baseUrl = '/admin/licenziebi';
 	var base = this.baseUrl;
 	this.suggestions = values.map(function(v){
 		return {
