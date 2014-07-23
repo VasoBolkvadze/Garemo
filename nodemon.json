@@ -1,3 +1,4 @@
 {
-	"ignore": ["*.jade", "public"]
+	"ignore": ["*.jade", "public"],
+	"watch": [ "www","*"]
 }

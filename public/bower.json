@@ -24,6 +24,7 @@
     "angular": "~1.2.18",
     "angular-bootstrap": "~0.11.0",
     "tinymce": "~4.0.0",
-    "angular-ui-tinymce": "~0.0.5"
+    "angular-ui-tinymce": "~0.0.5",
+    "nsPopover": "~0.5.8"
   }
 }

@@ -1,27 +1,19 @@
 extends index
 block content
 	div.container(ng-controller="homeCtrl")
-		if e.u != null
-			h1 hi
-		script(src='/socket.io/socket.io.js')
-		script.
-				function homeCtrl($scope){
-					$scope.items = [];
-					$scope.authorizedUser = "#{user.username}";
-
-					var socket = io();
-					socket.on('newItem', function(data) {
-							$scope.items.push(data);
-							$scope.$apply();
-					});
-
-					var counter = 0;
-					$scope.requestItem = function(){
-							socket.emit('getItem',{number:counter,user:$scope.authorizedUser});
-							counter++;
-					};
-				}
-		ul
-			li(ng-repeat="i in items")
-				p {{i.content}}
-		a.btn.btn-primary(ng-click="requestItem()") Get Item
+		script(src='/javascripts/client/controllers/homeCtrl.js')
+		div.row
+			h3.page-header New Notification
+			div
+				label.col-md-4 FOR
+				input.col-md-6(type='text',ng-model='data.for')
+			div
+				label.col-md-4 SEND WHEN
+				input.col-md-6(type='text',ng-model='data.sendWhen')
+			div
+				label.col-md-4 MESSAGE
+				textarea.col-md-6(ng-model='data.message')
+		div.row
+			a.btn.btn-primary.pull-right(ng-click="create()") Create
+		div.row
+			h3 {{response}}

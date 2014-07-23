@@ -1,29 +1,59 @@
 extends layout
 
 block body
+	//if server.database asdasd sss asdasd
+	// | Indent
+	script(src='/javascripts/client/controllers/common/bottomNavbarCtrl.js')
+	script.
+		var user = JSON.parse('!{JSON.stringify(user)}');
+		garemoApp.value('authorizedUser',user);
+		garemoApp.controller('mainCtrl'
+			,function($socket){
+				$socket.emit('userConnected',user.username);
+			});
 	div.navbar.navbar-default.navbar-fixed-top
 		div.navbar-header
 			a.navbar-brand(rel='home',href='/')
 				img(src='/img/moelogo.png',style='width:30px;height:30px;margin-top: -7px;')
-		ul.nav.navbar-nav.txt-capital
-			li
+		ul.nav.navbar-nav
+			li.txt-capital
 				a(href='/')
 					i.glyphicon.glyphicon-home
 					span= ' Home'
-			each menuItem in user.menu
-				if menuItem.children.length > 0
-					li.dropdown
+			each item in user.role.menu
+				if item.children.length > 0
+					li.dropdown.txt-capital
 						a.dropdown-toggle(href)
-							span= menuItem.heading
+							span= item.heading
 							b.caret
 						ul.dropdown-menu
-							each menuItemChild in menuItem.children
+							each itemChild in item.children
 								li
-									a(href=menuItemChild.url)= menuItemChild.heading
+									a(href=itemChild.url)= itemChild.heading
 				else
-					li
-						a(href=menuItem.url)= menuItem.heading
+					li.txt-capital
+						a(href=item.url)= item.heading
 		form.navbar-form.pull-right(action='/logout')
 			button.btn.btn-default.txt-capital(type='submit') გასვლა
+	div(ng-controller="mainCtrl")
 	div
 		block content
+	div(ng-controller="bottomNavbarCtrl")
+		div.navbar.navbar-default.navbar-fixed-bottom
+			ul.nav.navbar-nav
+				li
+					a.btn.btn-default(ns-popover,
+					ng-click='openPopup()',
+					ns-popover-template='/templates/common/notifications',
+					ns-popover-trigger='click',
+					ns-popover-theme='ns-popover-tooltip-theme',
+					ns-popover-placement='top|left')
+						i.glyphicon.glyphicon-info-sign(ng-style="unreadItemsCount > 0 ? {color:'red'} : {color:'black'}")
+						| {{' ' + unreadItemsCount}}
+				li.dropdown.txt-capital
+					a.dropdown-toggle(href)
+						span პარამეტრები
+						b.caret
+					ul.dropdown-menu
+						li
+							a(href='/parametrebi/parolisShecvla') პაროლის შეცვლა

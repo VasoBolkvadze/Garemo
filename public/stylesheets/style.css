@@ -1,33 +1,66 @@
 @font-face {
-    font-family: alkSanet;
-    src: url('../fonts/alk-sanet.ttf');
+	font-family: alkSanet;
+	src: url('../fonts/alk-sanet.ttf');
 }
-.txt-capital{
-    font-family: alkSanet,serif;
-    font-weight: bold;
+
+.txt-capital {
+	font-family: alkSanet, serif;
+	font-weight: bold;
 }
+
 body {
-    padding-top:55px;
+	padding-top: 55px;
 }
-tr.grid-item{
-    cursor:pointer;
+
+tr.grid-item {
+	cursor: pointer;
 }
-a.suggestion{
-    cursor:pointer;
+
+a.suggestion {
+	cursor: pointer;
 }
+
 /*-----*/
 .jumbotron {
-    background: #3BAD58;
-    color: #FFF;
-    border-radius: 0px;
+	background: #3BAD58;
+	color: #FFF;
+	border-radius: 0px;
 }
+
 .jumbotron-sm {
-    padding-top: 24px;
-    padding-bottom: 24px;
+	padding-top: 24px;
+	padding-bottom: 24px;
 }
+
+.jumbotron-ultra-sm {
+	padding-top: 8px;
+	padding-bottom: 8px;
+}
+
 .jumbotron small {
-    color: #FFF;
+	color: #FFF;
 }
+
 .h1 small {
-    font-size: 18px;
+	font-size: 18px;
+}
+
+.table-user-information > tbody > tr {
+	border-top: 1px solid rgb(221, 221, 221);
+}
+
+.table-user-information > tbody > tr:first-child {
+	border-top: 0;
+}
+
+.table-user-information > tbody > tr > td {
+	border-top: 0;
+}
+
+.toppad {
+	margin-top: 20px;
+}
+
+.font-xs {
+	font-size: 85% !important;
 }

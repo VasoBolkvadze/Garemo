@@ -1,27 +1,15 @@
 #!/usr/bin/env node
-var debug = require('debug')('Garemo'),
+var debug = require('debug')('www'),
 	cfg = require('./config'),
-	http = require('http'),
+	socket = require('socket.io'),
+	notificator = require('./application/notificator'),
 	app = require('./application');
 
 app.set('port', cfg.port);
 
-//var server = http.createServer(app);
-//var socket = require('socket.io');
-//socket.listen(server);
-
-
-var server = app.listen(app.get('port'), function() {
-  debug('Express server listening on port ' + server.address().port);
+var server = app.listen(app.get('port'), function () {
+	debug('Express server listening on port ' + server.address().port);
 });
 
-var socket = require('socket.io');
 var io = socket.listen(server);
-
-io.sockets.on('connection', function (socket) {
-	console.log('new client connected');
-	socket.on('getItem', function (data) {
-		console.log('getItem event received, from user:'+data.user);
-		socket.emit('newItem', { content: 'item #'+data.number });
-	});
-});
+notificator.Notificator(io);

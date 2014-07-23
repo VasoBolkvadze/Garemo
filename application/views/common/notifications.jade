@@ -1,0 +1,8 @@
+script(src='/javascripts/client/controllers/common/notificationsCtrl.js')
+div(ng-controller="notificationsCtrl")
+	div(style='overflow:auto;height:250px;min-width:300px;background:white;border:1px solid gray;')
+		table.table.table-bordered
+			tr(ng-repeat="item in items",ng-class="item.unread ? 'info' : ''")
+				td
+					p {{item.message}}
+					span.pull-right.font-xs.text-muted {{item.when}}

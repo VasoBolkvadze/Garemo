@@ -5,7 +5,7 @@ block content
 			if suggestions.length>0
 				div.panel.panel-info
 					div.panel-heading
-						p მითითებული საკვანძო სიტყვებით არცერთი ლიცენზია არ მოიძებნა.
+						p= 'მითითებული საკვანძო სიტყვებით არცერთი ' + entityName + ' არ მოიძებნა.'
 						p სხვა ვარიანტებია
 					div.panel-body
 						ul.list-unstyled
@@ -15,5 +15,5 @@ block content
 			if suggestions.length==0
 				div.panel.panel-danger
 					div.panel-heading
-						p არცერთი ლიცენზია არ მოიძებნა.
+						p= 'არცერთი ' + entityName + ' არ მოიძებნა.'
 						a(href=baseUrl) სიაში დაბრუნება

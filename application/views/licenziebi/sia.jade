@@ -1,10 +1,15 @@
 extends ../index
 block content
+	div.jumbotron.jumbotron-ultra-sm
+		div.container
+			div.row
+				div.col-sm-12.col-lg-12
+					h2.txt-capital ლიცენზიები
 	div.container
 		div.row
 			div.panel.panel-default
 				div.panel-body
-					form.form-inline(method='GET',role='form',action='/admin/licenziebi')
+					form.form-inline(method='GET',role='form',action='/operatori/licenziebi')
 						div.form-group.col-md-3
 							input.form-control(type='text',placeholder='ნებისმიერი საკვანძო სიტყვა',
 																name='searchText',value=searchText,id='searchTxtIpt',style='width:100%;')
