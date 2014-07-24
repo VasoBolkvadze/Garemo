@@ -5,24 +5,35 @@ var express = require('express'),
 
 module.exports.init = function (app) {
 	var router = express.Router();
+
+	// ROLE : CONTROLLER
+
+	// ANY : main
+	router.get('/', user.mustBe('authorized'), controllers.main.views.home);
+
+	// ANY : authorization
 	router.get('/login', controllers.authorization.views.login);
 	router.post('/login', controllers.authorization.api.login);
 	router.get('/logout', user.mustBe('authorized'), controllers.authorization.api.logout);
-	router.get('/', user.mustBe('authorized'), controllers.main.views.home);
 
+	//operatori : licenziebi
 	router.get('/operatori/licenziebi'
 		, user.mustBe('role/operatori')
-		, controllers.licenziebi.sia);
+		, controllers.licenziebi.views.sia);
 	router.get('/operatori/licenziebi/suggestions'
 		, user.mustBe('role/operatori')
-		, controllers.licenziebi.suggestions);
+		, controllers.licenziebi.views.suggestions);
 	router.get('/operatori/licenziebi/axali'
 		, user.mustBe('role/operatori')
-		, controllers.licenziebi.axali);
+		, controllers.licenziebi.views.axali);
+	router.get('/operatori/licenziebi/:id'
+		, user.mustBe('role/operatori')
+		, controllers.licenziebi.views.detail);
 	router.post('/operatori/licenziebi/axali'
 		, user.mustBe('role/operatori')
-		, controllers.licenziebi.save);
+		, controllers.licenziebi.api.save);
 
+	// operatori : licenziantebi
 	router.get('/operatori/licenziantebi/angarishebi'
 		, user.mustBe('role/operatori')
 		, controllers.licenziantebi.views.angarishebisSia);
@@ -36,6 +47,10 @@ module.exports.init = function (app) {
 		, user.mustBe('role/operatori')
 		, controllers.licenziantebi.api.generatePassword);
 
+	//Notification Testing
+	router.get('/createNotification',function(req,res,next){
+		res.render('tests/newNotification');
+	});
 	router.post('/createNotification', function (req, res, next) {
 		var notificator = require('../notificator');
 		var debug = require('debug')('createNotification');
@@ -47,13 +62,15 @@ module.exports.init = function (app) {
 		res.end();
 	});
 
-	router.get('/templates/:subdir/:tpl', function (req, res) {
-		res.render(req.params.subdir + '/' + req.params.tpl
+	// Template Compiler
+	router.get('/templates/:subdir/:subsubdir/:tpl', function (req, res) {
+		res.render(req.params.subdir + '/' + req.params.subsubdir + '/' + req.params.tpl
 			, {}
 			, function (err, html) {
 				res.send(html);
 			});
 	});
+
 	app.use(router);
 };
 

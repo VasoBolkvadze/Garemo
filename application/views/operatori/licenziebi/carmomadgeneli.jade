@@ -1,0 +1,14 @@
+include ../../mixins/form-controls
+
+div.modal-header
+	h3.modal-title.txt-capital წარმომადგენელი პირი
+div.modal-body
+	form.form-horizontal
+		+textbox([4,6],'carmomadgeneli.pid','პირადი ნომერი','11 სიმბოლო',true)
+		+textbox([4,6],'carmomadgeneli.saxeli','სახელი','',true)
+		+textbox([4,6],'carmomadgeneli.gvari','გვარი','',true)
+		+specInput([4,6],'carmomadgeneli.tel','phone','phone','ტელეფონი','მაგ: 599123456',true)
+		+specInput([4,6],'carmomadgeneli.mail','email','envelope','e-ფოსტა','მაგ: someone@mail.com',false)
+div.modal-footer
+	button.btn.btn-primary(ng-click='ok()') OK
+	button.btn.btn-warning(ng-click='cancel()') Cancel

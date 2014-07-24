@@ -38,7 +38,7 @@ function axaliLicenziaCtrl($scope, $modal, $http){
 	});
 	$scope.open = function () {
 		var modalInstance = $modal.open({
-			templateUrl: '/templates/licenziebi/carmomadgeneli.jade',
+			templateUrl: '/templates/operatori/licenziebi/carmomadgeneli.jade',
 			controller: 'carmomadgeneliCtrl',
 			resolve:{
 				carmomadgeneli: function(){
@@ -83,7 +83,7 @@ function axaliLicenziaCtrl($scope, $modal, $http){
 											,{});
 		$http({
 			method: 'POST',
-			url: "/licenziebi/axali",
+			url: "/operatori/licenziebi/axali",
 			headers: { 'Content-Type': undefined },
 			transformRequest: function (data) {
 				var formData = new FormData();
@@ -108,8 +108,7 @@ function axaliLicenziaCtrl($scope, $modal, $http){
 		})
 		.success(function (data, status, headers, config) {
 			if(data.success){
-				alert('ახალი ლიცენზია შენახულია წარმატებით.');
-				window.location = '/licenziebi';
+				window.location = data.redirectUrl;
 			}else{
 				alert("მოხდა შეცდომა!");
 				console.log(JSON.stringify(data.error));

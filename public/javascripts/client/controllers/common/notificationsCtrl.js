@@ -1,4 +1,4 @@
-function notificationsCtrl($scope, $socket) {
+function notificationsCtrl($scope, $socket, $sce) {
 	$scope.items = [];
 	$socket.on('initialNotifications', function (data, cb) {
 		data.items.forEach(function (item) {
@@ -18,6 +18,9 @@ function notificationsCtrl($scope, $socket) {
 			item.unread = false;
 		});
 	});
+	$scope.renderMessage = function (htmlInjectedMessasge) {
+		return $sce.trustAsHtml(htmlInjectedMessasge);
+	};
 }
 
 function itemById(id, items) {

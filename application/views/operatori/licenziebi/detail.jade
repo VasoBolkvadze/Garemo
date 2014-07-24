@@ -1,0 +1,113 @@
+extends ../../index
+block content
+	div.container
+		div.panel.panel-primary
+			div.panel-heading
+				h3.text-center= doc['@metadata']['@id']
+			div.row
+				div.col-md-5
+					div.panel.panel-default
+						div.panel-heading
+							span.txt-capital(style='font-size:18px;') ლიცენზიანტის მონაცემები
+						div.panel-body
+							h4= doc.licenziantisMonacemebi.dasaxeleba
+						table.table.table-bordered
+							tr
+								th.txt-capital საიდენთიფიკაციო ნომერი
+								td= doc.licenziantisMonacemebi.pid
+							tr
+								th.txt-capital მისამართი ფაქტიური
+								td= doc.licenziantisMonacemebi.faktMisamarti
+							tr
+								th.txt-capital მისამართი იურიდიული
+								td= doc.licenziantisMonacemebi.iurMisamarti
+							tr
+								th.txt-capital ტელეფონი
+								td= doc.licenziantisMonacemebi.tel
+							tr
+								th.txt-capital მეილი
+								td= doc.licenziantisMonacemebi.mail
+							tr
+								th.txt-capital ფაილები
+								td
+									ul.list-unstyled
+										each f in doc.licenziantisMonacemebi.mibmuliFailebi
+											- var segments = f.split('.');
+											- var extension = null;
+											- var hasExtension = false;
+											- if(segments.length>1){
+											-		extension = segments[1];
+											-		hasExtension = true;
+											- }
+											li
+												if hasExtension
+													if extension.toLowerCase() == 'pdf'
+														a(href='/uploads/'+f)= f
+													else
+														a.thumbnail(href='/uploads/'+f)
+															img(style='width:50%;height:50%;',src='/uploads/'+f)
+												else
+													a(href='/uploads/'+f) დაზიანებული ფაილი
+				div.col-md-4
+					div.panel.panel-default
+						div.panel-heading
+							span.txt-capital(style='font-size:18px;') პირადი მონაცემები
+							a.pull-right(href='').txt-capital შეცვლა
+						ul.list-group
+							li.list-group-item
+								p
+							li.list-group-item
+								p
+							li.list-group-item
+								p
+							li.list-group-item
+								p
+							table.table.table-bordered
+								tr
+									th.txt-capital მისამართი
+									td
+								tr
+									th.txt-capital ტელეფონი
+									td
+				div.col-md-3
+					div.panel.panel-default
+						div.panel-heading
+							span.txt-capital(style='font-size:18px;') სტატუსი
+						h3.text-center= doc.informaciaLicenziisShesaxeb.statusi.mnishvneloba
+						table.table.table-bordered
+							tr
+								th.txt-capital შენიშვნა
+								td
+					div.panel.panel-default
+						div.panel-heading
+							span.txt-capital(style='font-size:18px;') სოციალური ინფორმაცია
+						table.table.table-bordered
+							tr
+								th.txt-capital შშმპ სტატუსის ვადა
+								td
+							tr
+								th.txt-capital ოჯახის ქულა
+								td
+							tr
+								th.txt-capital ქულის შემოწმების თარიღი
+								td
+			div.row
+				div.panel.panel-default
+					div.panel-heading
+						span.txt-capital(style='font-size:18px;') ინდივიდუალური გეგმა
+						a.pull-right.txt-capital(href='') კორექტირება
+					div.panel-body
+						div.col-md-12
+							table.table.table-bordered.table-hover
+								thead
+									tr
+										th(width='8%').txt-capital კურსი #
+										th(width='31%').txt-capital დადგენილი დაწყების თარიღი
+										th(width='31%').txt-capital რეალური დაწყების თარიღი
+										th(width='30%').txt-capital გადარიცხვები
+								tbody
+									tr
+										td
+										td
+										td
+										td

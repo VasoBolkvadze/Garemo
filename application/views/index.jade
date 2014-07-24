@@ -14,7 +14,7 @@ block body
 	div.navbar.navbar-default.navbar-fixed-top
 		div.navbar-header
 			a.navbar-brand(rel='home',href='/')
-				img(src='/img/moelogo.png',style='width:30px;height:30px;margin-top: -7px;')
+				img(src='/img/nealogo.png',style='margin-top: -17px; margin-left: -14px;')
 		ul.nav.navbar-nav
 			li.txt-capital
 				a(href='/')
@@ -38,6 +38,12 @@ block body
 	div(ng-controller="mainCtrl")
 	div
 		block content
+		hr
+		.jumbotron.jumbotron-sm
+			.container
+				.row
+					.col-sm-12.col-md-12.col-lg-12.col-xs-12
+						h4.txt-capital © გარემოს ეროვნული სააგენტო
 	div(ng-controller="bottomNavbarCtrl")
 		div.navbar.navbar-default.navbar-fixed-bottom
 			ul.nav.navbar-nav
@@ -48,7 +54,7 @@ block body
 					ns-popover-trigger='click',
 					ns-popover-theme='ns-popover-tooltip-theme',
 					ns-popover-placement='top|left')
-						i.glyphicon.glyphicon-info-sign(ng-style="unreadItemsCount > 0 ? {color:'red'} : {color:'black'}")
+						i.glyphicon.glyphicon-info-sign(ng-style="unreadItemsCount > 0 ? {color:'red'} : {color:'#5bc0de'}")
 						| {{' ' + unreadItemsCount}}
 				li.dropdown.txt-capital
 					a.dropdown-toggle(href)
@@ -57,3 +63,4 @@ block body
 					ul.dropdown-menu
 						li
 							a(href='/parametrebi/parolisShecvla') პაროლის შეცვლა
+			p.navbar-text.pull-right: b= user.dasaxeleba

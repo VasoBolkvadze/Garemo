@@ -1,19 +1,7 @@
 extends index
 block content
+	script(src='/javascripts/client/controllers/homeCtrl.js')
 	div.container(ng-controller="homeCtrl")
-		script(src='/javascripts/client/controllers/homeCtrl.js')
-		div.row
-			h3.page-header New Notification
-			div
-				label.col-md-4 FOR
-				input.col-md-6(type='text',ng-model='data.for')
-			div
-				label.col-md-4 SEND WHEN
-				input.col-md-6(type='text',ng-model='data.sendWhen')
-			div
-				label.col-md-4 MESSAGE
-				textarea.col-md-6(ng-model='data.message')
-		div.row
-			a.btn.btn-primary.pull-right(ng-click="create()") Create
-		div.row
-			h3 {{response}}
+		div.page-header
+			h1 HOME
+		| {{dummyText}}

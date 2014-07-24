@@ -1,58 +1,64 @@
-mixin typeahead(fieldName,list,label,required,placeholder,selectedItem)
+mixin typeahead(proportions,fieldName,list,label,required,placeholder,selectedItem)
 	div.form-group
-		label.col-md-4.control-label.txt-capital= label
-		div.col-md-6
+		label(class='control-label '+'txt-capital '+'col-md-'+proportions[0].toString())= label
+		div(class='col-md-'+proportions[1].toString())
 			input.form-control(type='text',name=fieldName,placeholder=placeholder,
 												list=fieldName+'-list',value=selectedItem,required=required,ng-model=fieldName)
 			datalist(id=fieldName+'-list')
 				if list
 					each item in list
 						option=item
-mixin datepicker(fieldName,label,required,defaultValue)
+
+mixin datepicker(proportions,fieldName,label,required,defaultValue)
 	div.form-group
-		label.col-md-4.control-label.txt-capital= label
-		div.col-md-6
+		label(class='control-label '+'txt-capital '+'col-md-'+proportions[0].toString())= label
+		div(class='col-md-'+proportions[1].toString())
 			input.form-control(type='date',name=fieldName,value=defaultValue,required=required,ng-model=fieldName)
-mixin textbox(fieldName,label,placeholder,required)
+
+mixin textbox(proportions,fieldName,label,placeholder,required)
 	div.form-group
-		label.control-label.col-md-4.txt-capital= label
-		div.col-md-6
+		label(class='control-label '+'txt-capital '+'col-md-'+proportions[0].toString())= label
+		div(class='col-md-'+proportions[1].toString())
 			input.form-control(type='text',name=fieldName,placeholder=placeholder, required=required,ng-model=fieldName)
-mixin radio(fieldName,group,options,label,required)
+
+mixin radio(proportions,fieldName,group,options,label,required)
 	div.form-group
-		label.control-label.col-md-4.txt-capital= label
+		label(class='control-label '+'txt-capital '+'col-md-'+proportions[0].toString())= label
 		each o in options
-			div.radio.col-md-offset-4
+			div(class='radio '+'col-md-offset-'+proportions[1].toString())
 				label= o
 					- var checked = options.indexOf(o) == 0;
 					input(type='radio', name=group, value=o, checked=checked,ng-model=fieldName,required=checked)
-mixin fileUpload(fieldName,accept,multiple,label,required)
+
+mixin fileUpload(proportions,fieldName,accept,multiple,label,required)
 	div.form-group
-		label.control-label.col-md-4.txt-capital= label
-		div.col-md-6
+		label(class='control-label '+'txt-capital '+'col-md-'+proportions[0].toString())= label
+		div(class='col-md-'+proportions[1].toString())
 			input.form-control(type='file',name=fieldName,file-upload,accept=accept,multiple=multiple,required=required)
-mixin combobox(fieldName,options,label,required)
+
+mixin combobox(proportions,fieldName,options,label,required)
 	div.form-group
-		label.control-label.col-md-4.txt-capital= label
-		div.col-md-6
+		label(class='control-label '+'txt-capital '+'col-md-'+proportions[0].toString())= label
+		div(class='col-md-'+proportions[1].toString())
 			select.form-control(type='text',name=fieldName, required=required,ng-model=fieldName)
 				option
 				each o in options
 					option= o
-mixin numberbox(fieldName,label,placeholder,required)
+
+mixin numberbox(proportions,fieldName,label,placeholder,required)
 	div.form-group
-		label.control-label.col-md-4.txt-capital= label
-		div.col-md-6
+		label(class='control-label '+'txt-capital '+'col-md-'+proportions[0].toString())= label
+		div(class='col-md-'+proportions[1].toString())
 			input.form-control(type='number',step='any',placeholder=placeholder,name=fieldName, required=required,ng-model=fieldName)
-mixin specInput(fieldName,inputType,icon,label,placeholder,required)
+
+mixin specInput(proportions,fieldName,inputType,icon,label,placeholder,required)
 	div.form-group
-		label.control-label.col-md-4.txt-capital= label
-		div.input-group.col-md-6
+		label(class='control-label '+'txt-capital '+'col-md-'+proportions[0].toString())= label
+		div(class='input-group '+'col-md-'+proportions[1].toString())
 			span.input-group-addon
 				span(class="#{'glyphicon '+'glyphicon-'+icon}")
 			input.form-control(type=inputType, name=fieldName,placeholder=placeholder, required=required,ng-model=fieldName)
+
 mixin bigtext(fieldName,label,rows,cols,required)
-	div.form-group
-		label.control-label.col-md-4.txt-capital= label
-		div.col-md-6
-			textarea.form-control(type='text',name=fieldName,rows=rows, cols=cols, ui-tinymce, required=required,ng-model=fieldName)
+	label.control-label.txt-capital= label
+	textarea.form-control(type='text',name=fieldName,rows=rows, cols=cols, ui-tinymce, required=required,ng-model=fieldName)

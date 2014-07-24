@@ -28,7 +28,7 @@ module.exports.views = {
 							, searchText
 							, result.stats.TotalResults
 							, result.docs);
-						res.render('licenziantebi/angarishebisSia', model);
+						res.render('operatori/licenziantebi/angarishebisSia', model);
 					}
 				} else
 					next(err);
@@ -56,7 +56,7 @@ module.exports.views = {
 		getLicenziantiByPid(req.params.pid
 			, function (err, doc) {
 				if (!err)
-					res.render('licenziantebi/angarishiDetail', doc);
+					res.render('operatori/licenziantebi/angarishiDetail', doc);
 				else
 					next(err);
 			});
