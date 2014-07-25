@@ -1,0 +1,71 @@
+[
+	{
+		"title":"None",
+		"name":"none",
+		"active":true,
+		"data":[]
+	},
+	{
+		"title":"პირადი განცხადება",
+		"name":"piradiGancxadeba",
+		"active":false,
+		"data":[
+			{
+				"type":"file",
+				"name":"gauqmebisSafudzveli/mibmuliFailebi",
+				"label":"მიბმული ფაილები"
+			}
+		]
+	},
+	{
+		"title":"სააგენტოს გადაწყვეტილება",
+		"name":"saagentosGadackvetileba",
+		"active":false,
+		"data":[
+			{
+				"type":"file",
+				"name":"gauqmebisSafudzveli/mibmuliFailebi",
+				"label":"მიბმული ფაილები"
+			}
+		]
+	},
+	{
+		"title":"გაყოფა",
+		"name":"gakofa",
+		"active":false,
+		"data":[
+			{
+				"type":"text",
+				"name":"axaliLicenziisNomeri",
+				"label":"ახალი ლიცენზიის #",
+				"value":null
+			}
+		]
+	},
+	{
+		"title":"გადაცემა",
+		"name":"gadacema",
+		"active":false,
+		"data":[
+			{
+				"type":"text",
+				"name":"axaliLicenziisNomeri",
+				"label":"ახალი ლიცენზიის #",
+				"value":null
+			}
+		]
+	},
+	{
+		"title":"დუბლიკატი",
+		"name":"dublikati",
+		"active":false,
+		"data":[
+			{
+				"type":"text",
+				"name":"axaliLicenziisNomeri",
+				"label":"ახალი ლიცენზიის #",
+				"value":null
+			}
+		]
+	}
+]

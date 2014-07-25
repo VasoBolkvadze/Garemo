@@ -1,0 +1,25 @@
+extends ../../index
+include ../../mixins/basic-controls
+include ../../mixins/grid-controls
+block content
+	div.container
+		div.panel.panel-primary
+			div.panel-heading
+				span.panel-title ათვისების გეგმა
+			div.panel-body
+				span(style='font-size:24px;')
+					span= 'ათვისების გეგმა ლიცენზიისთვის : '
+					a(href='/operatori/licenziebi/'+licenziisId.replace('Licenzia/',''))= licenziisId
+				table.table.table-hover.table-bordered.table-condensed
+					thead
+						tr.txt-capital
+							th წელი
+							th ასათვისებელი რესურსის ოდენობა
+					tbody
+						each gi in chanacerebi
+							tr
+								td= gi.celi
+								td= gi.odenoba
+				a.btn.btn-success.pull-right(href='korektireba') კორექტირება
+				a.btn.btn-success.pull-right(href='damtkiceba') უარყოფა
+				a.btn.btn-success.pull-right(href='damtkiceba') დამტკიცება

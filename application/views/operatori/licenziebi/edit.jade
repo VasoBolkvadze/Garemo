@@ -1,17 +1,17 @@
-extends ../../index.jade
+extends ../../index
 include ../../mixins/basic-controls.jade
 include ../../mixins/form-controls.jade
 include ../../mixins/grid-controls.jade
-
 block content
-	script(src='/javascripts/client/controllers/operatori/licenziebi/axaliLicenziaCtrl.js')
+	script(src='/javascripts/client/controllers/operatori/licenziebi/editLicenziaCtrl.js')
 	script(src='/javascripts/client/controllers/operatori/licenziebi/carmomadgeneliCtrl.js')
-	div(ng-controller='axaliLicenziaCtrl')
+	input(type='hidden',value=id,name='licenziisId')
+	div(ng-controller='editLicenziaCtrl')
 		.jumbotron.jumbotron-ultra-sm
 			.container
 				.row
 					.col-sm-12.col-lg-12
-						h2.txt-capital ახალი ლიცენზია
+						h2.txt-capital ლიცენზიის კორექტირება
 		.container
 			.row
 				form.form-horizontal(ng-submit="submit()",id="axaliLicenzia")
@@ -25,9 +25,22 @@ block content
 							div.col-md-4
 								+specInput([4,8],'licenzia.licenziantisMonacemebi.tel','phone','phone','ტელეფონი','მაგ: 599123456',true)
 								+specInput([4,8],'licenzia.licenziantisMonacemebi.mail','email','envelope','e-ფოსტა','მაგ: someone@mail.com',false)
-								+fileUpload([4,8],'licenziantisMonacemebi/mibmuliFailebi','*',true,'მიბმული ფაილები',true)
+							hr
+							div.col-md-12
+								table.table.table-bordered.table-condensed
+									tr
+										th.txt-capital(colspan='2') მიბმული ფაილები
+									tr(ng-repeat="f in licenzia.licenziantisMonacemebi.mibmuliFailebi")
+										td: a(ng-href="/uploads/{{f}}") {{f}}
+										td
+											a.btn.btn-sm.btn-danger(ng-click="removeFromArray(licenzia.licenziantisMonacemebi.mibmuliFailebi,f)")
+												span.glyphicon.glyphicon-remove
+									tr
+										td(colspan='2')
+											input.form-control(type='file',name='licenziantisMonacemebi/mibmuliFailebi',
+											file-upload,accept='*',multiple,ng-required="licenzia.licenziantisMonacemebi.mibmuliFailebi.length==0")
 						hr
-						a.btn.btn-default.txt-capital(ng-click='open()') წარმომადგენელი პირი
+						a.btn.btn-default.txt-capital(ng-click='openCarmomadgeneliDialog()') წარმომადგენელი პირი
 						hr
 						+panel('ინფორმაცია ობიექტის შესახებ',4)
 							div.col-md-6
@@ -76,20 +89,64 @@ block content
 									label.control-label.col-md-4.txt-capital შეზღუდული სტატუსის საფუძველი
 									div.col-md-6
 										input.form-control(type='file',name='informaciaLicenziisShesaxeb/statusi/safudzveli',
-																	file-upload,accept=accept,multiple=multiple,required)
-								+fileUpload([4,6],'informaciaLicenziisShesaxeb/mibmuliFailebi','*',true,'ფაილები',true)
-							div.col-md-12
-								hr
+										file-upload,accept=accept,multiple,required)
+								table.table.table-bordered.table-condensed
+									tr
+										th.txt-capital(colspan='2') მიბმული ფაილები
+									tr(ng-repeat="f in licenzia.informaciaLicenziisShesaxeb.mibmuliFailebi")
+										td: a(ng-href="/uploads/{{f}}") {{f}}
+										td
+											a.btn.btn-sm.btn-danger(ng-click="removeFromArray(licenzia.informaciaLicenziisShesaxeb.mibmuliFailebi,f)")
+												span.glyphicon.glyphicon-remove
+									tr
+										td(colspan='2')
+											input.form-control(type='file',name='informaciaLicenziisShesaxeb/mibmuliFailebi',
+											file-upload,accept='*',multiple,ng-required="licenzia.informaciaLicenziisShesaxeb.mibmuliFailebi.length==0")
 							div.col-md-12
 								+bigtext('licenzia.informaciaLicenziisShesaxeb.salicenzioPirobebi','სალიცენზიო პირობები',5,10,false)
 						+panel('დამატებითი ინფორმაცია',4)
 							div.col-md-6
 								div.col-md-12
 									div.page-header= ' -'
-								+fileUpload([4,8],'damatebitiInformacia/ruqa','*',true,'რუკა',true)
-								+fileUpload([4,8],'damatebitiInformacia/atvisebisGegma','*',true,'ათვისების გეგმა',false)
-								+fileUpload([4,8],'damatebitiInformacia/geoSainformacioPaketi','*',true,'გეოსაინფორმაციო პაკეტი',true)
-								+radio([4,4],'licenzia.damatebitiInformacia.regulirebisGadamxdeli','rg',regulirebisGadamxdeliOptions,'რეგულირების გადამხდელი',true)
+								div.col-md-12
+									table.table.table-bordered.table-condensed
+										tr
+											th.txt-capital(colspan='2') რუკა
+										tr(ng-repeat="f in licenzia.damatebitiInformacia.ruqa")
+											td: a(ng-href="/uploads/{{f}}") {{f}}
+											td
+												a.btn.btn-sm.btn-danger(ng-click="removeFromArray(licenzia.damatebitiInformacia.ruqa,f)")
+													span.glyphicon.glyphicon-remove
+										tr
+											td(colspan='2')
+												input.form-control(type='file',name='damatebitiInformacia/ruqa',
+												file-upload,accept='*',multiple,ng-required="licenzia.damatebitiInformacia.ruqa.length==0")
+									hr
+									table.table.table-bordered.table-condensed
+										tr
+											th.txt-capital(colspan='2') გეოსაინფორმაციო პაკეტი
+										tr(ng-repeat="f in licenzia.damatebitiInformacia.atvisebisGegma")
+											td: a(ng-href="/uploads/{{f}}") {{f}}
+											td
+												a.btn.btn-sm.btn-danger(ng-click="removeFromArray(licenzia.damatebitiInformacia.atvisebisGegma,f)")
+													span.glyphicon.glyphicon-remove
+										tr
+											td(colspan='2')
+												input.form-control(type='file',name='damatebitiInformacia/atvisebisGegma',
+												file-upload,accept='*',multiple)
+									hr
+									table.table.table-bordered.table-condensed
+										tr
+											th.txt-capital(colspan='2') ათვისების გეგმა
+										tr(ng-repeat="f in licenzia.damatebitiInformacia.geoSainformacioPaketi")
+											td: a(ng-href="/uploads/{{f}}") {{f}}
+											td
+												a.btn.btn-sm.btn-danger(ng-click="removeFromArray(licenzia.damatebitiInformacia.geoSainformacioPaketi,f)")
+													span.glyphicon.glyphicon-remove
+										tr
+											td(colspan='2')
+												input.form-control(type='file',name='damatebitiInformacia/geoSainformacioPaketi',
+												file-upload,accept='*',multiple,ng-required="licenzia.damatebitiInformacia.geoSainformacioPaketi.length==0")
 							div.col-md-6
 								div.col-md-5
 									div.page-header კატეგორია
@@ -100,13 +157,16 @@ block content
 										label.control-label.col-md-1.txt-capital= k
 										div.col-md-4
 											input.form-control(type='number',step='any',name='licenzia.damatebitiInformacia.'+k+'.mnishvneloba',
-																				ng-model='licenzia.damatebitiInformacia.'+k+'.mnishvneloba')
+											ng-model='licenzia.damatebitiInformacia.'+k+'.mnishvneloba')
 										div.col-md-7
 											select.form-control(type='text',name='licenzia.damatebitiInformacia.'+k+'.uom',
-																				ng-model='licenzia.damatebitiInformacia.'+k+'.uom')
+											ng-model='licenzia.damatebitiInformacia.'+k+'.uom')
 												option= ""
 												each u in uoms
 													option= u
+								hr
+								div.col-md-12
+									+radio([4,4],'licenzia.damatebitiInformacia.regulirebisGadamxdeli','rg',regulirebisGadamxdeliOptions,'რეგულირების გადამხდელი',true)
 							div.col-md-12
 								+panel('ლიცენზიის წარმოქმნის საფუძველი')
 									tabset
@@ -116,24 +176,27 @@ block content
 												label.control-label.col-md-4.txt-capital {{field.label}}
 												div.col-md-6
 													input.form-control(type="{{field.type}}",name="{{field.name}}",
-																						placeholder="{{field.placeholder}}",
-																						ng-required="carmSaf.active",
-																						ng-model="field.value",
-																						ng-if="field.type!='file' && field.type!='number'")
+															placeholder="{{field.placeholder}}",
+															ng-required="carmSaf.active",
+															ng-model="field.value",
+															ng-if="field.type!='file' && field.type!='number'")
 													input.form-control(type="number",
-																						name="{{field.name}}",
-																						step='any',
-																						placeholder="{{field.placeholder}}",
-																						ng-required="carmSaf.active",
-																						ng-model="field.value",
-																						ng-if="field.type=='number'")
-													input.form-control(type='file',
-																						name="{{field.name}}",
-																						file-upload,
-																						accept='*',
-																						multiple,
-																						ng-required="carmSaf.active",
-																						ng-if="field.type == 'file'")
+															name="{{field.name}}",
+															step='any',
+															placeholder="{{field.placeholder}}",
+															ng-required="carmSaf.active",
+															ng-model="field.value",
+															ng-if="field.type=='number'")
+													table.table.table-bordered.table-condensed(ng-if="field.type == 'file'")
+														tr(ng-repeat="f in field.value")
+															td: a(ng-href="/uploads/{{f}}") {{f}}
+															td
+																a.btn.btn-sm.btn-danger(ng-click="removeFromArray(field.value,f)")
+																	span.glyphicon.glyphicon-remove
+														tr
+															td(colspan='2')
+																input.form-control(type='file',name="{{field.name}}",
+																	file-upload,accept='*',multiple,ng-required="false")
 							div.col-md-12
 								+panel('ლიცენზიის გაუქმების საფუძველი')
 									tabset
@@ -143,24 +206,27 @@ block content
 												label.control-label.col-md-4.txt-capital {{field.label}}
 												div.col-md-6
 													input.form-control(type="{{field.type}}",
-																						name="{{field.name}}",
-																						placeholder="{{field.placeholder}}",
-																						ng-required="gauqSaf.active",
-																						ng-model="field.value",
-																						ng-if="field.type!='file' && field.type!='number'")
+													name="{{field.name}}",
+													placeholder="{{field.placeholder}}",
+													ng-required="gauqSaf.active",
+													ng-model="field.value",
+													ng-if="field.type!='file' && field.type!='number'")
 													input.form-control(type="number",
-																						name="{{field.name}}",
-																						step='any',
-																						placeholder="{{field.placeholder}}",
-																						ng-required="gauqSaf.active",
-																						ng-model="field.value",
-																						ng-if="field.type=='number'")
-													input.form-control(type='file',
-																						name="{{field.name}}",
-																						file-upload,
-																						accept='*',
-																						multiple,
-																						ng-required="gauqSaf.active",
-																						ng-if="field.type == 'file'")
+													name="{{field.name}}",
+													step='any',
+													placeholder="{{field.placeholder}}",
+													ng-required="gauqSaf.active",
+													ng-model="field.value",
+													ng-if="field.type=='number'")
+													table.table.table-bordered.table-condensed(ng-if="field.type == 'file'")
+														tr(ng-repeat="f in field.value")
+															td: a(ng-href="/uploads/{{f}}") {{f}}
+															td
+																a.btn.btn-sm.btn-danger(ng-click="removeFromArray(field.value,f)")
+																	span.glyphicon.glyphicon-remove
+														tr
+															td(colspan='2')
+																input.form-control(type='file',name="{{field.name}}",
+																file-upload,accept='*',multiple,ng-required="false")
 					div.col-md-12
-						button.btn.btn-success.pull-right.txt-capital(type='submit',name='submit') რეგისტრაცია
+						button.btn.btn-success.pull-right.txt-capital(type='submit',name='submit') შენახვა

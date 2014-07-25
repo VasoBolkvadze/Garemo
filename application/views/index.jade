@@ -11,10 +11,10 @@ block body
 			,function($socket){
 				$socket.emit('userConnected',user.username);
 			});
-	div.navbar.navbar-default.navbar-fixed-top
+	div.navbar.navbar-default.navbar-fixed-top.navbar-inverse
 		div.navbar-header
-			a.navbar-brand(rel='home',href='/')
-				img(src='/img/nealogo.png',style='margin-top: -17px; margin-left: -14px;')
+			a(rel='home',href='/')
+				img(src='/img/nealogo.png',style='width:90%;margin-top:3px;')
 		ul.nav.navbar-nav
 			li.txt-capital
 				a(href='/')
@@ -38,24 +38,20 @@ block body
 	div(ng-controller="mainCtrl")
 	div
 		block content
-		hr
-		.jumbotron.jumbotron-sm
-			.container
-				.row
-					.col-sm-12.col-md-12.col-lg-12.col-xs-12
-						h4.txt-capital © გარემოს ეროვნული სააგენტო
 	div(ng-controller="bottomNavbarCtrl")
-		div.navbar.navbar-default.navbar-fixed-bottom
+		div.navbar.navbar-default.navbar-fixed-bottom.navbar-inverse
 			ul.nav.navbar-nav
 				li
-					a.btn.btn-default(ns-popover,
-					ng-click='openPopup()',
-					ns-popover-template='/templates/common/notifications',
-					ns-popover-trigger='click',
-					ns-popover-theme='ns-popover-tooltip-theme',
-					ns-popover-placement='top|left')
-						i.glyphicon.glyphicon-info-sign(ng-style="unreadItemsCount > 0 ? {color:'red'} : {color:'#5bc0de'}")
-						| {{' ' + unreadItemsCount}}
+					a.btn.btn-default.btn-inverse.btn-lg.notification-toggle(
+										style='padding:0px !important;margin:1px 0px 0px 1px;'
+										ns-popover,
+										ng-click='openPopup()',
+										ns-popover-template='/templates/common/notifications',
+										ns-popover-trigger='click',
+										ns-popover-theme='ns-popover-tooltip-theme',
+										ns-popover-placement='top|left')
+						i.glyphicon.glyphicon-info-sign(style='font-size:24px;margin:8px 4px 8px 4px;',ng-style="unreadItemsCount > 0 ? {color:'red'} : {color:'#5bc0de'}")
+							span.txt-capital(style='font-size:30px;') {{unreadItemsCount}}
 				li.dropdown.txt-capital
 					a.dropdown-toggle(href)
 						span პარამეტრები

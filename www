@@ -1,11 +1,8 @@
 #!/usr/bin/env node
 var debug = require('debug')('www'),
-	cfg = require('./config'),
 	socket = require('socket.io'),
 	notificator = require('./application/notificator'),
 	app = require('./application');
-
-app.set('port', cfg.port);
 
 var server = app.listen(app.get('port'), function () {
 	debug('Express server listening on port ' + server.address().port);

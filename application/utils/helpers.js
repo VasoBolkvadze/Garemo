@@ -30,50 +30,10 @@ module.exports.buildWhereClause = function(searchText) {
 		return '';
 };
 
-module.exports.SuggestionsModel = function(entityName,baseUrl,values){
-	this.entityName = entityName;
-	this.baseUrl = baseUrl;
-	var base = this.baseUrl;
-	this.suggestions = values.map(function(v){
-		return {
-			link: base + '?start=' + '&limit=' + '&searchText=' + v,
-			displayText: v
-		};
-	});
-};
-
 module.exports.makeRandomPwd = function(){
 	var text = "";
 	var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 	for( var i=0; i < 5; i++ )
 		text += possible.charAt(Math.floor(Math.random() * possible.length));
 	return text;
-};
-
-module.exports.timeSince = function timeSince(date) {
-
-	var seconds = Math.floor((new Date() - date) / 1000);
-
-	var interval = Math.floor(seconds / 31536000);
-
-	if (interval > 1) {
-		return "~" + interval + " წლის წინ...";
-	}
-	interval = Math.floor(seconds / 2592000);
-	if (interval > 1) {
-		return "~" + interval + " თვის წინ...";
-	}
-	interval = Math.floor(seconds / 86400);
-	if (interval > 1) {
-		return "~" + interval + " დღის წინ...";
-	}
-	interval = Math.floor(seconds / 3600);
-	if (interval > 1) {
-		return "~" + interval + " საათის წინ...";
-	}
-	interval = Math.floor(seconds / 60);
-	if (interval > 1) {
-		return "~" + interval + " წუთის წინ...";
-	}
-	return "~" + Math.floor(seconds) + " წამის წინ...";
 };

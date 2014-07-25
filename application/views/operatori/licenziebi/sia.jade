@@ -14,7 +14,7 @@ block content
 							input.form-control(type='text',placeholder='ნებისმიერი საკვანძო სიტყვა',
 																name='searchText',value=searchText,id='searchTxtIpt',style='width:100%;')
 						button.btn.btn-default.txt-capital ძებნა
-				div.panel.panel-default
+				div.panel.panel-default.fit
 					div.panel-heading.txt-capital ნაპოვნი ლიცენზიები
 					div.panel-body
 						table.table.table-hover.table-bordered.table-striped
@@ -36,6 +36,7 @@ block content
 									td= item.brdzanebisNomeri
 									td= item.regioni
 									td= item.statusi
+						hr
 						ul.pagination
 							each page in pages
 								li(class=page.active ? 'active':'')

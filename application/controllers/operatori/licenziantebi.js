@@ -1,7 +1,8 @@
-var helpers = require('../utils/helpers'),
-	cfg = require('../../config'),
+var helpers = require('../../utils/helpers'),
+	cfg = require('../../../config'),
 	fs = require('fs'),
 	_ = require('underscore'),
+	viewModels = require('../../viewModels'),
 	async = require('async'),
 	path = require('path'),
 	store = require('nodeRaven')(cfg.dbUrl);
@@ -43,7 +44,7 @@ module.exports.views = {
 			, 'fullText'
 			, function (err, result) {
 				if (!err) {
-					var model = new helpers.SuggestionsModel('ლიცენზიანტის ანგარიში'
+					var model = new viewModels.SuggestionsViewModel('ლიცენზიანტის ანგარიში'
 						, '/operatori/licenziantebi/angarishebi'
 						, result.Suggestions);
 					res.render('common/suggestions', model);

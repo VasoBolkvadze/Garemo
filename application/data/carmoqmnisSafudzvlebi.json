@@ -1,0 +1,123 @@
+[
+	{
+		"title":"აუქციონი",
+		"name":"auqcioni",
+		"active":true,
+		"data":[
+			{
+				"type":"text",
+				"name":"aukcionisNomeri",
+				"label":"აუქციონის #",
+				"value":null
+			},
+			{
+				"type":"text",
+				"name":"lotisNomeri",
+				"label":"ლოტის #",
+				"value":null
+			},
+			{
+				"type":"text",
+				"name":"ganacxadisNomeri",
+				"label":"განაცხადის #",
+				"value":null
+			},
+			{
+				"type":"number",
+				"name":"sackisiFasi",
+				"label":"საწყისი ფასი",
+				"value":null
+			},
+			{
+				"type":"number",
+				"name":"sabolooFasi",
+				"label":"საბოლოო ფასი",
+				"value":null
+			}
+		]
+	},
+	{
+		"title":"საბჭოს წესით გადაცემული",
+		"name":"sabchosCesitGadacemuli",
+		"active":false,
+		"data":[
+			{
+				"type":"date",
+				"name":"tarigi",
+				"label":"თარიღი",
+				"value":null
+			},
+			{
+				"type":"text",
+				"name":"oqmisNomeri",
+				"label":"ოქმის #",
+				"value":null
+			}
+		]
+	},
+	{
+		"title":"გაყოფა",
+		"name":"gakofa",
+		"active":false,
+		"data":[
+			{
+				"type":"text",
+				"name":"dzveliLicenziisNomeri",
+				"label":"ძველი ლიცენზიის #",
+				"value":null
+			}
+		]
+	},
+	{
+		"title":"გადაცემა",
+		"name":"gadacema",
+		"active":false,
+		"data":[
+			{
+				"type":"text",
+				"name":"dzveliLicenziisNomeri",
+				"label":"ძველი ლიცენზიის #",
+				"value":null
+			}
+		]
+	},
+	{
+		"title":"დუბლიკატი",
+		"name":"dublikati",
+		"active":false,
+		"data":[
+			{
+				"type":"text",
+				"name":"dzveliLicenziisNomeri",
+				"label":"ძველი ლიცენზიის #",
+				"value":null
+			}
+		]
+	},
+	{
+		"title":"იჯარით გადაცემა",
+		"name":"ijaritGadacema",
+		"active":false,
+		"data":[
+			{
+				"type":"text",
+				"name":"dzveliLicenziisNomeri",
+				"label":"საიდენთიფიკაციო კოდი",
+				"placeholder":"ან მოიჯარის პირადი ნომერი",
+				"value":null
+			},
+			{
+				"type":"text",
+				"name":"dasaxeleba",
+				"label":"დასახელება",
+				"placeholder":"ან მოიჯარე პირის სახელი, გვარი",
+				"value":null
+			},
+			{
+				"type":"file",
+				"name":"carmoqmnisSafudzveli/mibmuliFailebi",
+				"label":"მიბმული ფაილები"
+			}
+		]
+	}
+]

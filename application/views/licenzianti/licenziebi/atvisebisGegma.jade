@@ -1,0 +1,35 @@
+extends ../../index
+include ../../mixins/basic-controls
+include ../../mixins/grid-controls
+
+block content
+	script(src='/javascripts/client/controllers/licenzianti/atvisebisGegmaCtrl.js')
+	div.container(ng-controller="atvisebisGegmaCtrl")
+		div.panel.panel-primary
+			div.panel-heading
+				span.panel-title ათვისების გეგმის წარდგენა
+			div.panel-body
+				table.table.table-hover.table-bordered.table-condensed
+					thead
+						tr.txt-capital
+							th წელი
+							th ასათვისებელი რესურსის ოდენობა
+							th(ng-repeat='agc in atvisebisGegmaColumns')
+								+textcell('{{agc.name}}')
+							th(width='3%')
+								a.btn.btn-sm.btn-info(ng-click='addAtvisebisGegmaColumn()') ► +
+					tbody
+						tr(ng-repeat='gi in gegmaItems')
+							td
+								+textcell('gi.celi',true)
+							td
+								+numbercell('gi.odenoba',true)
+							td(ng-repeat='agc in atvisebisGegmaColumns')
+								+numbercell('{{agc.value}}')
+							td
+								a.btn.btn-sm.btn-danger.pull-right(ng-click='removeGegmaItem(gi)') X
+						tr
+							td(colspan='{{(atvisebisGegmaColumns.length + 2)}}')
+							td
+								a.btn.btn-sm.btn-success.pull-right(ng-click='addGegmaItem()') ▼ +
+				a.btn.btn-success.pull-right(ng-click="submit()") დამტკიცება

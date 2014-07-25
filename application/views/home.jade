@@ -1,7 +1,10 @@
 extends index
 block content
+	.jumbotron.jumbotron-ultra-sm
+		.container
+			.row
+				.col-sm-12.col-lg-12
+					h2.txt-capital მთავარი
 	script(src='/javascripts/client/controllers/homeCtrl.js')
 	div.container(ng-controller="homeCtrl")
-		div.page-header
-			h1 HOME
-		| {{dummyText}}
+		h4(style='color:white;') //TODO: აქ მოსაფიქრებელია რა გამოჩნდეს

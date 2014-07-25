@@ -150,7 +150,7 @@ function UserPage(username) {
 					id: n.id,
 					message: n.message,
 					unread: n.unread,
-					when: helpers.timeSince(n.dateCreated)
+					when: n.dateCreated.timeSince()
 				};
 			});
 	};
@@ -175,7 +175,7 @@ function UserPage(username) {
 					id: n.id,
 					message: n.message,
 					unread: n.unread,
-					when: helpers.timeSince(n.dateCreated)
+					when: n.dateCreated.timeSince()
 				};
 			});
 		var unreads = me.notifications
@@ -190,7 +190,7 @@ function UserPage(username) {
 					id: n.id,
 					message: n.message,
 					unread: n.unread,
-					when: helpers.timeSince(n.dateCreated)
+					when: n.dateCreated.timeSince()
 				};
 			});
 		return last10Seen.concat(unreads);
