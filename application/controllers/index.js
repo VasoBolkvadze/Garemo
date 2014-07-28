@@ -1,16 +1,13 @@
-var fs = require('fs');
-var debug = require('debug')('controllers:index');
+var fs = require('fs'),
+	path = require('path');
 
-var rootdir = __dirname;
+var rootdir = __dirname.replace(/\\/g,"/");
 
 function exportControllers(dirname) {
-
 	var tree = fs.readdirSync(dirname);
-	debug('reading directory ' + dirname, tree);
 	for (var i = 0; i < tree.length; i++) {
 		var blob = tree[i];
 		var stats = fs.statSync(dirname + '/' + blob);
-		debug(blob + ' is directory ' + stats.isDirectory(blob));
 		if (stats.isFile(blob) && blob != 'index.js') {
 			var segments = blob.split('.');
 			var extension = segments[segments.length - 1];
@@ -26,15 +23,14 @@ function exportControllers(dirname) {
 				moduleExportsString += '["' + part + '"]';
 				if(!eval(moduleExportsString))
 					eval(moduleExportsString+'={};');
-				requireString += '/' + part;
+				requireString += "/" + part;
 			});
 			requireString += '.' + extension + '");';
 			eval(moduleExportsString + '=' + requireString);
-
 		} else if (stats.isDirectory(blob)) {
 			exportControllers(dirname + '/' + blob);
 		}
 	}
 }
 
-exportControllers(__dirname);
+exportControllers(rootdir);
