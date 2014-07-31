@@ -1,25 +1,29 @@
 function axaliLicenziaCtrl($scope, $modal, $http) {
-	var onHttpError = function (data, status) {
+	var onHttpError = function (response, status) {
 		alert("მოხდა შეცდომა მონაცემების გაცვლისას!");
 		console.log('status:' + status);
-		console.log(data);
+		console.log(response);
 	};
-	var attachmentNames = [
-		'licenziantisMonacemebi/mibmuliFailebi',
-		'informaciaLicenziisShesaxeb/mibmuliFailebi',
-		'damatebitiInformacia/ruqa',
-		'damatebitiInformacia/atvisebisGegma',
-		'damatebitiInformacia/geoSainformacioPaketi',
-		'carmoqmnisSafudzveli/mibmuliFailebi',
-		'gauqmebisSafudzveli/mibmuliFailebi',
-		'informaciaLicenziisShesaxeb/statusi/safudzveli'
-	];
-	attachmentNames.forEach(function (attName) {
-		$scope[attName] = [];
-	});
-	$scope.licenzia = emptyLicenzia;
+	var extractActiveSafudzveli = function (safudzvlebi) {
+		return safudzvlebi
+			.reduce(function (m, v) {
+				if (v.active) {
+					m.title = v.title;
+					m.name = v.name;
+					v.data.forEach(function (field) {
+						if (field.type != 'file')
+							m[field.name] = field.value;
+					});
+				}
+				return m;
+			}, {})
+	};
+
+	$scope.attachmentPropertyNames = null;
+	$scope.licenzia = null;
 	$scope.carmoqmnisSafudzvlebi = null;
 	$scope.gauqmebisSafudzvlebi = null;
+
 	$scope.addResursi = function () {
 		$scope.licenzia
 			.informaciaObiektisShesaxeb
@@ -41,7 +45,7 @@ function axaliLicenziaCtrl($scope, $modal, $http) {
 			$scope[args.inputName].push(args.file);
 		});
 	});
-	$scope.open = function () {
+	$scope.openCarmomadgeneliDialog = function () {
 		var modalInstance = $modal.open({
 			templateUrl: '/templates/operatori/licenziebi/carmomadgeneli.jade',
 			controller: 'carmomadgeneliCtrl',
@@ -59,36 +63,11 @@ function axaliLicenziaCtrl($scope, $modal, $http) {
 	};
 	$scope.submit = function () {
 		var licenzia = angular.copy($scope.licenzia);
-		licenzia.carmoqmnisSafudzveli = carmoqmnisSafudzvlebi
-			.reduce(function (m, v) {
-				if (v.active) {
-					m.title = v.title;
-					m.name = v.name;
-					v.data.forEach(function (field) {
-						if (field.type != 'file')
-							m[field.name] = field.value;
-					});
-				}
-				return m;
-			}
-			, {});
-		licenzia.gauqmebisSafudzveli = gauqmebisSafudzvlebi
-			.reduce(function (m, v) {
-				if (v.active) {
-					m.title = v.title;
-					m.name = v.name;
-					v.data
-						.forEach(function (field) {
-							if (field.type != 'file')
-								m[field.name] = field.value;
-						});
-				}
-				return m;
-			}
-			, {});
+		licenzia.carmoqmnisSafudzveli = extractActiveSafudzveli($scope.carmoqmnisSafudzvlebi);
+		licenzia.gauqmebisSafudzveli = extractActiveSafudzveli($scope.gauqmebisSafudzvlebi);
 		$http({
 			method: 'POST',
-			url: "/operatori/licenziebi/axali",
+			url: "/operatori/api/create/licenzia",
 			headers: { 'Content-Type': undefined },
 			transformRequest: function (data) {
 				var formData = new FormData();
@@ -102,80 +81,35 @@ function axaliLicenziaCtrl($scope, $modal, $http) {
 			},
 			data: {
 				model: licenzia,
-				attachments: attachmentNames
-					.map(function (attName) {
+				attachments: $scope.attachmentPropertyNames
+					.map(function (propertyName) {
 						return {
-							name: attName,
-							files: $scope[attName]
+							name: propertyName,
+							files: $scope[propertyName]
 						};
 					})
 			}
-		}).success(function (data, status, headers, config) {
-			if (data.success)
-				window.location = data.redirectUrl;
+		}).success(function (response, status) {
+			if (response.success)
+				window.location = response.redirectUrl;
 			else
-				onHttpError(data, status);
+				onHttpError(response, status);
 		}).error(onHttpError);
 	};
-	$http.get('/api/operatori/get/carmoqmnisDaGauqmebisSafudzvlebi')
-		.success(function (data) {
-			$scope.gauqmebisSafudzvlebi = data.gauqmebisSafudzvlebi;
-			$scope.carmoqmnisSafudzvlebi = data.carmoqmnisSafudzvlebi;
-		})
-		.error(onHttpError);
-}
 
-var emptyLicenzia = {
-	licenziantisMonacemebi: {
-		dasaxeleba: null,
-		pid: null,
-		faktMisamarti: null,
-		iurMisamarti: null,
-		tel: null,
-		mail: null
-	},
-	carmomadgeneli: {
-		pid: null,
-		saxeli: null,
-		gvari: null,
-		tel: null,
-		mail: null
-	},
-	informaciaObiektisShesaxeb: {
-		resursebi: [
-			{
-				dasaxeleba: null,
-				raodenoba: null,
-				uom: null,
-				gamokenebisSfero: null
+	$http.get('/operatori/api/get/sourceData/forAxaliLicenziaCtrl')
+		.success(function (response, status) {
+			if (response.success) {
+				$scope.licenzia = response.data.emptyLicenzia;
+				$scope.gauqmebisSafudzvlebi = response.data.gauqmebisSafudzvlebi;
+				$scope.carmoqmnisSafudzvlebi = response.data.carmoqmnisSafudzvlebi;
+				$scope.attachmentPropertyNames = response.data.attachmentPropertyNames;
+				$scope.attachmentPropertyNames
+					.forEach(function (propertyName) {
+						$scope[propertyName] = [];
+					});
 			}
-		],
-		regioni: null,
-		municipaliteti: null,
-		dasaxlebuliPunkti: null,
-		fartobiUom: null,
-		fartobi: null
-	},
-	informaciaLicenziisShesaxeb: {
-		nomeri: null,
-		gacemisTarigi: null,
-		brdzanebisNomeri: null,
-		brdzanebisTarigi: null,
-		moqmedebisVada: null,
-		salicenzioPirobebi: null,
-		statusi: {
-			mnishvneloba: null,
-			safudzveli: null
-		}
-	},
-	damatebitiInformacia: {
-		regulirebisGadamxdeli: 'კი',
-		a: {mnishvneloba: null, uom: ''},
-		b: {mnishvneloba: null, uom: ''},
-		c1: {mnishvneloba: null, uom: ''},
-		c2: {mnishvneloba: null, uom: ''},
-		p: {mnishvneloba: null, uom: ''}
-	},
-	carmoqmnisSafudzveli: null,
-	gauqmebisSafudzveli: null
-};
+			else
+				onHttpError(response, status);
+		}).error(onHttpError);
+}

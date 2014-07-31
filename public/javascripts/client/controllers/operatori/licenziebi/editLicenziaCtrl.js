@@ -1,25 +1,13 @@
 function editLicenziaCtrl($scope, $http, $modal) {
-	var attachmentNames = [
-		'licenziantisMonacemebi/mibmuliFailebi',
-		'informaciaLicenziisShesaxeb/mibmuliFailebi',
-		'damatebitiInformacia/ruqa',
-		'damatebitiInformacia/atvisebisGegma',
-		'damatebitiInformacia/geoSainformacioPaketi',
-		'carmoqmnisSafudzveli/mibmuliFailebi',
-		'gauqmebisSafudzveli/mibmuliFailebi',
-		'informaciaLicenziisShesaxeb/statusi/safudzveli'
-	];
+	$scope.attachmentPropertyNames = null;
 	$scope.licenzia = null;
-	$scope.gauqmebisSafudzvlebi = [];
-	$scope.carmoqmnisSafudzvlebi = [];
+	$scope.gauqmebisSafudzvlebi = null;
+	$scope.carmoqmnisSafudzvlebi = null;
 	var onHttpError = function (response) {
 		alert('მოხდა შეცდომა!');
 		console.log('status:' + response.data.status);
 		console.log(response.data);
 	};
-	attachmentNames.forEach(function (attName) {
-		$scope[attName] = [];
-	});
 	$scope.removeFromArray = function (array, item) {
 		var i = array.indexOf(item);
 		array.splice(i, 1);
@@ -109,11 +97,11 @@ function editLicenziaCtrl($scope, $http, $modal) {
 			},
 			data: {
 				model: licenzia,
-				attachments: attachmentNames
-					.map(function (attName) {
+				attachments: $scope.attachmentPropertyNames
+					.map(function (propertyName) {
 						return {
-							name: attName,
-							files: $scope[attName]
+							name: propertyName,
+							files: $scope[propertyName]
 						};
 					})
 			}
@@ -126,10 +114,10 @@ function editLicenziaCtrl($scope, $http, $modal) {
 			onHttpError({data: data, status: status})
 		});
 	};
-	$http.get('/api/operatori/licenziebi/byId/' + licenziisId)
+	$http.get('/operatori/api/get/licenzia/' + licenziisId)
 		.then(function (response) {
 			$scope.licenzia = response.data;
-			return $http.get('/api/operatori/get/carmoqmnisDaGauqmebisSafudzvlebi');
+			return $http.get('/operatori/api/get/sourceData/forEditLicenziaCtrl');
 		}, onHttpError)
 		.then(function (response) {
 			$scope.gauqmebisSafudzvlebi = response.data.gauqmebisSafudzvlebi;
@@ -160,5 +148,9 @@ function editLicenziaCtrl($scope, $http, $modal) {
 						}
 					}
 				});
+			$scope.attachmentPropertyNames = response.data.attachmentPropertyNames;
+			$scope.attachmentPropertyNames.forEach(function (propertyName) {
+				$scope[propertyName] = [];
+			});
 		}, onHttpError);
 }
