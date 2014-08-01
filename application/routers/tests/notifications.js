@@ -1,5 +1,5 @@
 var express = require('express'),
-	notificator = require('../../notificator');
+	notificator = require('../../core/notificator');
 
 module.exports = (function () {
 	var router = express.Router();

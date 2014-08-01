@@ -1,11 +1,24 @@
 var express = require('express'),
 	user = require('../core/user'),
-	controller = require('../core/controller');
+	passport = require('passport');
 
 module.exports = (function () {
 	var router = express.Router();
-	router.get('/login', controller('authorization').action('views>login'));
-	router.post('/login', controller('authorization').action('api>login'));
-	router.get('/logout', user.mustBe('authorized'), controller('authorization').action('api>logout'));
+	router.get('/login', function (req, res, next) {
+		res.render('login', { message: req.flash('loginMessage') });
+	});
+	router.post('/login', function (req, res, next) {
+		passport.authenticate('local-login', {
+			successRedirect: '/',
+			failureRedirect: '/login',
+			failureFlash: true
+		})(req, res, next);
+	});
+	router.get('/logout'
+		, user.mustBe('authorized')
+		, function (req, res, next) {
+			req.logout();
+			res.redirect('/');
+		});
 	return router;
 })();

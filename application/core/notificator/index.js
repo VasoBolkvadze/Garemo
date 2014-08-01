@@ -1,4 +1,4 @@
-var helpers = require('../utils/helpers'),
+var helpers = require('../../utils/helpers'),
 	debug = require('debug')('notificator'),
 	uuid = require('node-uuid');
 

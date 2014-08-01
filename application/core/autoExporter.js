@@ -1,5 +1,5 @@
 var fs = require('fs'),
-	debug = require('debug')('autoExporter');
+	debug = require('debug')('core:autoExporter');
 
 module.exports.Instance = function (rootdir) {
 	var me = this;
@@ -15,9 +15,15 @@ module.exports.Instance = function (rootdir) {
 				var extension = segments[segments.length - 1];
 				var fileName = segments[0];
 				var parts = [];
-				var dirnameSegments = dirname.split('/');
-				if (dirname != rootdir)
-					parts.push(dirnameSegments[dirnameSegments.length - 1]);
+				var dirnameSegments = dirname.replace(rootdir,'').split('/');
+				if (dirname != rootdir){
+					dirnameSegments = dirnameSegments.filter(function (part) {
+						return part;
+					});
+					for(var x=0;x<dirnameSegments.length;x++){
+						parts.push(dirnameSegments[x]);
+					}
+				}
 				parts.push(fileName);
 				var moduleExportsString = 'exportedObjects';
 				var requireString = 'require("' + rootdir;
@@ -28,7 +34,6 @@ module.exports.Instance = function (rootdir) {
 					requireString += "/" + part;
 				});
 				requireString += '.' + extension + '");';
-				debug('evaluating:',moduleExportsString + '=' + requireString);
 				eval(moduleExportsString + '=' + requireString);
 			} else if (stats.isDirectory(blob)) {
 				me.doWork(dirname + '/' + blob);

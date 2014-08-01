@@ -9,17 +9,17 @@ block content
 			div.panel-body
 				span(style='font-size:24px;')
 					span= 'ათვისების გეგმა ლიცენზიისთვის : '
-					a(href='/operatori/licenziebi/'+licenziisId.replace('Licenzia/',''))= licenziisId
+					a(href='/operatori/licenziebi/'+id)= doc.licenziisId
 				table.table.table-hover.table-bordered.table-condensed
 					thead
 						tr.txt-capital
 							th წელი
 							th ასათვისებელი რესურსის ოდენობა
 					tbody
-						each gi in chanacerebi
+						each gi in doc.chanacerebi
 							tr
 								td= gi.celi
 								td= gi.odenoba
-				a.btn.btn-success.pull-right(href='korektireba') კორექტირება
+				a.btn.btn-success.pull-right(href=id+'/korektireba') კორექტირება
 				a.btn.btn-success.pull-right(href='damtkiceba') უარყოფა
 				a.btn.btn-success.pull-right(href='damtkiceba') დამტკიცება
