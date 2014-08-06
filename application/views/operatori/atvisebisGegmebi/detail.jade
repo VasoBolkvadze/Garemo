@@ -7,9 +7,11 @@ block content
 			div.panel-heading
 				span.panel-title ათვისების გეგმა
 			div.panel-body
+				hr
 				span(style='font-size:24px;')
-					span= 'ათვისების გეგმა ლიცენზიისთვის : '
+					span= ' ლიცენზიისთვის : '
 					a(href='/operatori/licenziebi/'+id)= doc.licenziisId
+				hr
 				table.table.table-hover.table-bordered.table-condensed
 					thead
 						tr.txt-capital
@@ -20,6 +22,8 @@ block content
 							tr
 								td= gi.celi
 								td= gi.odenoba
-				a.btn.btn-success.pull-right(href=id+'/korektireba') კორექტირება
-				a.btn.btn-success.pull-right(href='damtkiceba') უარყოფა
-				a.btn.btn-success.pull-right(href='damtkiceba') დამტკიცება
+				a.btn.btn-success.pull-right(href=id + '/korektireba') კორექტირება
+				form.pull-right(method='POST',action=id + '/uarkofa')
+					button.btn.btn-success უარყოფა
+				form.pull-right(method='POST',action=id + '/damtkiceba')
+					button.btn.btn-success დამტკიცება

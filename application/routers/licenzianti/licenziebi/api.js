@@ -13,6 +13,7 @@ module.exports = (function () {
 		, function (req, res, next) {
 			var doc = req.body;
 			doc.licenziisId = 'Licenzia/' + req.params.id;
+			doc.statusi = 'მოლოდინში';
 			doc._id = 'atvisebisGegma/' + req.params.id;
 			store.save('Licenzireba'
 				, 'atvisebisGegma'

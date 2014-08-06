@@ -1,5 +1,4 @@
 var express = require('express'),
-	formidable = require('formidable'),
 	cfg = require('../../../../config.json'),
 	fs = require('fs'),
 	path = require('path'),
@@ -9,7 +8,6 @@ var express = require('express'),
 	async = require('async'),
 	notificator = require('../../../core/notificator'),
 	store = require('nodeRaven')(cfg.dbUrl),
-	uuid = require('node-uuid'),
 	user = require('../../../core/user');
 
 module.exports = (function () {

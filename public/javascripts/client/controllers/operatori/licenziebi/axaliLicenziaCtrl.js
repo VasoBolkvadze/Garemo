@@ -1,4 +1,5 @@
 function axaliLicenziaCtrl($scope, $modal, $http) {
+	//local functions
 	var onHttpError = function (response, status) {
 		alert("მოხდა შეცდომა მონაცემების გაცვლისას!");
 		console.log('status:' + status);
@@ -18,12 +19,12 @@ function axaliLicenziaCtrl($scope, $modal, $http) {
 				return m;
 			}, {})
 	};
-
+	//scope variables
 	$scope.attachmentPropertyNames = null;
 	$scope.licenzia = null;
 	$scope.carmoqmnisSafudzvlebi = null;
 	$scope.gauqmebisSafudzvlebi = null;
-
+	//scope functions
 	$scope.addResursi = function () {
 		$scope.licenzia
 			.informaciaObiektisShesaxeb
@@ -67,7 +68,7 @@ function axaliLicenziaCtrl($scope, $modal, $http) {
 		licenzia.gauqmebisSafudzveli = extractActiveSafudzveli($scope.gauqmebisSafudzvlebi);
 		$http({
 			method: 'POST',
-			url: "/operatori/api/create/licenzia",
+			url: '/operatori/api/licenziebi/create',
 			headers: { 'Content-Type': undefined },
 			transformRequest: function (data) {
 				var formData = new FormData();
@@ -96,8 +97,8 @@ function axaliLicenziaCtrl($scope, $modal, $http) {
 				onHttpError(response, status);
 		}).error(onHttpError);
 	};
-
-	$http.get('/operatori/api/get/sourceData/forAxaliLicenziaCtrl')
+	//data request
+	$http.get('/operatori/api/licenziebi/getSourceData/forAxaliLicenziaCtrl')
 		.success(function (response, status) {
 			if (response.success) {
 				$scope.licenzia = response.data.emptyLicenzia;
@@ -111,5 +112,6 @@ function axaliLicenziaCtrl($scope, $modal, $http) {
 			}
 			else
 				onHttpError(response, status);
-		}).error(onHttpError);
+		})
+		.error(onHttpError);
 }

@@ -5,12 +5,12 @@ var express = require('express'),
 	path = require('path'),
 	_ = require('underscore'),
 	helpers = require('../../../utils/helpers'),
-	viewModels = require('../../../viewModels'),
 	async = require('async'),
 	notificator = require('../../../core/notificator'),
 	store = require('nodeRaven')(cfg.dbUrl),
 	uuid = require('node-uuid'),
-	user = require('../../../core/user');
+	user = require('../../../core/user'),
+	debug = require('debug')('routers:operatori:licenziebi:api');
 
 
 module.exports = (function () {
@@ -21,12 +21,13 @@ module.exports = (function () {
 		, function (req, res, next) {
 			var form = new formidable.IncomingForm();
 			form.parse(req, function (err, body, files) {
+				debug('multipart form parsed and files are:',files);
 				var filesNew = _.reduce(files, function (memo, val, key) {
 					var segments = val.name.split('.');
-					var ext = segments.length > 1 ? segments[1] : '';
+					var ext = segments.length > 1 ? ('.' + segments[segments.length - 1]) : '';
 					var oldPath = val.path;
-					var newFileName = uuid.v1() + '.' + ext;
-					var newPath = path.resolve(__dirname + '/../../public/uploads/') + '/' + newFileName;
+					var newFileName = uuid.v1() + ext;
+					var newPath = path.resolve(__dirname + '../../../public/uploads/') + '/' + newFileName;
 					memo.push({
 						fieldName: key,
 						fileName: newFileName,
@@ -41,10 +42,12 @@ module.exports = (function () {
 						, function (renameError) {
 							if (!renameError) {
 								var fname = f.fieldName.split('_')[0];
+								if(!fname)
+									return cb();
 								if (body[fname] == null)
 									body[fname] = [];
 								body[fname].push(f.fileName);
-								cb();
+								return cb();
 							} else {
 								cb(renameError);
 							}
@@ -66,7 +69,8 @@ module.exports = (function () {
 									k.split('/').forEach(function (part) {
 										setter += "['" + part + "']";
 									});
-									eval(setter + '=entity["' + k + '"]');
+									setter+='=entity["' + k + '"]'
+									eval(setter);
 								}
 							}
 						}
@@ -107,7 +111,7 @@ module.exports = (function () {
 			});
 		});
 
-	router.post('/operatori/api/update/licenzia/:id'
+	router.post('/operatori/api/licenziebi/:id/update'
 		, user.mustBe('operatori')
 		, function (req, res, next) {
 			var form = new formidable.IncomingForm();
@@ -171,7 +175,7 @@ module.exports = (function () {
 			});
 		});
 
-	router.get('/operatori/api/get/licenzia/:id'
+	router.get('/operatori/api/licenziebi/:id'
 		, user.mustBe('operatori')
 		, function (req, res, next) {
 			store.load('Licenzireba'
@@ -184,7 +188,7 @@ module.exports = (function () {
 				});
 		});
 
-	router.get('/operatori/api/get/sourceData/forAxaliLicenziaCtrl'
+	router.get('/operatori/api/licenziebi/getSourceData/forAxaliLicenziaCtrl'
 		, user.mustBe('operatori')
 		, function (req, res, next) {
 			res.json({
@@ -198,7 +202,7 @@ module.exports = (function () {
 			});
 		});
 
-	router.get('/operatori/api/get/sourceData/forEditLicenziaCtrl'
+	router.get('/operatori/api/licenziebi/getSourceData/forEditLicenziaCtrl'
 		, user.mustBe('operatori')
 		, function (req, res, next) {
 			res.json({

@@ -2,11 +2,13 @@ var favicon = require('static-favicon'),
 	express = require('express'),
 	path = require('path'),
 	logger = require('morgan'),
+	cfg = require('../../config.json'),
 	cookieParser = require('cookie-parser'),
 	bodyParser = require('body-parser'),
 	passport = require('passport'),
 	flash = require('connect-flash'),
-	session = require('express-session');
+	session = require('express-session'),
+	debug = require('debug')('config:middleware');
 
 module.exports.init = function (app) {
 	app.use(favicon());
@@ -25,19 +27,22 @@ module.exports.init = function (app) {
 	app.use(flash());
 
 	//authenticate manually if not authenticated
-//	if (process.env.NODE_ENV == 'development')
-//		app.use(function (req, res, next) {
-//			if (req.isAuthenticated())
-//				return next();
-//			var authenticate = passport.authenticate('local-login', {
-//				successRedirect: '/licenzianti/licenziebi',
-//				failureRedirect: '/login',
-//				failureFlash: true
-//			});
-//			req.body.username = '136087286';
-//			req.body.password = '4TATP';
-//			authenticate(req, res, next);
-//		});
+	debug('envMode',cfg.envMode);
+	debug('authorization.type',cfg.authorization.type);
+	if (cfg.envMode == 'development' && cfg.authorization.type == "manual")
+		app.use(function (req, res, next) {
+			if (req.isAuthenticated())
+				return next();
+			var authenticate = passport.authenticate('local-login', {
+				successRedirect: cfg.authorization.redirect,
+				failureRedirect: '/login',
+				failureFlash: true
+			});
+			req.body.username = 'vaso';
+			req.body.password = '1';
+			authenticate(req, res, next);
+		});
+
 	//set user data on response
 	app.use(function (req, res, next) {
 		if (req.isAuthenticated()) {

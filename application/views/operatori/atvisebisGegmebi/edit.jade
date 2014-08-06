@@ -1,4 +1,28 @@
 extends ../../index
+include ../../mixins/grid-controls
 block content
-	div.container
-		h4(style='color:white;') //TODO: ათვისების გეგმის კორექტირება
+	div.jumbotron.jumbotron-ultra-sm
+		div.container
+			div.row
+				div.col-sm-12.col-lg-12
+					h2.txt-capital ათვისების გეგმის კორექტირება
+	input(type='hidden',value=id,name='atvisebisGegmisId')
+	script(src='/javascripts/client/controllers/operatori/atvisebisGegmebi/edit.js')
+	div.container(ng-controller="editCtrl")
+		div.panel.panel-primary
+			div.panel-heading
+				span.panel-title: a(href='../'+id)= 'ათვისების გეგმა / ' + id
+			div.panel-body
+				form(ng-submit="submit()")
+					table.table.table-hover.table-bordered.table-condensed
+						thead
+							tr.txt-capital
+								th წელი
+								th ასათვისებელი რესურსის ოდენობა
+						tbody
+							tr(ng-repeat='c in atvisebisGegma.chanacerebi')
+								td
+									+textcell('c.celi',true)
+								td
+									+numbercell('c.odenoba',true)
+					button.btn.btn-success.pull-right(type='submit') დამტკიცება

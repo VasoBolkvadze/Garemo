@@ -1,13 +1,32 @@
 function editLicenziaCtrl($scope, $http, $modal) {
-	$scope.attachmentPropertyNames = null;
-	$scope.licenzia = null;
-	$scope.gauqmebisSafudzvlebi = null;
-	$scope.carmoqmnisSafudzvlebi = null;
+	//local variables
+	var licenziisId = $('[name="licenziisId"]').val();
+	//local functions
 	var onHttpError = function (response) {
 		alert('მოხდა შეცდომა!');
 		console.log('status:' + response.data.status);
 		console.log(response.data);
 	};
+	var extractActiveSafudzveli = function (safudzvlebi) {
+		return safudzvlebi
+			.reduce(function (m, v) {
+				if (v.active) {
+					m.title = v.title;
+					m.name = v.name;
+					v.data.forEach(function (field) {
+						if (field.type != 'file')
+							m[field.name] = field.value;
+					});
+				}
+				return m;
+			}, {})
+	};
+	//scope variables
+	$scope.attachmentPropertyNames = null;
+	$scope.licenzia = null;
+	$scope.gauqmebisSafudzvlebi = null;
+	$scope.carmoqmnisSafudzvlebi = null;
+	//scope functions
 	$scope.removeFromArray = function (array, item) {
 		var i = array.indexOf(item);
 		array.splice(i, 1);
@@ -33,7 +52,6 @@ function editLicenziaCtrl($scope, $http, $modal) {
 			.resursebi
 			.splice(i, 1);
 	};
-	var licenziisId = $('[name="licenziisId"]').val();
 	$scope.openCarmomadgeneliDialog = function () {
 		var modalInstance = $modal.open({
 			templateUrl: '/templates/operatori/licenziebi/carmomadgeneli.jade',
@@ -52,43 +70,16 @@ function editLicenziaCtrl($scope, $http, $modal) {
 	};
 	$scope.submit = function () {
 		var licenzia = angular.copy($scope.licenzia);
-		licenzia.carmoqmnisSafudzveli = $scope.carmoqmnisSafudzvlebi
-			.reduce(function (m, v) {
-				if (v.active) {
-					m.title = v.title;
-					m.name = v.name;
-					v.data.forEach(function (field) {
-						if (field.type != 'file')
-							m[field.name] = field.value;
-					});
-				}
-				return m;
-			}
-			, {});
-		licenzia.gauqmebisSafudzveli = $scope.gauqmebisSafudzvlebi
-			.reduce(function (m, v) {
-				if (v.active) {
-					m.title = v.title;
-					m.name = v.name;
-					v.data
-						.forEach(function (field) {
-							if (field.type != 'file')
-								m[field.name] = field.value;
-						});
-				}
-				return m;
-			}
-			, {});
+		licenzia.carmoqmnisSafudzveli = extractActiveSafudzveli($scope.carmoqmnisSafudzvlebi);
+		licenzia.gauqmebisSafudzveli = extractActiveSafudzveli($scope.gauqmebisSafudzvlebi);
 		$http({
 			method: 'POST',
-			url: "/api/operatori/licenziebi/"+licenziisId+"/update",
+			url: '/operatori/api/licenziebi/' + licenziisId + '/update',
 			headers: { 'Content-Type': undefined },
 			transformRequest: function (data) {
 				var formData = new FormData();
 				formData.append("model", angular.toJson(data.model));
 				data.attachments.forEach(function (att) {
-					if (!att.files.length)
-						formData.append(att.name + '_' + 0, 'EMPTY');
 					for (var i = 0; i < att.files.length; i++) {
 						formData.append(att.name + '_' + i, att.files[i]);
 					}
@@ -114,10 +105,11 @@ function editLicenziaCtrl($scope, $http, $modal) {
 			onHttpError({data: data, status: status})
 		});
 	};
-	$http.get('/operatori/api/get/licenzia/' + licenziisId)
+	//data request
+	$http.get('/operatori/api/licenziebi/' + licenziisId)
 		.then(function (response) {
 			$scope.licenzia = response.data;
-			return $http.get('/operatori/api/get/sourceData/forEditLicenziaCtrl');
+			return $http.get('/operatori/api/licenziebi/getSourceData/forEditLicenziaCtrl');
 		}, onHttpError)
 		.then(function (response) {
 			$scope.gauqmebisSafudzvlebi = response.data.gauqmebisSafudzvlebi;
