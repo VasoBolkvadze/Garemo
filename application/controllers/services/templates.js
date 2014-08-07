@@ -1,7 +1,5 @@
-var express = require('express');
 
-module.exports = (function () {
-	var router = express.Router();
+module.exports = function (router) {
 	router.get('/templates/:subdir/:subsubdir/:tpl', function (req, res) {
 		res.render(req.params.subdir + '/' + req.params.subsubdir + '/' + req.params.tpl
 			, {}
@@ -16,5 +14,4 @@ module.exports = (function () {
 				res.send(html);
 			});
 	});
-	return router;
-})();
+};

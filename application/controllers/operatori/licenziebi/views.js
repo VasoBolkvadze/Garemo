@@ -1,5 +1,4 @@
-var express = require('express'),
-	cfg = require('../../../../config.json'),
+var cfg = require('../../../../config.json'),
 	fs = require('fs'),
 	path = require('path'),
 	_ = require('underscore'),
@@ -10,9 +9,7 @@ var express = require('express'),
 	store = require('nodeRaven')(cfg.dbUrl),
 	user = require('../../../core/user');
 
-module.exports = (function () {
-	var router = express.Router();
-
+module.exports = function (router) {
 	router.get('/operatori/licenziebi'
 		, user.mustBe('operatori')
 		, function (req, res, next) {
@@ -110,6 +107,4 @@ module.exports = (function () {
 				kategoriebi: require('../../../data/kategoriebi.json')
 			});
 		});
-
-	return router;
-})();
+};

@@ -26,24 +26,21 @@ module.exports.init = function (app) {
 	app.use(passport.session());
 	app.use(flash());
 
-	//authenticate manually if not authenticated
-	debug('envMode',cfg.envMode);
-	debug('authorization.type',cfg.authorization.type);
-	if (cfg.envMode == 'development' && cfg.authorization.type == "manual")
+	//development mode authorization
+	if (cfg.envMode == 'development' && cfg.authorization.type == "auto")
 		app.use(function (req, res, next) {
 			if (req.isAuthenticated())
 				return next();
-			var authenticate = passport.authenticate('local-login', {
+			req.body.username = cfg.authorization.user;
+			req.body.password = cfg.authorization.pass;
+			passport.authenticate('local-login', {
 				successRedirect: cfg.authorization.redirect,
 				failureRedirect: '/login',
 				failureFlash: true
-			});
-			req.body.username = 'vaso';
-			req.body.password = '1';
-			authenticate(req, res, next);
+			})(req, res, next);
 		});
 
-	//set user data on response
+	//set user data on response object
 	app.use(function (req, res, next) {
 		if (req.isAuthenticated()) {
 			res.locals.user = req.user;

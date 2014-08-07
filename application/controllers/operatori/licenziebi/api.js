@@ -1,5 +1,4 @@
-var express = require('express'),
-	formidable = require('formidable'),
+var formidable = require('formidable'),
 	cfg = require('../../../../config.json'),
 	fs = require('fs'),
 	path = require('path'),
@@ -10,43 +9,33 @@ var express = require('express'),
 	store = require('nodeRaven')(cfg.dbUrl),
 	uuid = require('node-uuid'),
 	user = require('../../../core/user'),
-	debug = require('debug')('routers:operatori:licenziebi:api');
+	appSettings = require('../../../utils/appSettings'),
+	debug = require('debug')('controllers:operatori:licenziebi');
 
 
-module.exports = (function () {
-	var router = express.Router();
-
+module.exports = function (router) {
 	router.post('/operatori/api/licenziebi/create'
 		, user.mustBe('operatori')
 		, function (req, res, next) {
 			var form = new formidable.IncomingForm();
 			form.parse(req, function (err, body, files) {
-				debug('multipart form parsed and files are:',files);
-				var filesNew = _.reduce(files, function (memo, val, key) {
-					var segments = val.name.split('.');
-					var ext = segments.length > 1 ? ('.' + segments[segments.length - 1]) : '';
-					var oldPath = val.path;
-					var newFileName = uuid.v1() + ext;
-					var newPath = path.resolve(__dirname + '../../../public/uploads/') + '/' + newFileName;
-					memo.push({
-						fieldName: key,
-						fileName: newFileName,
-						oldPath: oldPath,
-						newPath: newPath
-					});
-					return memo;
-				}, []);
-				async.each(filesNew, function (f, cb) {
-					fs.rename(f.oldPath
-						, f.newPath
+				var moveFilePOCOs = generateMoveFilePOCOs(files);
+				//debug('generated moveFile POCOs', moveFilePOCOs);
+				async.each(moveFilePOCOs, function (poco, cb) {
+					fs.rename(poco.oldPath
+						, poco.newPath
 						, function (renameError) {
 							if (!renameError) {
-								var fname = f.fieldName.split('_')[0];
-								if(!fname)
+								var fieldName = poco.fieldName.split('_')[0];
+								if (!fieldName)
 									return cb();
-								if (body[fname] == null)
-									body[fname] = [];
-								body[fname].push(f.fileName);
+								if (body[fieldName] == null)
+									body[fieldName] = [];
+								body[fieldName].push({
+									id: poco.fileId,
+									name: poco.fileName,
+									type: poco.fileType
+								});
 								return cb();
 							} else {
 								cb(renameError);
@@ -69,11 +58,14 @@ module.exports = (function () {
 									k.split('/').forEach(function (part) {
 										setter += "['" + part + "']";
 									});
-									setter+='=entity["' + k + '"]'
+									setter += '=entity["' + k + '"]'
 									eval(setter);
 								}
 							}
 						}
+						doc._metadata = {
+							creator: req.user.username
+						};
 						store.save('Licenzireba'
 							, 'Licenzia'
 							, doc
@@ -192,12 +184,12 @@ module.exports = (function () {
 		, user.mustBe('operatori')
 		, function (req, res, next) {
 			res.json({
-				success:true,
-				data:{
+				success: true,
+				data: {
 					carmoqmnisSafudzvlebi: require('../../../data/carmoqmnisSafudzvlebi.json'),
 					gauqmebisSafudzvlebi: require('../../../data/gauqmebisSafudzvlebi.json'),
 					attachmentPropertyNames: require('../../../data/attachmentPropertyNames.json'),
-					emptyLicenzia:require('../../../models/licenzia')
+					emptyLicenzia: require('../../../models/licenzia')
 				}
 			});
 		});
@@ -211,7 +203,25 @@ module.exports = (function () {
 				attachmentPropertyNames: require('../../../data/attachmentPropertyNames.json')
 			});
 		});
+};
 
-
-	return router;
-})();
+function generateMoveFilePOCOs(attachedFiles) {
+	//debug('attached Files', attachedFiles);
+	var uploadDirPath = appSettings.getUploadDirectoryPath();
+	return _.reduce(attachedFiles, function (memo, attachedFile, key) {
+		var segments = attachedFile.name.split('.');
+		var ext = segments.length > 1 ? ('.' + segments[segments.length - 1]) : '';
+		var oldPath = attachedFile.path;
+		var id = uuid.v1() + ext;
+		var newPath = uploadDirPath + '/' + id;
+		memo.push({
+			fieldName: key,
+			fileId: id,
+			fileName: attachedFile.name,
+			fileType: attachedFile.type,
+			oldPath: oldPath,
+			newPath: newPath
+		});
+		return memo;
+	}, []);
+}

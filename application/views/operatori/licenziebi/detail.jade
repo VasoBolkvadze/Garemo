@@ -42,7 +42,7 @@ block content
 									td
 										each f in doc.licenziantisMonacemebi.mibmuliFailebi
 											div
-												a(href='/uploads/'+f)= f.substring(0,8)
+												a(href='/uploads/'+f.id)= f.name.substring(0,8) + '..'
 						div.panel.panel-info
 							div.panel-heading
 								span.panel-title წარმოქმნის საფუძველი
@@ -106,20 +106,20 @@ block content
 									td(colspan='2')
 										each f in doc.damatebitiInformacia.ruqa
 											div
-												a(href='/uploads/'+f)= f.substring(0,8)
+												a(href='/uploads/'+f.id)= f.name.substring(0,8) + '..'
 								tr
 									th.txt-capital გეოსაინფორმაციო პაკეტი
 									td(colspan='2')
 										each f in doc.damatebitiInformacia.geoSainformacioPaketi
 											div
-												a(href='/uploads/'+f)= f.substring(0,8)
+												a(href='/uploads/'+f.id)= f.name.substring(0,8) + '..'
 								tr
 									th.txt-capital ათვისების გეგმა
 									td(colspan='2')
 										if doc.damatebitiInformacia.atvisebisGegma && Array.isArray(doc.damatebitiInformacia.atvisebisGegma)
 											each f in doc.damatebitiInformacia.atvisebisGegma
 												div
-													a(href='/uploads/'+f)= f.substring(0,8)
+													a(href='/uploads/'+f.id)= f.name.substring(0,8) + '..'
 						div.panel.panel-info
 							div.panel-heading
 								span.panel-title გაუქმების საფუძველი
@@ -143,7 +143,7 @@ block content
 										td
 											each f in doc.informaciaLicenziisShesaxeb.statusi.safudzveli
 												div
-													a(href='/uploads/'+f)= f.substring(0,8)
+													a(href='/uploads/'+f.id)= f.name.substring(0,8) + '..'
 						div.panel.panel-info
 							div.panel-heading
 								span.panel-title ინფორმაცია ლიცენზიის შესახებ
@@ -173,7 +173,7 @@ block content
 									td
 										each f in doc.informaciaLicenziisShesaxeb.mibmuliFailebi
 											div
-												a(href='/uploads/'+f)= f.substring(0,8)
+												a(href='/uploads/'+f.id)= f.name.substring(0,8) + '..'
 						div.panel.panel-info
 							div.panel-heading
 								span.panel-title metadata

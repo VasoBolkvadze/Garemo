@@ -6,7 +6,8 @@ module.exports = {
 		iurMisamarti: null,
 		tel: null,
 		mail: null,
-		mibmuliFailebi:[]
+		ganacxadisId: null,
+		mibmuliFailebi: []
 	},
 	carmomadgeneli: {
 		pid: null,
@@ -28,7 +29,9 @@ module.exports = {
 		municipaliteti: null,
 		dasaxlebuliPunkti: null,
 		fartobiUom: null,
-		fartobi: null
+		fartobi: null,
+		sabadosKodi: null,
+		shapeFailebi: []
 	},
 	informaciaLicenziisShesaxeb: {
 		nomeri: null,
@@ -41,7 +44,7 @@ module.exports = {
 			mnishvneloba: null,
 			safudzveli: []
 		},
-		mibmuliFailebi:[]
+		mibmuliFailebi: []
 	},
 	damatebitiInformacia: {
 		regulirebisGadamxdeli: 'კი',
@@ -50,9 +53,9 @@ module.exports = {
 		c1: {mnishvneloba: null, uom: ''},
 		c2: {mnishvneloba: null, uom: ''},
 		p: {mnishvneloba: null, uom: ''},
-		ruqa:[],
-		atvisebisGegma:[],
-		geoSainformacioPaketi:[]
+		ruqa: [],
+		atvisebisGegma: [],
+		geoSainformacioPaketi: []
 	},
 	carmoqmnisSafudzveli: null,
 	gauqmebisSafudzveli: null

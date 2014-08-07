@@ -1,10 +1,8 @@
-var express = require('express'),
-	user = require('../../../core/user'),
+var user = require('../../../core/user'),
 	cfg = require('../../../../config.json'),
 	store = require('nodeRaven')(cfg.dbUrl);
 
-module.exports = (function () {
-	var router = express.Router();
+module.exports = function (router) {
 	router.get('/operatori/api/atvisebisGegmebi/:id'
 		, user.mustBe('operatori')
 		, function (req, res, next) {
@@ -86,5 +84,4 @@ module.exports = (function () {
 						});
 				});
 		});
-	return router;
-})();
+};

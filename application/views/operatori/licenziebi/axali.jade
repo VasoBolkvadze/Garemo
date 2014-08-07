@@ -17,15 +17,16 @@ block content
 				form.form-horizontal(ng-submit="submit()",id="axaliLicenzia")
 					div.col-md-12
 						+panel('ლიცენზიანტის მონაცემები',4)
-							div.col-md-8
+							div.col-md-7
 								+textbox([4,8],'licenzia.licenziantisMonacemebi.pid','საიდენთიფიკაციო კოდი','ან ფიზიკური პირის პირადი ნომერი',true)
 								+textbox([4,8],'licenzia.licenziantisMonacemebi.dasaxeleba','დასახელება','ან ფიზიკური პირის სახელი, გვარი',true)
 								+textbox([4,8],'licenzia.licenziantisMonacemebi.faktMisamarti','ფაქტიური მისამართი','მაგ: წერეთლის #144',true)
 								+textbox([4,8],'licenzia.licenziantisMonacemebi.iurMisamarti','იურიდიული მისამართი','მაგ: წერეთლის #144',true)
-							div.col-md-4
+							div.col-md-5
 								+specInput([4,8],'licenzia.licenziantisMonacemebi.tel','phone','phone','ტელეფონი','მაგ: 599123456',true)
 								+specInput([4,8],'licenzia.licenziantisMonacemebi.mail','email','envelope','e-ფოსტა','მაგ: someone@mail.com',false)
 								+fileUpload([4,8],'licenziantisMonacemebi/mibmuliFailebi','*',true,'მიბმული ფაილები',true)
+								+textbox([4,8],'licenzia.licenziantisMonacemebi.ganacxadisId','განაცხადის ID','',false)
 						hr
 						a.btn.btn-default.txt-capital(ng-click='openCarmomadgeneliDialog()') წარმომადგენელი პირი
 						hr
@@ -34,9 +35,11 @@ block content
 								+typeahead([4,6],'licenzia.informaciaObiektisShesaxeb.regioni',regionebi,'რეგიონი',true)
 								+typeahead([4,6],'licenzia.informaciaObiektisShesaxeb.municipaliteti',municipalitetebi,'მუნიციპალიტეტი',true)
 								+textbox([4,6],'licenzia.informaciaObiektisShesaxeb.dasaxlebuliPunkti','დასახლებული პუნქტი','',true)
+								+textbox([4,6],'licenzia.informaciaObiektisShesaxeb.sabadosKodi','საბადოს კოდი','',false)
 							div.col-md-6
 								+combobox([4,6],'licenzia.informaciaObiektisShesaxeb.fartobiUom',fartobiUoms,'ფართობის საზომი ერთეული',true)
 								+numberbox([4,6],'licenzia.informaciaObiektisShesaxeb.fartobi','ფართობი','',true)
+								+fileUpload([4,8],'informaciaObiektisShesaxeb/shapeFailebi','*',true,'შეიპ ფაილები',false)
 							div.col-md-12
 								+panel('რესურსები')
 									table.table.table-hover.table-bordered.table-condensed
@@ -76,7 +79,7 @@ block content
 									label.control-label.col-md-4.txt-capital შეზღუდული სტატუსის საფუძველი
 									div.col-md-6
 										input.form-control(type='file',name='informaciaLicenziisShesaxeb/statusi/safudzveli',
-																	file-upload,accept=accept,multiple=multiple,required)
+										file-upload,accept=accept,multiple=multiple,required)
 								+fileUpload([4,6],'informaciaLicenziisShesaxeb/mibmuliFailebi','*',true,'ფაილები',true)
 							div.col-md-12
 								hr
@@ -100,10 +103,10 @@ block content
 										label.control-label.col-md-1.txt-capital= k
 										div.col-md-4
 											input.form-control(type='number',step='any',name='licenzia.damatebitiInformacia.'+k+'.mnishvneloba',
-																				ng-model='licenzia.damatebitiInformacia.'+k+'.mnishvneloba')
+											ng-model='licenzia.damatebitiInformacia.'+k+'.mnishvneloba')
 										div.col-md-7
 											select.form-control(type='text',name='licenzia.damatebitiInformacia.'+k+'.uom',
-																				ng-model='licenzia.damatebitiInformacia.'+k+'.uom')
+											ng-model='licenzia.damatebitiInformacia.'+k+'.uom')
 												option= ""
 												each u in uoms
 													option= u
@@ -116,24 +119,24 @@ block content
 												label.control-label.col-md-4.txt-capital {{field.label}}
 												div.col-md-6
 													input.form-control(type="{{field.type}}",name="{{field.name}}",
-																						placeholder="{{field.placeholder}}",
-																						ng-required="carmSaf.active",
-																						ng-model="field.value",
-																						ng-if="field.type!='file' && field.type!='number'")
+													placeholder="{{field.placeholder}}",
+													ng-required="carmSaf.active",
+													ng-model="field.value",
+													ng-if="field.type!='file' && field.type!='number'")
 													input.form-control(type="number",
-																						name="{{field.name}}",
-																						step='any',
-																						placeholder="{{field.placeholder}}",
-																						ng-required="carmSaf.active",
-																						ng-model="field.value",
-																						ng-if="field.type=='number'")
+													name="{{field.name}}",
+													step='any',
+													placeholder="{{field.placeholder}}",
+													ng-required="carmSaf.active",
+													ng-model="field.value",
+													ng-if="field.type=='number'")
 													input.form-control(type='file',
-																						name="{{field.name}}",
-																						file-upload,
-																						accept='*',
-																						multiple,
-																						ng-required="carmSaf.active",
-																						ng-if="field.type == 'file'")
+													name="{{field.name}}",
+													file-upload,
+													accept='*',
+													multiple,
+													ng-required="carmSaf.active",
+													ng-if="field.type == 'file'")
 							div.col-md-12
 								+panel('ლიცენზიის გაუქმების საფუძველი')
 									tabset
@@ -143,24 +146,26 @@ block content
 												label.control-label.col-md-4.txt-capital {{field.label}}
 												div.col-md-6
 													input.form-control(type="{{field.type}}",
-																						name="{{field.name}}",
-																						placeholder="{{field.placeholder}}",
-																						ng-required="gauqSaf.active",
-																						ng-model="field.value",
-																						ng-if="field.type!='file' && field.type!='number'")
+													name="{{field.name}}",
+													placeholder="{{field.placeholder}}",
+													ng-required="gauqSaf.active",
+													ng-model="field.value",
+													ng-if="field.type!='file' && field.type!='number'")
 													input.form-control(type="number",
-																						name="{{field.name}}",
-																						step='any',
-																						placeholder="{{field.placeholder}}",
-																						ng-required="gauqSaf.active",
-																						ng-model="field.value",
-																						ng-if="field.type=='number'")
+													name="{{field.name}}",
+													step='any',
+													placeholder="{{field.placeholder}}",
+													ng-required="gauqSaf.active",
+													ng-model="field.value",
+													ng-if="field.type=='number'")
 													input.form-control(type='file',
-																						name="{{field.name}}",
-																						file-upload,
-																						accept='*',
-																						multiple,
-																						ng-required="gauqSaf.active",
-																						ng-if="field.type == 'file'")
+													name="{{field.name}}",
+													file-upload,
+													accept='*',
+													multiple,
+													ng-required="gauqSaf.active",
+													ng-if="field.type == 'file'")
 					div.col-md-12
 						button.btn.btn-success.pull-right.txt-capital(type='submit',name='submit') რეგისტრაცია
+					div.col-md-12
+						hr

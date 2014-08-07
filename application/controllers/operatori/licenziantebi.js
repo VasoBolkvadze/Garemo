@@ -1,5 +1,4 @@
-var express = require('express'),
-	user = require('../../core/user'),
+var user = require('../../core/user'),
 	helpers = require('../../utils/helpers'),
 	cfg = require('../../../config'),
 	fs = require('fs'),
@@ -9,8 +8,7 @@ var express = require('express'),
 	path = require('path'),
 	store = require('nodeRaven')(cfg.dbUrl);
 
-module.exports = (function () {
-	var router = express.Router();
+module.exports = function (router) {
 	router.get('/operatori/licenziantebi/angarishebi'
 		, user.mustBe('operatori')
 		, function (req, res, next) {
@@ -102,9 +100,7 @@ module.exports = (function () {
 						next(err);
 				});
 		});
-
-	return router;
-})();
+};
 
 function getLicenziantiByPid(pid, done) {
 	store.indexQuery('Licenzireba'

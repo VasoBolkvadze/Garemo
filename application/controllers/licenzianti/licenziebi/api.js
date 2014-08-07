@@ -1,13 +1,11 @@
-var express = require('express'),
-	user = require('../../../core/user'),
+var user = require('../../../core/user'),
 	cfg = require('../../../../config.json'),
 	store = require('nodeRaven')(cfg.dbUrl),
 	notificator = require('../../../core/notificator'),
 	helpers = require('../../../utils/helpers'),
 	debug = require('debug')('controllers:licenzianti:licenziebi');
 
-module.exports = (function () {
-	var router = express.Router();
+module.exports = function (router) {
 	router.post('/licenzianti/licenziebi/:id/atvisebisGegma'
 		, user.mustBe('licenzianti')
 		, function (req, res, next) {
@@ -80,5 +78,4 @@ module.exports = (function () {
 						next(err);
 				});
 		});
-	return router;
-})();
+};

@@ -1,8 +1,6 @@
-var express = require('express'),
-	notificator = require('../../core/notificator');
+var notificator = require('../../core/notificator');
 
-module.exports = (function () {
-	var router = express.Router();
+module.exports = function (router) {
 	router.get('/createNotification', function (req, res, next) {
 		res.render('tests/newNotification');
 	});
@@ -13,5 +11,4 @@ module.exports = (function () {
 		notificator.registerNotification(recipient, sendOn, msg);
 		res.end();
 	});
-	return router;
-})();
+};

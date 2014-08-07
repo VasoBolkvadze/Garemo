@@ -1,11 +1,9 @@
-var express = require('express'),
-	helpers = require('../../../utils/helpers'),
+var helpers = require('../../../utils/helpers'),
 	user = require('../../../core/user'),
 	cfg = require('../../../../config.json'),
 	store = require('nodeRaven')(cfg.dbUrl);
 
-module.exports = (function () {
-	var router = express.Router();
+module.exports = function (router) {
 	router.get('/operatori/atvisebisGegmebi'
 		, user.mustBe('operatori')
 		, function (req, res, next) {
@@ -52,9 +50,7 @@ module.exports = (function () {
 						next(err);
 				});
 		});
-
-	return router;
-})();
+};
 
 function Sia(baseUrl, docs) {
 	this.baseUrl = baseUrl;

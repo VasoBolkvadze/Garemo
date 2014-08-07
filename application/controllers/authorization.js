@@ -1,9 +1,7 @@
-var express = require('express'),
-	user = require('../core/user'),
+var	user = require('../core/user'),
 	passport = require('passport');
 
-module.exports = (function () {
-	var router = express.Router();
+module.exports = function (router) {
 	router.get('/login', function (req, res, next) {
 		res.render('login', { message: req.flash('loginMessage') });
 	});
@@ -20,5 +18,4 @@ module.exports = (function () {
 			req.logout();
 			res.redirect('/');
 		});
-	return router;
-})();
+};
