@@ -6,7 +6,7 @@ var formidable = require('formidable'),
 	helpers = require('../../../utils/helpers'),
 	async = require('async'),
 	notificator = require('../../../core/notificator'),
-	store = require('nodeRaven')(cfg.dbUrl),
+	store = require('noderaven')(cfg.db.url),
 	uuid = require('node-uuid'),
 	user = require('../../../core/user'),
 	appSettings = require('../../../utils/appSettings'),
@@ -66,7 +66,7 @@ module.exports = function (router) {
 						doc._metadata = {
 							creator: req.user.username
 						};
-						store.save('Licenzireba'
+						store.save(cfg.db.name
 							, 'Licenzia'
 							, doc
 							, function (dberr, result) {
@@ -170,7 +170,7 @@ module.exports = function (router) {
 	router.get('/operatori/api/licenziebi/:id'
 		, user.mustBe('operatori')
 		, function (req, res, next) {
-			store.load('Licenzireba'
+			store.load(cfg.db.name
 				, 'Licenzia/' + req.params.id
 				, function (err, doc) {
 					if (!err)

@@ -6,7 +6,7 @@ var cfg = require('../../../../config.json'),
 	viewModels = require('../../../viewModels'),
 	async = require('async'),
 	notificator = require('../../../core/notificator'),
-	store = require('nodeRaven')(cfg.dbUrl),
+	store = require('noderaven')(cfg.db.url),
 	user = require('../../../core/user');
 
 module.exports = function (router) {
@@ -17,7 +17,7 @@ module.exports = function (router) {
 			var limit = req.query.limit || 12;
 			var searchText = req.query.searchText || '';
 			var whereClause = helpers.buildWhereClause(searchText);
-			store.indexQuery('Licenzireba'
+			store.indexQuery(cfg.db.name
 				, 'Licenziebi/ByKeywords'
 				, whereClause
 				, start
@@ -47,7 +47,7 @@ module.exports = function (router) {
 		, function (req, res, next) {
 			var searchText = req.query.searchText || '';
 			var keyword = searchText.split(' ')[0];
-			store.suggest('Licenzireba'
+			store.suggest(cfg.db.name
 				, 'Licenziebi/ByKeywords'
 				, keyword
 				, 'fullText'
@@ -79,7 +79,7 @@ module.exports = function (router) {
 	router.get('/operatori/licenziebi/:id'
 		, user.mustBe('operatori')
 		, function (req, res, next) {
-			store.load('Licenzireba'
+			store.load(cfg.db.name
 				, 'Licenzia/' + req.params.id
 				, function (err, doc) {
 					if (!err)

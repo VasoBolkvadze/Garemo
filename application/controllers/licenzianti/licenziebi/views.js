@@ -1,6 +1,6 @@
 var user = require('../../../core/user'),
 	cfg = require('../../../../config.json'),
-	store = require('nodeRaven')(cfg.dbUrl),
+	store = require('noderaven')(cfg.db.url),
 	notificator = require('../../../core/notificator'),
 	viewModels = require('../../../viewModels'),
 	helpers = require('../../../utils/helpers'),
@@ -18,7 +18,7 @@ module.exports = function (router) {
 				whereClause += ' AND';
 			whereClause += ' pid:{0} AND statusi:"{1}"'.format(req.user.username, 'აქტიური')
 			debug('whereClause:', whereClause);
-			store.indexQuery('Licenzireba'
+			store.indexQuery(cfg.db.name
 				, 'Licenziebi/ByKeywords'
 				, whereClause
 				, start
@@ -48,7 +48,7 @@ module.exports = function (router) {
 		, user.mustBe('licenzianti')
 		, function (req, res, next) {
 			var query = 'pid:{0} AND statusi:ახალი'.format(req.user.username);
-			store.indexQuery('Licenzireba'
+			store.indexQuery(cfg.db.name
 				, 'Licenziebi/ByKeywords'
 				, query, 0, 1, []
 				, function (err, result) {
@@ -67,7 +67,7 @@ module.exports = function (router) {
 	router.get('/licenzianti/licenziebi/:id'
 		, user.mustBe('licenzianti')
 		, function (req, res, next) {
-			store.load('Licenzireba'
+			store.load(cfg.db.name
 				, 'Licenzia/' + req.params.id
 				, function (err, doc) {
 					if (!err)

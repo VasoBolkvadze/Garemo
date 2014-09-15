@@ -1,13 +1,13 @@
 var helpers = require('../../../utils/helpers'),
 	user = require('../../../core/user'),
 	cfg = require('../../../../config.json'),
-	store = require('nodeRaven')(cfg.dbUrl);
+	store = require('noderaven')(cfg.db.url);
 
 module.exports = function (router) {
 	router.get('/operatori/atvisebisGegmebi'
 		, user.mustBe('operatori')
 		, function (req, res, next) {
-			store.indexQuery('Licenzireba'
+			store.indexQuery(cfg.db.name
 				, 'atvisebisGegmebi/ByLicenziaCreator'
 				, 'licenziaCreator:{0}'.format('momxmarebeli/vaso')
 				, 0, 128, ['-dateCreated']
@@ -23,7 +23,7 @@ module.exports = function (router) {
 	router.get('/operatori/atvisebisGegmebi/:id/korektireba'
 		, user.mustBe('operatori')
 		, function (req, res, next) {
-			store.load('Licenzireba'
+			store.load(cfg.db.name
 				, 'atvisebisGegma/' + req.params.id
 				, function (err, doc) {
 					if (!err) {
@@ -38,7 +38,7 @@ module.exports = function (router) {
 	router.get('/operatori/atvisebisGegmebi/:id'
 		, user.mustBe('operatori')
 		, function (req, res, next) {
-			store.load('Licenzireba'
+			store.load(cfg.db.name
 				, 'atvisebisGegma/' + req.params.id
 				, function (err, doc) {
 					if (!err) {

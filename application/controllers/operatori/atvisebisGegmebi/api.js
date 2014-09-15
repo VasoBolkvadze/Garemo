@@ -1,12 +1,12 @@
 var user = require('../../../core/user'),
 	cfg = require('../../../../config.json'),
-	store = require('nodeRaven')(cfg.dbUrl);
+	store = require('noderaven')(cfg.db.url);
 
 module.exports = function (router) {
 	router.get('/operatori/api/atvisebisGegmebi/:id'
 		, user.mustBe('operatori')
 		, function (req, res, next) {
-			store.load('Licenzireba'
+			store.load(cfg.db.name
 				, 'atvisebisGegma/' + req.params.id
 				, function (err, doc) {
 					if (!err) {
@@ -29,7 +29,7 @@ module.exports = function (router) {
 					Value: 'დამტკიცებული'
 				}
 			];
-			store.patch('Licenzireba'
+			store.patch(cfg.db.name
 				, id
 				, operations
 				, function (err, result) {
@@ -51,7 +51,7 @@ module.exports = function (router) {
 					Value: 'უარყოფილი'
 				}
 			];
-			store.patch('Licenzireba'
+			store.patch(cfg.db.name
 				, id
 				, operations
 				, function (err, result) {
@@ -67,7 +67,7 @@ module.exports = function (router) {
 		, function (req, res, next) {
 			var doc = req.body;
 			doc._id = 'atvisebisGegma/' + req.params.id;
-			store.save('Licenzireba'
+			store.save(cfg.db.name
 				, 'atvisebisGegma'
 				, doc
 				, function (err, result) {

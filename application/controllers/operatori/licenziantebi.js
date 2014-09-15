@@ -6,7 +6,7 @@ var user = require('../../core/user'),
 	viewModels = require('../../viewModels'),
 	async = require('async'),
 	path = require('path'),
-	store = require('nodeRaven')(cfg.dbUrl);
+	store = require('noderaven')(cfg.db.url);
 
 module.exports = function (router) {
 	router.get('/operatori/licenziantebi/angarishebi'
@@ -16,7 +16,7 @@ module.exports = function (router) {
 			var limit = req.query.limit || 12;
 			var searchText = req.query.searchText || '';
 			var whereClause = helpers.buildWhereClause(searchText);
-			store.indexQuery('Licenzireba'
+			store.indexQuery(cfg.db.name
 				, 'Licenziantebi/ByKeywords'
 				, whereClause
 				, start
@@ -44,7 +44,7 @@ module.exports = function (router) {
 		, function (req, res, next) {
 			var searchText = req.query.searchText || '';
 			var keyword = searchText.split(' ')[0];
-			store.suggest('Licenzireba'
+			store.suggest(cfg.db.name
 				, 'Licenziantebi/ByKeywords'
 				, keyword
 				, 'fullText'
@@ -86,7 +86,7 @@ module.exports = function (router) {
 							password: helpers.makeRandomPwd(),
 							roleId:'role/licenzianti'
 						};
-						store.save('Licenzireba'
+						store.save(cfg.db.name
 							,'momxmarebeli'
 							,momxmarebeli
 							,function(saveError,saveResult){
@@ -103,7 +103,7 @@ module.exports = function (router) {
 };
 
 function getLicenziantiByPid(pid, done) {
-	store.indexQuery('Licenzireba'
+	store.indexQuery(cfg.db.name
 		, 'Licenziantebi/ByKeywords'
 		, 'pid:' + pid
 		, 0, 1, []

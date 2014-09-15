@@ -1,6 +1,6 @@
 var passport = require('passport'),
 	cfg = require('../../config'),
-	store = require('nodeRaven')(cfg.dbUrl),
+	store = require('noderaven')(cfg.db.url),
 	LocalStrategy = require('passport-local').Strategy;
 
 module.exports.init = function () {
@@ -8,11 +8,11 @@ module.exports.init = function () {
 		done(null, user['@metadata']['@id']);
 	});
 	passport.deserializeUser(function (id, done) {
-		store.load('Licenzireba'
+		store.load(cfg.db.name
 			, id
 			, function(err,user){
 				user = clearMetadataExtractId(user);
-				store.load('Licenzireba'
+				store.load(cfg.db.name
 					, user.roleId
 					, function (err, role) {
 						if (!err) {
@@ -44,8 +44,8 @@ module.exports.init = function () {
 };
 
 function findUserByUsername(username, done) {
-	store.load('Licenzireba'
-		, 'momxmarebeli/' + username
+	store.load(cfg.db.name
+		, 'momxmarebeli/'+username
 		, function (err, user) {
 			if (!err) {
 				done(null, user);

@@ -1,6 +1,6 @@
 var user = require('../../../core/user'),
 	cfg = require('../../../../config.json'),
-	store = require('nodeRaven')(cfg.dbUrl),
+	store = require('noderaven')(cfg.db.url),
 	notificator = require('../../../core/notificator'),
 	helpers = require('../../../utils/helpers'),
 	debug = require('debug')('controllers:licenzianti:licenziebi');
@@ -13,7 +13,7 @@ module.exports = function (router) {
 			doc.licenziisId = 'Licenzia/' + req.params.id;
 			doc.statusi = 'მოლოდინში';
 			doc._id = 'atvisebisGegma/' + req.params.id;
-			store.save('Licenzireba'
+			store.save(cfg.db.name
 				, 'atvisebisGegma'
 				, doc
 				, function (err, result) {
@@ -60,7 +60,7 @@ module.exports = function (router) {
 					]
 				}
 			];
-			store.patch('Licenzireba'
+			store.patch(cfg.db.name
 				, id
 				, operations
 				, function (err, result) {

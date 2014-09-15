@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 var debug = require('debug')('www'),
+    jsananda = require('jsananda'),
 	socket = require('socket.io'),
 	notificator = require('./application/core/notificator'),
 	app = require('./application');

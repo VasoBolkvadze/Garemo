@@ -8,6 +8,7 @@ module.exports.init = function (app) {
 		var declarator = routeDeclarators[i];
 		var router = express.Router();
 		require(declarator)(router);
+        console.log('using routes declared in "'+declarator+'"');
 		app.use(router);
 	}
 };
