@@ -16,6 +16,7 @@ module.exports = function (router) {
 			var limit = req.query.limit || 12;
 			var searchText = req.query.searchText || '';
 			var whereClause = helpers.buildWhereClause(searchText);
+			whereClause+= (whereClause.length ? ' AND ' : '') + 'licenziaCreators:'+req.user.username;
 			store.indexQuery(cfg.db.name
 				, 'Licenziantebi/ByKeywords'
 				, whereClause

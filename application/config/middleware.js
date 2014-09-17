@@ -34,7 +34,7 @@ module.exports.init = function (app) {
 			req.body.username = cfg.authorization.user;
 			req.body.password = cfg.authorization.pass;
 			passport.authenticate('local-login', {
-				successRedirect: cfg.authorization.redirect,
+				successRedirect: req.url,
 				failureRedirect: '/login',
 				failureFlash: true
 			})(req, res, next);

@@ -17,28 +17,25 @@ module.exports = function (router) {
 			var limit = req.query.limit || 12;
 			var searchText = req.query.searchText || '';
 			var whereClause = helpers.buildWhereClause(searchText);
+			whereClause+= (whereClause.length ? ' AND ' : '') + 'creator:'+req.user.username;
 			store.indexQuery(cfg.db.name
 				, 'Licenziebi/ByKeywords'
 				, whereClause
 				, start
 				, limit
-				, []
+				, ['-idn']
 				, function (err, result) {
-					if (!err) {
-						if (!result.docs.length && searchText.length) {
-							res.redirect('/operatori/licenziebi/suggestions?searchText=' + searchText);
-						} else {
-							var model = new viewModels.LicenziebisSia(
-								'/operatori/licenziebi'
-								, start
-								, limit
-								, searchText
-								, result.stats.TotalResults
-								, result.docs);
-							res.render('operatori/licenziebi/sia', model);
-						}
-					} else
-						next(err);
+					if (err) return next(err);
+					if (!result.docs.length && searchText.length)
+						return res.redirect('/operatori/licenziebi/suggestions?searchText=' + searchText);
+					var model = new viewModels.LicenziebisSia(
+						'/operatori/licenziebi'
+						, start
+						, limit
+						, searchText
+						, result.stats.TotalResults
+						, result.docs);
+					res.render('operatori/licenziebi/sia', model);
 				});
 		});
 
@@ -82,13 +79,11 @@ module.exports = function (router) {
 			store.load(cfg.db.name
 				, 'Licenzia/' + req.params.id
 				, function (err, doc) {
-					if (!err)
-						res.render('operatori/licenziebi/detail', {
-							doc: doc,
-							fieldLabels: require('../../../data/fieldLabels')
-						});
-					else
-						next(err);
+					if(err) return next(err);
+					res.render('operatori/licenziebi/detail', {
+						doc: doc,
+						fieldLabels: require('../../../data/fieldLabels')
+					});
 				});
 		});
 

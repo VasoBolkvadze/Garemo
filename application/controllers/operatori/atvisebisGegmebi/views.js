@@ -61,7 +61,7 @@ function Sia(baseUrl, docs) {
 			licenziisId: doc.licenziisId,
 			chanacerebisRaodenoba: doc.chanacerebi.length,
 			statusi:doc.statusi,
-			carmodgenisTarigi: new Date(doc['@metadata']['DateCreated']).toHumanString(),
+			carmodgenisTarigi: new Date(doc['@metadata']['DateCreated']).format('dd/MM/yyyy'),
 			edit:baseUrl + id.replace('atvisebisGegma','')
 		};
 	});
