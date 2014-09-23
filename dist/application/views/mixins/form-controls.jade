@@ -1,0 +1,64 @@
+mixin typeahead(proportions,fieldName,list,label,required,placeholder,selectedItem)
+	div.form-group
+		label(class='control-label '+'txt-capital '+'col-md-'+proportions[0].toString())= label
+		div(class='col-md-'+proportions[1].toString())
+			input.form-control(type='text',name=fieldName,placeholder=placeholder,
+												list=fieldName+'-list',value=selectedItem,required=required,ng-model=fieldName)
+			datalist(id=fieldName+'-list')
+				if list
+					each item in list
+						option=item
+
+mixin datepicker(proportions,fieldName,label,required,defaultValue)
+	div.form-group
+		label(class='control-label '+'txt-capital '+'col-md-'+proportions[0].toString())= label
+		div(class='col-md-'+proportions[1].toString())
+			input.form-control(type='date',name=fieldName,value=defaultValue,required=required,ng-model=fieldName)
+
+mixin textbox(proportions,fieldName,label,placeholder,required)
+	div.form-group
+		label(class='control-label '+'txt-capital '+'col-md-'+proportions[0].toString())= label
+		div(class='col-md-'+proportions[1].toString())
+			input.form-control(type='text',name=fieldName,placeholder=placeholder, required=required,ng-model=fieldName)
+
+mixin radio(proportions,fieldName,group,options,label,required)
+	div.form-group
+		label(class='control-label '+'txt-capital '+'col-md-'+proportions[0].toString())= label
+		each o in options
+			div(class='radio '+'col-md-offset-'+proportions[1].toString())
+				label= o
+					- var checked = options.indexOf(o) == 0;
+					input(type='radio', name=group, value=o, checked=checked,ng-model=fieldName,required=checked)
+
+mixin fileUpload(proportions,fieldName,accept,multiple,label,required)
+	div.form-group
+		label(class='control-label '+'txt-capital '+'col-md-'+proportions[0].toString())= label
+		div(class='col-md-'+proportions[1].toString())
+			input.form-control(type='file',name=fieldName,file-upload,accept=accept,multiple=multiple,required=required)
+
+mixin combobox(proportions,fieldName,options,label,required)
+	div.form-group
+		label(class='control-label '+'txt-capital '+'col-md-'+proportions[0].toString())= label
+		div(class='col-md-'+proportions[1].toString())
+			select.form-control(type='text',name=fieldName, required=required,ng-model=fieldName)
+				option
+				each o in options
+					option= o
+
+mixin numberbox(proportions,fieldName,label,placeholder,required)
+	div.form-group
+		label(class='control-label '+'txt-capital '+'col-md-'+proportions[0].toString())= label
+		div(class='col-md-'+proportions[1].toString())
+			input.form-control(type='number',step='any',placeholder=placeholder,name=fieldName, required=required,ng-model=fieldName)
+
+mixin specInput(proportions,fieldName,inputType,icon,label,placeholder,required)
+	div.form-group
+		label(class='control-label '+'txt-capital '+'col-md-'+proportions[0].toString())= label
+		div(class='input-group '+'col-md-'+proportions[1].toString())
+			span.input-group-addon
+				span(class="#{'glyphicon '+'glyphicon-'+icon}")
+			input.form-control(type=inputType, name=fieldName,placeholder=placeholder, required=required,ng-model=fieldName)
+
+mixin bigtext(fieldName,label,rows,cols,required)
+	label.control-label.txt-capital= label
+	textarea.form-control(type='text',name=fieldName,rows=rows, cols=cols, ui-tinymce, required=required,ng-model=fieldName)

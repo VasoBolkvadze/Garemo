@@ -1,5 +1,5 @@
 
-module.exports = function (router) {
+module.exports.declare = function (router) {
 	router.get('/templates/:subdir/:subsubdir/:tpl', function (req, res) {
 		res.render(req.params.subdir + '/' + req.params.subsubdir + '/' + req.params.tpl
 			, {}

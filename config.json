@@ -3,7 +3,7 @@
 	"envMode": "development",
 	"authorization":{
 		"type":"auto",
-		"user":"g.kalandadze",
+		"user":"vako",
 		"pass":"123456"
 	},
     "db":{

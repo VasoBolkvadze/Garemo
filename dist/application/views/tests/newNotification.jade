@@ -1,0 +1,40 @@
+extends ../layout
+block body
+	script.
+		function newNotificationCtrl($scope,$http){
+				var counter=1;
+				$scope.data={
+					'for':'vaso',
+					sendWhen:'instantly',
+					message:'Hello Sir.'
+				};
+				$scope.response = null;
+				$scope.create = function () {
+					var msg = '#' + (counter++) + ' ' + angular.copy($scope.data.message);
+					var data = angular.copy($scope.data);
+					data.message = msg;
+					$http.post('/createNotification', data)
+						.success(function (data, status) {
+								$scope.response = 'status:' + status + ' data:' + JSON.stringify(data);
+						})
+						.error(function (data, status) {
+								$scope.response = 'status:' + status + ' data:' + JSON.stringify(data);
+						});
+				};
+			};
+	div.container(ng-controller="newNotificationCtrl")
+		div.row
+			h3.page-header New Notification
+			div
+				label.col-md-4 FOR
+				input.col-md-6(type='text',ng-model='data.for')
+			div
+				label.col-md-4 SEND WHEN
+				input.col-md-6(type='text',ng-model='data.sendWhen')
+			div
+				label.col-md-4 MESSAGE
+				textarea.col-md-6(ng-model='data.message')
+		div.row
+			a.btn.btn-primary.pull-right(ng-click="create()") Create
+		div.row
+			h3 {{response}}

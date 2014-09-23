@@ -1,0 +1,20 @@
+mixin panel(heading,headerSize)
+	div.panel.panel-default
+		div.panel-heading
+			case headerSize
+				when 1
+					h1.txt-capital= heading
+				when 2
+					h2.txt-capital= heading
+				when 3
+					h3.txt-capital= heading
+				when 4
+					h4.txt-capital= heading
+				default
+					span.txt-capital= heading
+		div.panel-body
+			block
+mixin tab(heading)
+	tab(heading=heading,style='cursor:pointer !important;')
+		hr
+		block

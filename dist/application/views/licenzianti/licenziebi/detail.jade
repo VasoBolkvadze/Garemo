@@ -1,0 +1,238 @@
+extends ../../index
+block content
+	- var docId = doc['@metadata']['@id'];
+	- var docIdNumber = doc['@metadata']['@id'].replace('Licenzia/','');
+	div.container
+		div.panel.panel-primary
+			div.panel-heading
+				table.stretch
+					tbody
+						tr
+							td(style='width:85%;')
+								h3.text-center.txt-capital(style='margin-left:50px;')='ლიცენზია'+' / '+docIdNumber
+							td(style='width:15%;')
+								a.btn.btn-default.btn-block(href=docIdNumber + '/atvisebisGegma')
+									span.txt-capital ათვისების გეგმის წარდგენა
+			div.panel-body
+				div.row
+					div.col-md-4
+						div.panel.panel-info
+							div.panel-heading
+								span.panel-title ლიცენზიანტის მონაცემები
+							div.panel-body
+								h4= doc.licenziantisMonacemebi.dasaxeleba
+							table.table.table-bordered
+								tr
+									th.txt-capital საიდენთიფიკაციო ნომერი
+									td= doc.licenziantisMonacemebi.pid
+								tr
+									th.txt-capital მისამართი ფაქტიური
+									td= doc.licenziantisMonacemebi.faktMisamarti
+								tr
+									th.txt-capital მისამართი იურიდიული
+									td= doc.licenziantisMonacemebi.iurMisamarti
+								tr
+									th.txt-capital ტელეფონი
+									td= doc.licenziantisMonacemebi.tel
+								tr
+									th.txt-capital e-ფოსტა
+									td= doc.licenziantisMonacemebi.mail
+								tr
+									th.txt-capital ფაილები
+									td
+										each f in doc.licenziantisMonacemebi.mibmuliFailebi
+											div
+												a(href='/uploads/'+f)= f.substring(0,8)
+						div.panel.panel-info
+							div.panel-heading
+								span.panel-title წარმოქმნის საფუძველი
+							div.panel-body
+								h4= doc.carmoqmnisSafudzveli.title
+							table.table.table-bordered
+								each val,key in doc.carmoqmnisSafudzveli
+									if key!='title' && key!='name'
+										tr
+											th.txt-capital= fieldLabels[key]
+											td= val
+					div.col-md-4
+						div.panel.panel-info
+							div.panel-heading
+								span.panel-title წარმომადგენელი პირი
+							table.table.table-bordered
+								tr
+									th.txt-capital პირადი ნომერი
+									td= doc.carmomadgeneli.pid
+								tr
+									th.txt-capital სახელი
+									td= doc.carmomadgeneli.saxeli
+								tr
+									th.txt-capital გვარი
+									td= doc.carmomadgeneli.gvari
+								tr
+									th.txt-capital ტელეფონი
+									td= doc.carmomadgeneli.tel
+								tr
+									th.txt-capital e-ფოსტა
+									td= doc.carmomadgeneli.mail
+						div.panel.panel-info
+							div.panel-heading
+								span.panel-title დამატებითი ინფორმაცია
+							table.table.table-bordered
+								tr
+									th.txt-capital a
+									td= doc.damatebitiInformacia.a.mnishvneloba
+									td= doc.damatebitiInformacia.a.uom
+								tr
+									th.txt-capital b
+									td= doc.damatebitiInformacia.b.mnishvneloba
+									td= doc.damatebitiInformacia.b.uom
+								tr
+									th.txt-capital c1
+									td= doc.damatebitiInformacia.c1.mnishvneloba
+									td= doc.damatebitiInformacia.c1.uom
+								tr
+									th.txt-capital c2
+									td= doc.damatebitiInformacia.c2.mnishvneloba
+									td= doc.damatebitiInformacia.c2.uom
+								tr
+									th.txt-capital p
+									td= doc.damatebitiInformacia.p.mnishvneloba
+									td= doc.damatebitiInformacia.p.uom
+								tr
+									th.txt-capital რეგულირების გადამხდელი
+									td(colspan='2')= doc.damatebitiInformacia.regulirebisGadamxdeli
+								tr
+									th.txt-capital რუკა
+									td(colspan='2')
+										each f in doc.damatebitiInformacia.ruqa
+											div
+												a(href='/uploads/'+f)= f.substring(0,8)
+								tr
+									th.txt-capital გეოსაინფორმაციო პაკეტი
+									td(colspan='2')
+										each f in doc.damatebitiInformacia.geoSainformacioPaketi
+											div
+												a(href='/uploads/'+f)= f.substring(0,8)
+								tr
+									th.txt-capital ათვისების გეგმა
+									td(colspan='2')
+										if doc.damatebitiInformacia.atvisebisGegma && Array.isArray(doc.damatebitiInformacia.atvisebisGegma)
+											each f in doc.damatebitiInformacia.atvisebisGegma
+												div
+													a(href='/uploads/'+f)= f.substring(0,8)
+						div.panel.panel-info
+							div.panel-heading
+								span.panel-title გაუქმების საფუძველი
+							div.panel-body
+								h4= doc.gauqmebisSafudzveli.title
+							table.table.table-bordered
+								each val,key in doc.gauqmebisSafudzveli
+									if key!='title' && key!='name'
+										tr
+											th.txt-capital= fieldLabels[key]
+											td= val
+					div.col-md-4
+						div.panel.panel-info
+							div.panel-heading
+								span.panel-title სტატუსი
+							h4.text-center= doc.informaciaLicenziisShesaxeb.statusi.mnishvneloba
+							if doc.informaciaLicenziisShesaxeb.statusi.safudzveli
+								table.table.table-bordered
+									tr
+										th.txt-capital საფუძველი
+										td
+											each f in doc.informaciaLicenziisShesaxeb.statusi.safudzveli
+												div
+													a(href='/uploads/'+f)= f.substring(0,8)
+						div.panel.panel-info
+							div.panel-heading
+								span.panel-title ინფორმაცია ლიცენზიის შესახებ
+							table.table.table-bordered
+								tr
+									th.txt-capital ლიცენზიის #
+									td= doc.informaciaLicenziisShesaxeb.nomeri
+								tr
+									th.txt-capital გაცემის თარიღი
+									td= doc.informaciaLicenziisShesaxeb.gacemisTarigi
+								tr
+									th.txt-capital ბრძანების #
+									td= doc.informaciaLicenziisShesaxeb.brdzanebisNomeri
+								tr
+									th.txt-capital ბრძანების თარიღი
+									td= doc.informaciaLicenziisShesaxeb.gacemisTarigi
+								tr
+									th.txt-capital მოქმედების ვადა
+									td= doc.informaciaLicenziisShesaxeb.moqmedebisVada
+								tr
+									th.txt-capital სალიცენზიო პირობები
+									td
+										if doc.informaciaLicenziisShesaxeb.salicenzioPirobebi
+											a(href='/operatori/licenziebi/'+docIdNumber+'/salicenzioPirobebi')
+								tr
+									th.txt-capital ფაილები
+									td
+										each f in doc.informaciaLicenziisShesaxeb.mibmuliFailebi
+											div
+												a(href='/uploads/'+f)= f.substring(0,8)
+						div.panel.panel-info
+							div.panel-heading
+								span.panel-title metadata
+							table.table.table-bordered
+								tr
+									th.txt-capital id
+									td= doc['@metadata']['@id']
+								tr
+									th.txt-capital შექმნის თარიღი
+									td= new Date(doc['@metadata']['dateCreated']).format('dd/MM/yyyy hh:mm')
+								tr
+									th.txt-capital ბოლო ცვლილება
+									td= new Date(doc['@metadata']['raven-last-modified']).format('dd/MM/yyyy hh:mm')
+								tr
+									th.txt-capital E-Tag
+									td= doc['@metadata']['etag']
+			div.row
+				div.panel.panel-info
+					div.panel-heading
+						span.panel-title ინფორმაცია ობიექტის შესახებ
+					div.panel-body
+						div.col-md-12
+							div.row
+								div.col-md-4
+									div.panel.panel-default
+										div.panel-heading
+											span.txt-capital მდებარეობა
+										table.table.table-bordered
+											tr
+												th.txt-capital რეგიონი
+												td= doc.informaciaObiektisShesaxeb.regioni
+											tr
+												th.txt-capital მუნიციპალიტეტი
+												td= doc.informaciaObiektisShesaxeb.municipaliteti
+											tr
+												th.txt-capital დასახლებული პუნქტი
+												td= doc.informaciaObiektisShesaxeb.dasaxlebuliPunkti
+								div.col-md-4
+									div.panel.panel-default
+										div.panel-heading
+											span.txt-capital ფართობი
+										h4.text-center= doc.informaciaObiektisShesaxeb.fartobi + ' ' + doc.informaciaObiektisShesaxeb.fartobiUom
+							div.panel.panel-default
+								div.panel-heading
+									span.txt-capital რესურსები
+								div.panel-body(style='padding:0px !important;')
+									table.table.table-bordered.table-hover(style='margin-bottom:0px !important;')
+										thead
+											tr
+												th(width='5%') #
+												th(width='45%').txt-capital დასახელება
+												th(width='10%').txt-capital რაოდენობა
+												th(width='15%').txt-capital ზომის ერთეული
+												th(width='25%').txt-capital გამოყენების სფერო
+										tbody
+											each resursi,i in doc.informaciaObiektisShesaxeb.resursebi
+												tr
+													td= i+1
+													td= resursi.dasaxeleba
+													td= resursi.raodenoba
+													td= resursi.uom
+													td= resursi.gamokenebisSfero

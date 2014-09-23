@@ -1,0 +1,43 @@
+extends ../../index
+block content
+	div.jumbotron.jumbotron-ultra-sm
+		div.container
+			div.row
+				div.col-sm-12.col-lg-12
+					h2.txt-capital ჩემი ლიცენზიები
+	div.container
+		div.row
+			div.panel.panel-default
+				div.panel-body
+					form.form-inline(method='GET',role='form',action='/licenzianti/licenziebi')
+						div.form-group.col-md-3
+							input.form-control(type='text',placeholder='ნებისმიერი საკვანძო სიტყვა',
+							name='searchText',value=searchText,id='searchTxtIpt',style='width:100%;')
+						button.btn.btn-default.txt-capital ძებნა
+				div.panel.panel-default.fit
+					div.panel-heading.txt-capital ნაპოვნი ლიცენზიები
+					div.panel-body
+						table.table.table-hover.table-bordered.table-striped
+							thead.txt-capital
+								th(width='5%') ID
+								th(width='15%') საიდენთიფიკაციო #
+								th(width='15%') დასახელება
+								th(width='15%') ლიცენზიის #
+								th(width='15%') ბრძანების #
+								th(width='15%') რეგიონი
+								th(width='15%') სტატუსი
+							each item in items
+								tr.grid-item
+									td
+										a(href=item.edit)= item.id
+									td= item.pid
+									td= item.dasaxeleba
+									td= item.licenziisNomeri
+									td= item.brdzanebisNomeri
+									td= item.regioni
+									td= item.statusi
+						hr
+						ul.pagination
+							each page in pages
+								li(class=page.active ? 'active':'')
+									a(href=page.link)= page.number
