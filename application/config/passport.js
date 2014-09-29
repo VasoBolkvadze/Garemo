@@ -10,16 +10,15 @@ module.exports.init = function () {
 	passport.deserializeUser(function (id, done) {
 		store.load(cfg.db.name
 			, id
-			, function(err,user){
+			, function(err1,user){
+				if(err1) return done(err1);
 				user = clearMetadataExtractId(user);
 				store.load(cfg.db.name
 					, user.roleId
-					, function (err, role) {
-						if (!err) {
-							user.role = clearMetadataExtractId(role);
-							done(null, user);
-						} else
-							done(err);
+					, function (err2, role) {
+						if(err2) return done(err2);
+						user.role = clearMetadataExtractId(role);
+						done(null, user);
 					});
 			});
 	});

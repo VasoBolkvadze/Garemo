@@ -1,0 +1,30 @@
+div.panel.panel-info
+	div.panel-heading
+		span.panel-title ინფორმაცია ლიცენზიის შესახებ
+	table.table.table-bordered
+		tr
+			th.txt-capital ლიცენზიის #
+			td= doc.informaciaLicenziisShesaxeb.nomeri
+		tr
+			th.txt-capital გაცემის თარიღი
+			td= doc.informaciaLicenziisShesaxeb.gacemisTarigi
+		tr
+			th.txt-capital ბრძანების #
+			td= doc.informaciaLicenziisShesaxeb.brdzanebisNomeri
+		tr
+			th.txt-capital ბრძანების თარიღი
+			td= doc.informaciaLicenziisShesaxeb.gacemisTarigi
+		tr
+			th.txt-capital მოქმედების ვადა
+			td= doc.informaciaLicenziisShesaxeb.moqmedebisVada
+		tr
+			th.txt-capital სალიცენზიო პირობები
+			td
+				if doc.informaciaLicenziisShesaxeb.salicenzioPirobebi
+					a(href='/operatori/licenziebi/'+docIdNumber+'/salicenzioPirobebi')
+		tr
+			th.txt-capital ფაილები
+			td
+				each f in doc.informaciaLicenziisShesaxeb.mibmuliFailebi
+					div
+						a(href='/uploads/'+f.id)= f.name.substring(0,8) + '..'

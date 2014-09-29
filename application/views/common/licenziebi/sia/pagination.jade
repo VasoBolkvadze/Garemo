@@ -1,0 +1,11 @@
+div
+	ul.pagination
+		each page in pages
+			li(class=page.active ? 'active':'')
+				a(href=page.link)= page.number
+	span.pull-right
+		span= from
+		span -
+		span= to
+		span= ' / '
+		span: b= total

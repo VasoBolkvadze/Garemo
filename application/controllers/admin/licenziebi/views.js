@@ -61,6 +61,7 @@ module.exports.declare = function (router) {
 		, function (req, res, next) {
 			store.load(cfg.db.name
 				, 'Licenzia/' + req.params.id
+				, ['creator']
 				, function (err, doc) {
 					if(err) return next(err);
 					res.render(viewDir + '/detail', {

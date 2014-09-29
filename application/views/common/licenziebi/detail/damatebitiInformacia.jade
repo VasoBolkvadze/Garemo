@@ -1,0 +1,46 @@
+div.panel.panel-info
+	div.panel-heading
+		span.panel-title დამატებითი ინფორმაცია
+	table.table.table-bordered
+		tr
+			th.txt-capital a
+			td= doc.damatebitiInformacia.a.mnishvneloba
+			td= doc.damatebitiInformacia.a.uom
+		tr
+			th.txt-capital b
+			td= doc.damatebitiInformacia.b.mnishvneloba
+			td= doc.damatebitiInformacia.b.uom
+		tr
+			th.txt-capital c1
+			td= doc.damatebitiInformacia.c1.mnishvneloba
+			td= doc.damatebitiInformacia.c1.uom
+		tr
+			th.txt-capital c2
+			td= doc.damatebitiInformacia.c2.mnishvneloba
+			td= doc.damatebitiInformacia.c2.uom
+		tr
+			th.txt-capital p
+			td= doc.damatebitiInformacia.p.mnishvneloba
+			td= doc.damatebitiInformacia.p.uom
+		tr
+			th.txt-capital რეგულირების გადამხდელი
+			td(colspan='2')= doc.damatebitiInformacia.regulirebisGadamxdeli
+		tr
+			th.txt-capital რუკა
+			td(colspan='2')
+				each f in doc.damatebitiInformacia.ruqa
+					div
+						a(href='/uploads/'+f.id)= f.name.substring(0,8) + '..'
+		tr
+			th.txt-capital გეოსაინფორმაციო პაკეტი
+			td(colspan='2')
+				each f in doc.damatebitiInformacia.geoSainformacioPaketi
+					div
+						a(href='/uploads/'+f.id)= f.name.substring(0,8) + '..'
+		tr
+			th.txt-capital ათვისების გეგმა
+			td(colspan='2')
+				if doc.damatebitiInformacia.atvisebisGegma && Array.isArray(doc.damatebitiInformacia.atvisebisGegma)
+					each f in doc.damatebitiInformacia.atvisebisGegma
+						div
+							a(href='/uploads/'+f.id)= f.name.substring(0,8) + '..'

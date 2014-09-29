@@ -1,0 +1,11 @@
+div.panel.panel-info
+	div.panel-heading
+		span.panel-title წარმოქმნის საფუძველი
+	div.panel-body
+		h4= doc.carmoqmnisSafudzveli.title
+	table.table.table-bordered
+		each val,key in doc.carmoqmnisSafudzveli
+			if key!='title' && key!='name'
+				tr
+					th.txt-capital= fieldLabels[key]
+					td= val

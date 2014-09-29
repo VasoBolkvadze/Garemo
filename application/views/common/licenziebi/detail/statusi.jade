@@ -1,0 +1,12 @@
+div.panel.panel-info
+	div.panel-heading
+		span.panel-title სტატუსი
+	h4.text-center= doc.informaciaLicenziisShesaxeb.statusi.mnishvneloba
+	if doc.informaciaLicenziisShesaxeb.statusi.safudzveli && doc.informaciaLicenziisShesaxeb.statusi.safudzveli.length
+		table.table.table-bordered
+			tr
+				th.txt-capital საფუძველი
+				td
+					each f in doc.informaciaLicenziisShesaxeb.statusi.safudzveli
+						div
+							a(href='/uploads/'+f.id)= f.name.substring(0,8) + '..'

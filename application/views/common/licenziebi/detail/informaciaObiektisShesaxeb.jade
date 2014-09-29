@@ -1,0 +1,45 @@
+div.panel.panel-info
+	div.panel-heading
+		span.panel-title ინფორმაცია ობიექტის შესახებ
+	div.panel-body
+		div.col-md-12
+			div.row
+				div.col-md-4
+					div.panel.panel-default
+						div.panel-heading
+							span.txt-capital მდებარეობა
+						table.table.table-bordered
+							tr
+								th.txt-capital რეგიონი
+								td= doc.informaciaObiektisShesaxeb.regioni
+							tr
+								th.txt-capital მუნიციპალიტეტი
+								td= doc.informaciaObiektisShesaxeb.municipaliteti
+							tr
+								th.txt-capital დასახლებული პუნქტი
+								td= doc.informaciaObiektisShesaxeb.dasaxlebuliPunkti
+				div.col-md-4
+					div.panel.panel-default
+						div.panel-heading
+							span.txt-capital ფართობი
+						h4.text-center= doc.informaciaObiektisShesaxeb.fartobi + ' ' + doc.informaciaObiektisShesaxeb.fartobiUom
+			div.panel.panel-default
+				div.panel-heading
+					span.txt-capital რესურსები
+				div.panel-body(style='padding:0px !important;')
+					table.table.table-bordered.table-hover(style='margin-bottom:0px !important;')
+						thead
+							tr
+								th(width='5%') #
+								th(width='45%').txt-capital დასახელება
+								th(width='10%').txt-capital რაოდენობა
+								th(width='15%').txt-capital ზომის ერთეული
+								th(width='25%').txt-capital გამოყენების სფერო
+						tbody
+							each resursi,i in doc.informaciaObiektisShesaxeb.resursebi
+								tr
+									td= i+1
+									td= resursi.dasaxeleba
+									td= resursi.raodenoba
+									td= resursi.uom
+									td= resursi.gamokenebisSfero

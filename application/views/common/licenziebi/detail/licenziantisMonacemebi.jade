@@ -1,0 +1,27 @@
+div.panel.panel-info
+	div.panel-heading
+		span.panel-title ლიცენზიანტის მონაცემები
+	div.panel-body
+		h4= doc.licenziantisMonacemebi.dasaxeleba
+	table.table.table-bordered
+		tr
+			th.txt-capital საიდენთიფიკაციო ნომერი
+			td= doc.licenziantisMonacemebi.pid
+		tr
+			th.txt-capital მისამართი ფაქტიური
+			td= doc.licenziantisMonacemebi.faktMisamarti
+		tr
+			th.txt-capital მისამართი იურიდიული
+			td= doc.licenziantisMonacemebi.iurMisamarti
+		tr
+			th.txt-capital ტელეფონი
+			td= doc.licenziantisMonacemebi.tel
+		tr
+			th.txt-capital e-ფოსტა
+			td= doc.licenziantisMonacemebi.mail
+		tr
+			th.txt-capital ფაილები
+			td
+				each f in doc.licenziantisMonacemebi.mibmuliFailebi
+					div
+						a(href='/uploads/'+f.id)= f.name.substring(0,8) + '..'

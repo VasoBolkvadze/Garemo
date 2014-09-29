@@ -20,7 +20,6 @@ module.exports.declare = function (router) {
 			var form = new formidable.IncomingForm();
 			form.parse(req, function (err, body, files) {
 				var moveFilePOCOs = generateMoveFilePOCOs(files);
-				//debug('generated moveFile POCOs', moveFilePOCOs);
 				async.each(moveFilePOCOs, function (poco, cb) {
 					fs.rename(poco.oldPath
 						, poco.newPath
@@ -105,6 +104,7 @@ module.exports.declare = function (router) {
 	router.post('/operatori/api/licenziebi/:id/update'
 		, user.mustBe('operatori')
 		, function (req, res, next) {
+			//DROEBIT GAMOVRTOT....
 			var form = new formidable.IncomingForm();
 			form.parse(req, function (err, body, files) {
 				var filesNew = _.reduce(files, function (memo, val, key) {
@@ -205,7 +205,6 @@ module.exports.declare = function (router) {
 };
 
 function generateMoveFilePOCOs(attachedFiles) {
-	//debug('attached Files', attachedFiles);
 	var uploadDirPath = appSettings.getUploadDirectoryPath();
 	return _.reduce(attachedFiles, function (memo, attachedFile, key) {
 		var segments = attachedFile.name.split('.');

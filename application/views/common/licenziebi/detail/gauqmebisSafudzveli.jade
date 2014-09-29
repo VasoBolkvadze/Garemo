@@ -1,0 +1,11 @@
+div.panel.panel-info
+	div.panel-heading
+		span.panel-title გაუქმების საფუძველი
+	div.panel-body
+		h4= doc.gauqmebisSafudzveli.title
+	table.table.table-bordered
+		each val,key in doc.gauqmebisSafudzveli
+			if key!='title' && key!='name'
+				tr
+					th.txt-capital= fieldLabels[key]
+					td= val

@@ -1,0 +1,19 @@
+div.panel.panel-info
+	div.panel-heading
+		span.panel-title metadata
+	table.table.table-bordered
+		tr
+			th.txt-capital id
+			td= doc['@metadata']['@id']
+		tr
+			th.txt-capital E-Tag
+			td= doc['@metadata']['etag']
+		tr
+			th.txt-capital შექმნის თარიღი
+			td= new Date(doc['@metadata']['dateCreated']).format('dd/MM/yyyy hh:mm')
+		tr
+			th.txt-capital ბოლო ცვლილება
+			td= new Date(doc['@metadata']['raven-last-modified']).format('dd/MM/yyyy hh:mm')
+		tr
+			th.txt-capital შემქმნელი მომხმარებელი
+			td= doc['@metadata']['creator']
