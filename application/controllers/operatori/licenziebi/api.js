@@ -14,6 +14,7 @@ var formidable = require('formidable'),
 
 
 module.exports.declare = function (router) {
+	
 	router.post('/operatori/api/licenziebi/create'
 		, user.mustBe('operatori')
 		, function (req, res, next) {
@@ -100,11 +101,11 @@ module.exports.declare = function (router) {
 					}
 				});
 			});
-		});
+		});	
+	
 	router.post('/operatori/api/licenziebi/:id/update'
 		, user.mustBe('operatori')
 		, function (req, res, next) {
-			//DROEBIT GAMOVRTOT....
 			var form = new formidable.IncomingForm();
 			form.parse(req, function (err, body, files) {
 				var filesNew = _.reduce(files, function (memo, val, key) {
@@ -136,6 +137,8 @@ module.exports.declare = function (router) {
 							}
 						});
 				}, function (finalErr) {
+					if(finalErr) return next(finalErr);
+
 					if (!finalErr) {
 						var entity = JSON.parse(body.model);
 						for (var key in body) {
@@ -159,13 +162,10 @@ module.exports.declare = function (router) {
 						debug('update request', doc);
 						res.json({success: true, redirectUrl: '/operatori/licenziebi/' + req.params.id});
 					}
-					else {
-						next(finalErr);
-					}
 				});
 			});
 		});
-
+	
 	router.get('/operatori/api/licenziebi/:id'
 		, user.mustBe('operatori')
 		, function (req, res, next) {
@@ -202,6 +202,7 @@ module.exports.declare = function (router) {
 				attachmentPropertyNames: require('../../../data/attachmentPropertyNames.json')
 			});
 		});
+
 };
 
 function generateMoveFilePOCOs(attachedFiles) {

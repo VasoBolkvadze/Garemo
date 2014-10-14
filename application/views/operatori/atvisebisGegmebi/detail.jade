@@ -23,7 +23,8 @@ block content
 								td= gi.celi
 								td= gi.odenoba
 				a.btn.btn-success.pull-right(href=id + '/korektireba') კორექტირება
-				form.pull-right(method='POST',action=id + '/uarkofa')
-					button.btn.btn-success უარყოფა
-				form.pull-right(method='POST',action=id + '/damtkiceba')
-					button.btn.btn-success დამტკიცება
+				if doc.statusi == 'მოლოდინში'
+					form.pull-right(method='POST',action=id + '/uarkofa')
+						button.btn.btn-success უარყოფა
+					form.pull-right(method='POST',action=id + '/damtkiceba')
+						button.btn.btn-success დამტკიცება

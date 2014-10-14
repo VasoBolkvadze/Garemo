@@ -6,6 +6,11 @@ div.panel.panel-info
 	table.table.table-bordered
 		each val,key in doc.gauqmebisSafudzveli
 			if key!='title' && key!='name'
-				tr
-					th.txt-capital= fieldLabels[key]
-					td= val
+				if key=='mibmuliFailebi'
+					each f in val
+						div
+							a(href='/uploads/'+f.id)= f.name.substring(0,8) + '..'
+				else
+					tr
+						th.txt-capital= fieldLabels[key]
+						td= val

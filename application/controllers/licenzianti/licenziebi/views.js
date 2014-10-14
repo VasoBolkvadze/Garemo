@@ -69,14 +69,18 @@ module.exports.declare = function (router) {
 		, function (req, res, next) {
 			store.load(cfg.db.name
 				, 'Licenzia/' + req.params.id
-				, function (err, doc) {
-					if (!err)
-						res.render('licenzianti/licenziebi/detail', {
-							doc: doc,
-							fieldLabels: require('../../../data/fieldLabels')
+				, function (err1, licenzia) {
+					if(err1) return next(err1);
+					store.load(cfg.db.name
+						,'atvisebisGegma/'+req.params.id
+						,function(err2,atvisebisGegma){
+							if(err2 && err2.message != '404') return next(err2);
+							res.render('licenzianti/licenziebi/detail', {
+								doc: licenzia,
+								atvisebisGegmaCarsadgenia: !atvisebisGegma,
+								fieldLabels: require('../../../data/fieldLabels')
+							});
 						});
-					else
-						next(err);
 				});
 		});
 	router.get('/licenzianti/licenziebi/:id/atvisebisGegma'

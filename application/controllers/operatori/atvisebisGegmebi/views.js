@@ -9,7 +9,7 @@ module.exports.declare = function (router) {
 		, function (req, res, next) {
 			store.indexQuery(cfg.db.name
 				, 'atvisebisGegmebi/ByLicenziaCreator'
-				, 'licenziaCreator:{0}'.format('momxmarebeli/vaso')
+				, 'licenziaCreator:{0}'.format(req.user.username)
 				, 0, 128, ['-dateCreated']
 				, function (err, result) {
 					if (!err) {
@@ -41,13 +41,11 @@ module.exports.declare = function (router) {
 			store.load(cfg.db.name
 				, 'atvisebisGegma/' + req.params.id
 				, function (err, doc) {
-					if (!err) {
-						res.render('operatori/atvisebisGegmebi/detail', {
-							id: doc['@metadata']['@id'].replace('atvisebisGegma/', ''),
-							doc: doc
-						});
-					} else
-						next(err);
+					if(err) return next(err);
+					res.render('operatori/atvisebisGegmebi/detail', {
+						id: doc['@metadata']['@id'].replace('atvisebisGegma/', ''),
+						doc: doc
+					});
 				});
 		});
 };
