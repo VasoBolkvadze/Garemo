@@ -1,3 +1,4 @@
+include grid-controls
 mixin typeahead(proportions,fieldName,list,label,required,placeholder,selectedItem)
 	div.form-group
 		label(class='control-label '+'txt-capital '+'col-md-'+proportions[0].toString())= label
@@ -62,3 +63,22 @@ mixin specInput(proportions,fieldName,inputType,icon,label,placeholder,required)
 mixin bigtext(fieldName,label,rows,cols,required)
 	label.control-label.txt-capital= label
 	textarea.form-control(type='text',name=fieldName,rows=rows, cols=cols, ui-tinymce, required=required,ng-model=fieldName)
+mixin grid()
+	table.table.table-hover.table-bordered.table-condensed
+		thead
+			tr.txt-capital
+				th(width='48%') X
+				th(width='48%') Y
+				th(width='4%')
+		tbody
+			tr(ng-repeat='cxriliItem in geoPaketi.obiektisKoordinatebi.cxrili')
+				td
+					+numbercell('cxriliItem.x',true)
+				td
+					+numbercell('cxriliItem.y',true)
+				td
+					a.btn.btn-sm.btn-danger.pull-right(ng-click='removeKoordinati($index)') X
+			tr
+				td(colspan='2')
+				td
+					a.btn.btn-sm.btn-success.pull-right(ng-click='addKoordinati()') +

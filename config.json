@@ -2,12 +2,12 @@
 	"port": 3000,
 	"envMode": "development",
 	"authorization":{
-		"type":"manual",
+		"type":"auto",
 		"user":"g.kalandadze",
 		"pass":"123456"
 	},
     "db":{
-        "url":"http://10.0.0.222:8080/",
+        "url":"http://172.17.181.33:8080/",
         "name":"Licenzireba"
     }
 }

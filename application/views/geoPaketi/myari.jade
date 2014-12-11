@@ -1,0 +1,32 @@
+include ../mixins/basic-controls
+include ../mixins/grid-controls
+include ../mixins/form-controls
+extends ../index
+block content
+		script(src='/javascripts/client/controllers/operatori/geoPaketi/axaliMyariCtrl.js')
+		div
+				.jumbotron.jumbotron-ultra-sm
+						.container
+								.row
+										.col-sm-12.col-lg-12
+												h2.txt-capital ახალი გეოსაინფორმაციო პაკეტი (მყარი)
+		div.container(ng-controller="axaliMyariCtrl")
+				form.form-horizontal
+						+panel('ძირითადი ინფორმაცია',4)
+								div.col-md-12
+									+textbox([6,6],'geoPaketi.ciagsargeblobisObiekti','1 წიაღსარგებლობის ობიექტი','',true)
+									+textbox([6,6],'geoPaketi.geneturiTipi','2 გენეტური ტიპი','',true)
+									+textbox([6,6],'geoPaketi.sasargebloCiagiseulisSamrecveloTipi','3 სასარგებლო წიაღისეულის სამრეწველო ტიპი','',true)
+						+panel('4 წიაღსარგებლობის მდებარეობა და ტერიტორიის ზოგადი აღწერა',4)
+								div.col-md-12
+									+typeahead([6,6],'geoPaketi.regioni',regionebi,'4.1 რეგიონი',true)
+									+typeahead([6,6],'geoPaketi.municipaliteti',municipalitetebi,'4.2 მუნიციპალიტეტი',true)
+									+textbox([6,6],'geoPaketi.uaxloesiDasaxlebuliPunkti','4.3 უახლოესი დასახლებული პუნქტი','',true)
+									+textbox([6,6],'geoPaketi.dashorebaMnishvnelovaniPunktidan','4.4 დაშორება მნიშვნელოვანი პუნქტიდან','',true)
+									+textbox([6,6],'geoPaketi.mandziliSaxelmcifoSazgvridan','4.5 მანძილი სახელმწიფო საზღვრიდან','',true)
+									+bigtext('geoPaketi.mdinarisAuzi','4.6 მდინარის აუზი (ან მთათა სისტემა)',6,5,true)
+									hr
+									+panel('4.7 წიაღსარგებლობის ობიექტის კოორდინატები')
+										div.col-md-12
+											+fileUpload([4,8],'obiektisKoordinatebi/foto','*',true,'ფოტო',false)
+											+grid()
