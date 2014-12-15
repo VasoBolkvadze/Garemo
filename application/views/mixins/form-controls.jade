@@ -63,7 +63,12 @@ mixin specInput(proportions,fieldName,inputType,icon,label,placeholder,required)
 mixin bigtext(fieldName,label,rows,cols,required)
 	label.control-label.txt-capital= label
 	textarea.form-control(type='text',name=fieldName,rows=rows, cols=cols, ui-tinymce, required=required,ng-model=fieldName)
-mixin grid()
+mixin textArea(proportions,fieldName,label,rows,cols,required)
+	div(class='col-md-'+proportions[0].toString())
+		label.control-label.txt-capital(style='text-alignment:right; display:block;')= label
+	div(class='col-md-'+proportions[1].toString())
+		textarea.form-control(type='text',name=fieldName,rows=rows, cols=cols, required=required,ng-model=fieldName)
+mixin koordinatebisGridi()
 	table.table.table-hover.table-bordered.table-condensed
 		thead
 			tr.txt-capital

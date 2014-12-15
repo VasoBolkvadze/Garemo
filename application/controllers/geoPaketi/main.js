@@ -25,4 +25,8 @@ module.exports.declare =  function(router){
 			if(tipi == 'ckali')
 				res.render('geoPaketi/ckali',data);
 		});
+	router.post('/operatori/geosainformacioPaketi/axali/:tipi'
+		, function (req, res) {
+			res.send(200);
+		});
 };

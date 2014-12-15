@@ -12,4 +12,7 @@ function axaliMyariCtrl($scope) {
 	$scope.removeKoordinati = function(i){
 		$scope.geoPaketi.obiektisKoordinatebi.cxrili.splice(i,1);
 	};
+	$scope.submit = function(){
+		alert('მოხდა შეცდომა მონაცემთა ბაზასთან დაკავშირებისას.');
+	};
 }
