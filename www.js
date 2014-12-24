@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 var debug = require('debug')('www'),
     jsananda = require('jsananda'),
 	socket = require('socket.io'),
