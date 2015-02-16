@@ -14,13 +14,13 @@ var formidable = require('formidable'),
 
 
 module.exports.declare = function (router) {
-
+	
 	router.post('/operatori/api/licenziebi/create'
 		, user.mustBe('operatori')
 		, function (req, res, next) {
 			var form = new formidable.IncomingForm();
 			form.parse(req, function (err, body, files) {
-				var moveFilePOCOs = generateMoveFilePOCOs(files);
+				var moveFilePOCOs = generateMoveFilePOCOs(req);
 				async.each(moveFilePOCOs, function (poco, cb) {
 					fs.rename(poco.oldPath
 						, poco.newPath
@@ -101,8 +101,8 @@ module.exports.declare = function (router) {
 					}
 				});
 			});
-		});
-
+		});	
+	
 	router.post('/operatori/api/licenziebi/:id/update'
 		, user.mustBe('operatori')
 		, function (req, res, next) {
@@ -204,42 +204,42 @@ module.exports.declare = function (router) {
 		});
 
 };
-//
-//function generateMoveFilePOCOs(req,res,next) {
-//	var attachedFiles = req.files;
-//	var uploadDirPath = appSettings.getUploadDirectoryPath();
-//	return _.reduce(attachedFiles, function (memo, attachedFile, key) {
-//		var segments = attachedFile.name.split('.');
-//		var ext = segments.length > 1 ? ('.' + segments[segments.length - 1]) : '';
-//		var oldPath = attachedFile.path;
-//		var id = uuid.v1() + ext;
-//		var newPath = uploadDirPath + '/' + id;
-//		memo.push({
-//			fieldName: key,
-//			fileId: id,
-//			fileName: attachedFile.name,
-//			fileType: attachedFile.type,
-//			oldPath: oldPath,
-//			newPath: newPath
-//		});
-//		return memo;
-//	}, []);
-//}
-//
-//function parseMultipartForm(req,res,next) {
-//	var form = new formidable.IncomingForm();
-//	form.parse(req, function (err, body, files) {
-//		if(err) {
-//			breakProcessAndShowError(req,res,err);
-//			return;
-//		}
-//		req.body = body;
-//		req.files = files;
-//		next();
-//	});
-//}
-//
-//function breakProcessAndShowError (req,res,error) {
-//	req.flash('error',{errorObj: error});
-//	return res.json({redirectUrl: '/error'});
-//}
+
+function generateMoveFilePOCOs(req) {
+	var attachedFiles = req.files;
+	var uploadDirPath = appSettings.getUploadDirectoryPath();
+	return _.reduce(attachedFiles, function (memo, attachedFile, key) {
+		var segments = attachedFile.name.split('.');
+		var ext = segments.length > 1 ? ('.' + segments[segments.length - 1]) : '';
+		var oldPath = attachedFile.path;
+		var id = uuid.v1() + ext;
+		var newPath = uploadDirPath + '/' + id;
+		memo.push({
+			fieldName: key,
+			fileId: id,
+			fileName: attachedFile.name,
+			fileType: attachedFile.type,
+			oldPath: oldPath,
+			newPath: newPath
+		});
+		return memo;
+	}, []);
+}
+
+// function parseMultipartForm(req,res,next) {
+	// var form = new formidable.IncomingForm();
+	// form.parse(req, function (err, body, files) {
+		// if(err) {
+			// breakProcessAndShowError(req,res,err);
+			// return;
+		// }
+		// req.body = body;
+		// req.files = files;
+		// next();
+	// });
+// }
+
+function breakProcessAndShowError (req,res,error) {
+	req.flash('error',{errorObj: error});
+	return res.json({redirectUrl: '/error'});
+}

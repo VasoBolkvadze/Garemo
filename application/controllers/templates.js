@@ -4,6 +4,8 @@ module.exports.declare = function (router) {
 		res.render(req.params.subdir + '/' + req.params.subsubdir + '/' + req.params.tpl
 			, {}
 			, function (err, html) {
+				if(err)
+					return res.render('error',{error:err});
 				res.send(html);
 			});
 	});

@@ -25,11 +25,11 @@ mixin textbox(proportions,fieldName,label,placeholder,required)
 mixin radio(proportions,fieldName,group,options,label,required)
 	div.form-group
 		label(class='control-label ' + 'txt-capital ' + 'col-md-' + proportions[0].toString())= label
-each o in options
-	div(class='radio ' + 'col-md-offset-' + proportions[1].toString())
-		label= o
-		- var checked = options.indexOf(o) == 0;
-		input(type='radio', name=group, value=o, checked=checked,ng-model=fieldName,required=checked)
+	each o in options
+		div(class='radio ' + 'col-md-offset-' + proportions[1].toString())
+			label= o
+			- var checked = options.indexOf(o) == 0;
+			input(type='radio', name=group, value=o, checked=checked,ng-model=fieldName,required=checked)
 
 mixin fileUpload(proportions,fieldName,accept,multiple,label,required)
 	div.form-group

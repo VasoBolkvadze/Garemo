@@ -13,6 +13,7 @@ function axaliMyariCtrl($scope) {
 		$scope.geoPaketi.obiektisKoordinatebi.cxrili.splice(i,1);
 	};
 	$scope.submit = function(){
-		alert('მოხდა შეცდომა მონაცემთა ბაზასთან დაკავშირებისას.');
+		alert('ახალი გეოსაინფორმაციო პაკეტი შეიქმნა წარმატებით.');
+		window.location = '/';
 	};
 }

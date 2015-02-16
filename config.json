@@ -1,13 +1,13 @@
 {
-	"port": 3000,
+	"port": 80,
 	"envMode": "development",
 	"authorization":{
 		"type":"auto",
-		"user":"g.kalandadze",
-		"pass":"123456"
+		"user":"rebuilder",
+		"pass":"1x1"
 	},
     "db":{
-        "url":"http://172.17.181.33:8080/",
+        "url":"http://localhost:8080/",
         "name":"Licenzireba"
     }
 }
