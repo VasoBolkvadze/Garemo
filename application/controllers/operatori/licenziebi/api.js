@@ -14,13 +14,13 @@ var formidable = require('formidable'),
 
 
 module.exports.declare = function (router) {
-	
+
 	router.post('/operatori/api/licenziebi/create'
 		, user.mustBe('operatori')
 		, function (req, res, next) {
 			var form = new formidable.IncomingForm();
 			form.parse(req, function (err, body, files) {
-				var moveFilePOCOs = generateMoveFilePOCOs(req);
+				var moveFilePOCOs = generateMoveFilePOCOs(files);
 				async.each(moveFilePOCOs, function (poco, cb) {
 					fs.rename(poco.oldPath
 						, poco.newPath
@@ -101,69 +101,12 @@ module.exports.declare = function (router) {
 					}
 				});
 			});
-		});	
+		});
 	
 	router.post('/operatori/api/licenziebi/:id/update'
 		, user.mustBe('operatori')
 		, function (req, res, next) {
-			var form = new formidable.IncomingForm();
-			form.parse(req, function (err, body, files) {
-				var filesNew = _.reduce(files, function (memo, val, key) {
-					var segments = val.name.split('.');
-					var ext = segments.length > 1 ? segments[1] : '';
-					var oldPath = val.path;
-					var newFileName = uuid.v1() + '.' + ext;
-					var newPath = path.resolve(__dirname + '/../../public/uploads/') + '/' + newFileName;
-					memo.push({
-						fieldName: key,
-						fileName: newFileName,
-						oldPath: oldPath,
-						newPath: newPath
-					});
-					return memo;
-				}, []);
-				async.each(filesNew, function (f, cb) {
-					fs.rename(f.oldPath
-						, f.newPath
-						, function (renameError) {
-							if (!renameError) {
-								var fname = f.fieldName.split('_')[0];
-								if (body[fname] == null)
-									body[fname] = [];
-								body[fname].push(f.fileName);
-								cb();
-							} else {
-								cb(renameError);
-							}
-						});
-				}, function (finalErr) {
-					if(finalErr) return next(finalErr);
-
-					if (!finalErr) {
-						var entity = JSON.parse(body.model);
-						for (var key in body) {
-							if (key != 'model' && body.hasOwnProperty(key))
-								entity[key] = body[key];
-						}
-						var doc = {};
-						for (var k in entity) {
-							if (entity.hasOwnProperty(k)) {
-								if (k.indexOf('/') == -1) {
-									doc[k] = entity[k];
-								} else {
-									var setter = 'doc';
-									k.split('/').forEach(function (part) {
-										setter += "['" + part + "']";
-									});
-									eval(setter + '=entity["' + k + '"]');
-								}
-							}
-						}
-						debug('update request', doc);
-						res.json({success: true, redirectUrl: '/operatori/licenziebi/' + req.params.id});
-					}
-				});
-			});
+				return breakProcessAndShowError(req,res,new Error('MDMA'));
 		});
 	
 	router.get('/operatori/api/licenziebi/:id'
@@ -179,10 +122,10 @@ module.exports.declare = function (router) {
 				});
 		});
 
-	router.get('/operatori/api/licenziebi/getSourceData/forAxaliLicenziaCtrl'
+	router.get('/operatori/api/licenziebi/getSourceData/:target'
 		, user.mustBe('operatori')
-		, function (req, res, next) {
-			res.json({
+		, function (req, res) {
+			var sourceDataForAxaliLicenziaCtrl = {
 				success: true,
 				data: {
 					carmoqmnisSafudzvlebi: require('../../../data/carmoqmnisSafudzvlebi.json'),
@@ -190,23 +133,25 @@ module.exports.declare = function (router) {
 					attachmentPropertyNames: require('../../../data/attachmentPropertyNames.json'),
 					emptyLicenzia: require('../../../models/licenzia')
 				}
-			});
-		});
-
-	router.get('/operatori/api/licenziebi/getSourceData/forEditLicenziaCtrl'
-		, user.mustBe('operatori')
-		, function (req, res, next) {
-			res.json({
+			};
+			var sourceDataForEditLicenziaCtrl = {
 				carmoqmnisSafudzvlebi: require('../../../data/carmoqmnisSafudzvlebi.json'),
 				gauqmebisSafudzvlebi: require('../../../data/gauqmebisSafudzvlebi.json'),
 				attachmentPropertyNames: require('../../../data/attachmentPropertyNames.json')
-			});
+			};
+			switch (req.params.target) {
+				case "forAxaliLicenziaCtrl":
+					return res.json(sourceDataForAxaliLicenziaCtrl);
+				case "forEditLicenziaCtrl":
+					return res.json(sourceDataForEditLicenziaCtrl);
+				default :
+					return res.json(null);
+			}
 		});
 
 };
 
-function generateMoveFilePOCOs(req) {
-	var attachedFiles = req.files;
+function generateMoveFilePOCOs(attachedFiles) {
 	var uploadDirPath = appSettings.getUploadDirectoryPath();
 	return _.reduce(attachedFiles, function (memo, attachedFile, key) {
 		var segments = attachedFile.name.split('.');
